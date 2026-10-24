@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
-import { LogoMark, MenuIcon, SearchIcon } from "../shared/icons";
+import { MenuIcon, SearchIcon } from "../shared/icons";
 
 // Routed links (not bare "#…" anchors) so the nav works from every page, not just home.
 const NAV_LINKS = [
@@ -30,8 +31,16 @@ export function Header() {
       </div>
       <header className="border-b border-border/60 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
         <nav className="mx-auto flex h-11 max-w-[1024px] items-center justify-between px-4 text-[12px] font-medium">
-          <Link href="/" className="flex items-center gap-1.5 text-foreground" aria-label={t("homeLabel")}>
-            <LogoMark className="h-4 w-4 text-primary" />
+          <Link href="/" className="flex items-center gap-2.5 text-foreground" aria-label={t("homeLabel")}>
+            {/* Brand badge (1280×440 source); alt is empty because the link label and name text already say it. */}
+            <Image
+              src="/brand/akcay-pallets-logo.png"
+              alt=""
+              width={81}
+              height={28}
+              priority
+              className="h-7 w-auto"
+            />
             <span className="text-[13px] font-semibold tracking-tight">Akçay Palet</span>
           </Link>
           <ul className="hidden items-center gap-7 md:flex">

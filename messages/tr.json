@@ -33,7 +33,8 @@
       "export": "İhracata uygun",
       "heat": "Isıl işlem seçeneği",
       "custom": "Özel ölçü üretim"
-    }
+    },
+    "replay": "Tekrar oynat"
   },
   "Transition": {
     "title": "Paletten Fazlasını Üretiyoruz.",
@@ -511,5 +512,18 @@
       "subject": "Teklif talebi {no} · {title}",
       "language": "Ziyaretçi dili"
     }
+  },
+  "Builder": {
+    "title": "Paletini Hazırla.",
+    "body": "Ölçüleri seçin, paletiniz anında 3D olarak oluşsun. Teknik çizim, malzeme listesi ve yük tahmini hazır; tasarımınızı gönderin, teklifinizi hazırlayalım.",
+    "startFrom": "Bir ölçüyle başlayın",
+    "cta": "Paletini Hazırla",
+    "features": [
+      "3D görünüm",
+      "Teknik çizim",
+      "Hesap föyü",
+      "Malzeme listesi"
+    ],
+    "imageAlt": "Palet Atölyesi'nde tasarlanmış 1200×800 mm ahşap palet"
   }
 }

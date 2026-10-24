@@ -33,7 +33,8 @@
       "export": "Adaptée à l'export",
       "heat": "Option traitement thermique",
       "custom": "Fabrication sur mesure"
-    }
+    },
+    "replay": "Rejouer"
   },
   "Transition": {
     "title": "Nous produisons plus que des palettes.",
@@ -511,5 +512,18 @@
       "subject": "Demande de devis {no} · {title}",
       "language": "Langue du visiteur"
     }
+  },
+  "Builder": {
+    "title": "Concevez votre palette.",
+    "body": "Choisissez les dimensions : votre palette prend forme en 3D instantanément. Plan technique, nomenclature et estimation de charge sont prêts — envoyez votre conception et nous préparons votre devis.",
+    "startFrom": "Commencer par une dimension",
+    "cta": "Concevoir ma palette",
+    "features": [
+      "Vue 3D",
+      "Plan technique",
+      "Fiche de calcul",
+      "Nomenclature"
+    ],
+    "imageAlt": "Palette en bois 1200×800 mm conçue dans l'Atelier palette"
   }
 }

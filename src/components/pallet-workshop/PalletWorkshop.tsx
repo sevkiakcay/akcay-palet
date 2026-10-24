@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { CONTACT } from "@/lib/contact";
 import {
@@ -58,7 +58,31 @@ export function downloadText(filename: string, text: string, type: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+type StartPreset = PresetId | "custom";
+
+function readPresetParam(): StartPreset | null {
+  const id = new URLSearchParams(window.location.search).get("preset");
+  if (id === "custom") return "custom";
+  return PRESETS.some((p) => p.id === id) ? (id as PresetId) : null;
+}
+
+function subscribeToHistory(onChange: () => void) {
+  window.addEventListener("popstate", onChange);
+  return () => window.removeEventListener("popstate", onChange);
+}
+
+/**
+ * Deep links from the home page "Paletini Hazırla" section, e.g. /palet-atolyesi?preset=ind.
+ * The param is read via useSyncExternalStore (no preset on the server, so hydration matches),
+ * and the workshop is keyed on it: it remounts with that preset as its initial state rather
+ * than patching state from an effect.
+ */
 export function PalletWorkshop() {
+  const startPreset = useSyncExternalStore(subscribeToHistory, readPresetParam, () => null);
+  return <Workshop key={startPreset ?? "default"} startPreset={startPreset} />;
+}
+
+function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
   const t = useTranslations("Workshop");
   const locale = useLocale();
   const fmt = useMemo(() => {
@@ -68,8 +92,11 @@ export function PalletWorkshop() {
     return (n: number, digits = 0) => byDigits[Math.min(4, Math.max(0, digits))].format(n);
   }, [locale]);
 
-  const [design, setDesign] = useState<PalletDesign>(BASE);
-  const [preset, setPreset] = useState<PresetId | "custom">("eu");
+  const [design, setDesign] = useState<PalletDesign>(() => {
+    const p = PRESETS.find((x) => x.id === startPreset);
+    return p ? { ...BASE, ...p.d } : BASE;
+  });
+  const [preset, setPreset] = useState<StartPreset>(startPreset ?? "eu");
   const [mode, setMode] = useState<"3d" | "draw">("3d");
   const [camera, setCamera] = useState<CameraKind>("iso");
   const [cameraNonce, setCameraNonce] = useState(0);
@@ -88,6 +115,11 @@ export function PalletWorkshop() {
     () => (showDrawing ? drawingSVG(design, labels, SCREEN_DRAWING) : ""),
     [showDrawing, design, labels],
   );
+
+  // "Custom size" deep link: put the cursor straight into the first dimension field.
+  useEffect(() => {
+    if (startPreset === "custom") document.getElementById("pw_L")?.focus({ preventScroll: true });
+  }, [startPreset]);
 
   useEffect(() => {
     if (!blockedMsg) return;

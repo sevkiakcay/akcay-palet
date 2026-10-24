@@ -6,6 +6,7 @@ import { Header } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/Head
 import { Hero } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/Hero";
 import { HeroTransition } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/HeroTransition";
 import { ProductSpecs } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/ProductSpecs";
+import { PalletBuilderTeaser } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/PalletBuilderTeaser";
 import { CustomManufacturing } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/CustomManufacturing";
 import { ProcessShowcase } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/ProcessShowcase";
 import { WhyUs } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/WhyUs";
@@ -24,6 +25,7 @@ export default function Home({ params }: { params: Promise<{ locale: Locale }> }
       <Hero />
       <HeroTransition />
       <ProductSpecs />
+      <PalletBuilderTeaser />
       <CustomManufacturing />
       <ProcessShowcase />
       <WhyUs />

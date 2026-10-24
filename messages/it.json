@@ -33,7 +33,8 @@
       "export": "Adatto all'export",
       "heat": "Opzione trattamento termico",
       "custom": "Produzione su misura"
-    }
+    },
+    "replay": "Riproduci di nuovo"
   },
   "Transition": {
     "title": "Produciamo più che pallet.",
@@ -511,5 +512,18 @@
       "subject": "Richiesta preventivo {no} · {title}",
       "language": "Lingua del visitatore"
     }
+  },
+  "Builder": {
+    "title": "Progetta il tuo pallet.",
+    "body": "Scegli le misure: il tuo pallet prende forma in 3D all'istante. Disegno tecnico, distinta materiali e stima del carico sono pronti — invia il progetto e prepariamo il tuo preventivo.",
+    "startFrom": "Parti da una misura",
+    "cta": "Progetta il tuo pallet",
+    "features": [
+      "Vista 3D",
+      "Disegno tecnico",
+      "Scheda di calcolo",
+      "Distinta materiali"
+    ],
+    "imageAlt": "Pallet in legno 1200×800 mm progettato nel Configuratore pallet"
   }
 }
