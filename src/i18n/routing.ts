@@ -20,6 +20,16 @@ export const routing = defineRouting({
       // Latin slug: Arabic-script slugs turn into long percent-encoded URLs when shared.
       ar: "/products",
     },
+    "/pallet-workshop": {
+      tr: "/palet-atolyesi",
+      en: "/pallet-workshop",
+      de: "/paletten-konfigurator",
+      fr: "/atelier-palette",
+      it: "/configuratore-pallet",
+      el: "/ergastirio-paletas",
+      ru: "/konstruktor-poddonov",
+      ar: "/pallet-workshop",
+    },
   },
 });
 

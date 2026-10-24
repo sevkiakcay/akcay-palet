@@ -15,6 +15,7 @@
     "homeLabel": "Home Akçay Palet",
     "nav": {
       "products": "Prodotti",
+      "workshop": "Configuratore",
       "custom": "Su misura",
       "process": "Processo produttivo",
       "why": "Perché Akçay"
@@ -230,6 +231,10 @@
           {
             "label": "Produzione su misura",
             "href": "#ozel-uretim"
+          },
+          {
+            "label": "Configuratore pallet",
+            "href": "#palet-atolyesi"
           }
         ]
       },
@@ -303,5 +308,208 @@
     "body": "Pallet standard nelle misure EUR/EPAL, pallet per l'export conformi a ISPM-15, pallet per il mercato interno e produzione su misura — con misure, trattamento termico e utilizzi.",
     "metaTitle": "Prodotti | Akçay Palet",
     "metaDescription": "Pallet in legno 80×120, 80×100 e 100×120 cm, pallet per l'export conformi a ISPM-15, pallet mercato interno e produzione su misura."
+  },
+  "Workshop": {
+    "metaTitle": "Configuratore pallet: progetta il tuo pallet | Akçay Palet",
+    "metaDescription": "Progetta il tuo pallet in legno su misura: vista 3D, disegno tecnico, distinta materiali e stima del carico. Invia il progetto e ricevi un preventivo personalizzato.",
+    "eyebrow": "Configuratore pallet",
+    "title": "Progetta il tuo pallet, ricevi il preventivo.",
+    "body": "Scegli misure, numero di tavole e specie legnosa: il pallet appare subito in 3D, con disegno tecnico e distinta materiali. Invia il progetto con un clic e il nostro team commerciale ti ricontatterà.",
+    "specsTitle": "Caratteristiche del pallet",
+    "presets": {
+      "eu": "Europallet 1200×800",
+      "ind": "Industriale 1200×1000",
+      "kz": "A longheroni 1200×1000",
+      "us": "USA 1219×1016",
+      "tk": "Leggero a perdere",
+      "half": "Mezzo pallet 800×600",
+      "custom": "Su misura"
+    },
+    "groups": {
+      "dims": "Dimensioni",
+      "construction": "Struttura",
+      "top": "Piano superiore",
+      "blocks": "Blocchetti e traverse",
+      "stringers": "Longheroni",
+      "bottom": "Piano inferiore",
+      "material": "Materiale e trattamento"
+    },
+    "fields": {
+      "L": "Lunghezza",
+      "W": "Larghezza",
+      "type": "Tipo",
+      "topN": "Numero di tavole",
+      "topW": "Larghezza tavola",
+      "topT": "Spessore",
+      "blkX": "Lunghezza blocchetto",
+      "blkZ": "Larghezza blocchetto",
+      "blkH": "Altezza blocchetto",
+      "crsW": "Larghezza traversa",
+      "crsT": "Spessore traversa",
+      "blkMat": "Materiale blocchetti",
+      "strN": "Numero di longheroni",
+      "strH": "Altezza longherone",
+      "strT": "Spessore longherone",
+      "botN": "Numero di tavole",
+      "botW": "Larghezza tavola",
+      "botT": "Spessore",
+      "wood": "Specie legnosa",
+      "treat": "Trattamento",
+      "paint": "Colore blocchetti/longheroni",
+      "stamp": "Marchio / testo"
+    },
+    "units": {
+      "mm": "mm",
+      "pcs": "pz"
+    },
+    "typeShort": {
+      "blok": "A blocchetti",
+      "kizak": "A longheroni"
+    },
+    "options": {
+      "type": {
+        "blok": "A blocchetti · inforcabile su 4 lati",
+        "kizak": "A longheroni · inforcabile su 2 lati"
+      },
+      "blkMat": {
+        "masif": "Legno massello",
+        "pres": "Blocchetto in truciolare pressato"
+      },
+      "wood": {
+        "cam": "Pino silvestre",
+        "ladin": "Abete rosso",
+        "kavak": "Pioppo",
+        "kayin": "Faggio"
+      },
+      "treat": {
+        "yok": "Non trattato",
+        "ht": "Trattamento termico (ISPM-15 HT)",
+        "kd": "Essiccato in forno (KD)",
+        "htkd": "Trattamento termico + essiccazione"
+      },
+      "paint": {
+        "yok": "Non verniciato",
+        "mavi": "Blu",
+        "kirmizi": "Rosso",
+        "yesil": "Verde",
+        "sari": "Giallo"
+      }
+    },
+    "blockNote": "Nel pallet a blocchetti le 3 tavole inferiori sono allineate alle file di blocchetti.",
+    "viewLabel": "Vista",
+    "viewDrawing": "Disegno tecnico",
+    "camLabel": "Inquadratura",
+    "cams": {
+      "iso": "Prospettiva",
+      "top": "Alto",
+      "front": "Fronte",
+      "side": "Lato",
+      "under": "Sotto"
+    },
+    "hint": "Trascina: ruota · Rotella: zoom",
+    "canvasLabel": "Vista 3D del pallet",
+    "no3d": "La vista 3D non è disponibile su questo dispositivo; viene mostrato il disegno tecnico.",
+    "sheetTitle": "Scheda di calcolo",
+    "estimate": "stima",
+    "metrics": {
+      "height": "Altezza",
+      "weight": "Peso",
+      "dyn": "Carico dinamico",
+      "stat": "Carico statico",
+      "rack": "Carico in scaffale",
+      "volume": "Volume legno"
+    },
+    "loadNote": "I valori di carico sono una stima approssimativa basata sulla flessione del piano superiore; il nostro team tecnico li conferma prima della produzione.",
+    "warnings": {
+      "topNoFit": "Le tavole superiori non entrano nella misura del pallet. Riduci il numero o la larghezza delle tavole.",
+      "topGapWide": "Distanza tra le tavole superiori: {gap} mm. Per scatole piccole si consiglia meno di 75 mm.",
+      "bottomNoFit": "Le tavole inferiori non entrano nella lunghezza del pallet.",
+      "blocksTouch": "I blocchetti si toccano; riduci la loro misura.",
+      "blockLow": "Altezza blocchetto sotto 70 mm: le forche del transpallet potrebbero non entrare.",
+      "stringerLow": "Altezza longherone sotto 75 mm: l’inforcamento con il carrello diventa difficile.",
+      "thinTop": "Un piano superiore sotto i 16 mm è adatto solo a carichi leggeri a perdere.",
+      "noIspm": "Per le spedizioni all’estero il marchio ISPM-15 di trattamento termico è di norma obbligatorio."
+    },
+    "bomTitle": "Distinta materiali",
+    "bomPart": "Pezzo",
+    "bomQty": "Q.tà",
+    "bomSize": "Misura (mm)",
+    "parts": {
+      "top": "Tavola superiore",
+      "cross": "Traversa",
+      "block": "Blocchetto",
+      "bottom": "Tavola inferiore",
+      "stringer": "Longherone"
+    },
+    "presSuffix": "(truciolare)",
+    "quoteNote": "Il prezzo viene preparato in base a quantità, specie legnosa e luogo di consegna. Invia la richiesta e il nostro team commerciale ti chiamerà.",
+    "quoteButton": "Richiedi un preventivo",
+    "downloadDrawing": "Scarica il disegno tecnico (SVG)",
+    "contactLine": "Preferisci parlarne subito?",
+    "designTitle": "{type} {L}×{W}",
+    "drawing": {
+      "top": "VISTA DALL’ALTO",
+      "front": "VISTA FRONTALE",
+      "side": "VISTA LATERALE",
+      "caption": "{title} × {H} mm · {wood} · misure in mm"
+    },
+    "form": {
+      "title": "Richiesta di preventivo",
+      "close": "Chiudi",
+      "snapshotAlt": "Il tuo pallet",
+      "company": "Ragione sociale",
+      "name": "Referente",
+      "phone": "Cellulare",
+      "email": "E-mail",
+      "qty": "Quantità",
+      "date": "Data di consegna desiderata",
+      "pref": "Come preferisci essere contattato?",
+      "time": "Orario preferito",
+      "addr": "Indirizzo / città di consegna",
+      "addrPlaceholder": "es. Kemalpaşa OSB, İzmir",
+      "note": "Note",
+      "notePlaceholder": "Tipo di carico, altezza di impilamento, paese di esportazione, richieste particolari…",
+      "cancel": "Annulla",
+      "submit": "Invia la richiesta",
+      "sending": "Invio in corso…"
+    },
+    "prefs": {
+      "tel": "Telefonata",
+      "wa": "WhatsApp",
+      "mail": "E-mail"
+    },
+    "times": {
+      "any": "Indifferente",
+      "morning": "Mattina (09–12)",
+      "afternoon": "Pomeriggio (12–17)",
+      "evening": "Sera (17–19)"
+    },
+    "errors": {
+      "company": "Inserisci la ragione sociale.",
+      "name": "Inserisci un referente.",
+      "phone": "Il numero deve avere almeno 10 cifre.",
+      "email": "Inserisci un indirizzo e-mail valido.",
+      "qty": "La quantità deve essere almeno 1.",
+      "fixDesign": "Correggi prima l’errore di misura nel progetto.",
+      "send": "Impossibile inviare la richiesta. Controlla i dati e riprova."
+    },
+    "success": {
+      "title": "Richiesta ricevuta",
+      "body": "Il nostro team commerciale esaminerà il progetto e ti contatterà tramite {contact} con un’offerta.",
+      "urgent": "Per urgenze:",
+      "newDesign": "Nuovo progetto"
+    },
+    "fallback": {
+      "title": "Invia la richiesta",
+      "body": "Il progetto e i tuoi dati sono pronti. Inviali con un clic tramite uno dei canali qui sotto; il messaggio è già compilato.",
+      "whatsapp": "Invia con WhatsApp",
+      "email": "Invia per e-mail",
+      "drawing": "Clicca qui per scaricare anche il disegno tecnico da allegare"
+    },
+    "mail": {
+      "intro": "Richiesta preventivo Configuratore pallet · {no}",
+      "subject": "Richiesta preventivo {no} · {title}",
+      "language": "Lingua del visitatore"
+    }
   }
 }

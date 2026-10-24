@@ -15,6 +15,7 @@
     "homeLabel": "Accueil Akçay Palet",
     "nav": {
       "products": "Produits",
+      "workshop": "Atelier palette",
       "custom": "Sur mesure",
       "process": "Processus de production",
       "why": "Pourquoi Akçay"
@@ -230,6 +231,10 @@
           {
             "label": "Fabrication sur mesure",
             "href": "#ozel-uretim"
+          },
+          {
+            "label": "Atelier palette : concevez la vôtre",
+            "href": "#palet-atolyesi"
           }
         ]
       },
@@ -303,5 +308,208 @@
     "body": "Palettes standard aux dimensions EUR/EPAL, palettes d'export conformes NIMP 15, palettes pour le marché intérieur et fabrication sur mesure — avec dimensions, traitement thermique et usages.",
     "metaTitle": "Produits | Akçay Palet",
     "metaDescription": "Palettes en bois 80×120, 80×100 et 100×120 cm, palettes d'export conformes NIMP 15, palettes marché intérieur et fabrication sur mesure."
+  },
+  "Workshop": {
+    "metaTitle": "Atelier palette : concevez votre palette | Akçay Palet",
+    "metaDescription": "Concevez votre palette en bois sur mesure : vue 3D, plan technique, nomenclature et estimation de charge. Envoyez votre projet et recevez un devis personnalisé.",
+    "eyebrow": "Atelier palette",
+    "title": "Concevez votre palette, recevez votre devis.",
+    "body": "Choisissez les dimensions, le nombre de planches et l’essence de bois : votre palette apparaît aussitôt en 3D, avec son plan technique et sa nomenclature. Envoyez le projet en un clic, notre équipe commerciale vous recontacte.",
+    "specsTitle": "Caractéristiques de la palette",
+    "presets": {
+      "eu": "Europe 1200×800",
+      "ind": "Industrielle 1200×1000",
+      "kz": "À longerons 1200×1000",
+      "us": "US 1219×1016",
+      "tk": "Légère, perdue",
+      "half": "Demi-palette 800×600",
+      "custom": "Sur mesure"
+    },
+    "groups": {
+      "dims": "Dimensions",
+      "construction": "Construction",
+      "top": "Plancher supérieur",
+      "blocks": "Dés et traverses",
+      "stringers": "Longerons",
+      "bottom": "Plancher inférieur",
+      "material": "Matériau et traitement"
+    },
+    "fields": {
+      "L": "Longueur",
+      "W": "Largeur",
+      "type": "Type",
+      "topN": "Nombre de planches",
+      "topW": "Largeur de planche",
+      "topT": "Épaisseur",
+      "blkX": "Longueur du dé",
+      "blkZ": "Largeur du dé",
+      "blkH": "Hauteur du dé",
+      "crsW": "Largeur de traverse",
+      "crsT": "Épaisseur de traverse",
+      "blkMat": "Matériau des dés",
+      "strN": "Nombre de longerons",
+      "strH": "Hauteur du longeron",
+      "strT": "Épaisseur du longeron",
+      "botN": "Nombre de planches",
+      "botW": "Largeur de planche",
+      "botT": "Épaisseur",
+      "wood": "Essence de bois",
+      "treat": "Traitement",
+      "paint": "Peinture dés/longerons",
+      "stamp": "Marquage / texte de marque"
+    },
+    "units": {
+      "mm": "mm",
+      "pcs": "pcs"
+    },
+    "typeShort": {
+      "blok": "À dés",
+      "kizak": "À longerons"
+    },
+    "options": {
+      "type": {
+        "blok": "À dés · 4 entrées",
+        "kizak": "À longerons · 2 entrées"
+      },
+      "blkMat": {
+        "masif": "Bois massif",
+        "pres": "Dé en aggloméré"
+      },
+      "wood": {
+        "cam": "Pin sylvestre",
+        "ladin": "Épicéa",
+        "kavak": "Peuplier",
+        "kayin": "Hêtre"
+      },
+      "treat": {
+        "yok": "Non traité",
+        "ht": "Traité thermiquement (NIMP 15 HT)",
+        "kd": "Séché au four (KD)",
+        "htkd": "Traité thermiquement + séché"
+      },
+      "paint": {
+        "yok": "Non peint",
+        "mavi": "Bleu",
+        "kirmizi": "Rouge",
+        "yesil": "Vert",
+        "sari": "Jaune"
+      }
+    },
+    "blockNote": "Sur une palette à dés, les 3 planches inférieures sont alignées sur les rangées de dés.",
+    "viewLabel": "Affichage",
+    "viewDrawing": "Plan technique",
+    "camLabel": "Caméra",
+    "cams": {
+      "iso": "Perspective",
+      "top": "Dessus",
+      "front": "Face",
+      "side": "Côté",
+      "under": "Dessous"
+    },
+    "hint": "Glisser : pivoter · Molette : zoomer",
+    "canvasLabel": "Vue 3D de la palette",
+    "no3d": "La vue 3D n’est pas disponible sur cet appareil ; le plan technique est affiché.",
+    "sheetTitle": "Fiche de calcul",
+    "estimate": "estimation",
+    "metrics": {
+      "height": "Hauteur",
+      "weight": "Poids",
+      "dyn": "Charge dynamique",
+      "stat": "Charge statique",
+      "rack": "Charge en rack",
+      "volume": "Volume de bois"
+    },
+    "loadNote": "Les charges sont une estimation approximative fondée sur la flexion du plancher supérieur ; notre équipe technique les valide avant production.",
+    "warnings": {
+      "topNoFit": "Les planches du dessus ne tiennent pas dans les dimensions. Réduisez leur nombre ou leur largeur.",
+      "topGapWide": "Écart entre planches du dessus : {gap} mm. Moins de 75 mm est conseillé pour les petits cartons.",
+      "bottomNoFit": "Les planches inférieures ne tiennent pas dans la longueur.",
+      "blocksTouch": "Les dés se touchent ; réduisez leur taille.",
+      "blockLow": "Hauteur de dé inférieure à 70 mm : les fourches du transpalette risquent de ne pas passer.",
+      "stringerLow": "Hauteur de longeron inférieure à 75 mm : l’accès au chariot élévateur devient difficile.",
+      "thinTop": "Un plancher supérieur de moins de 16 mm convient seulement aux charges légères à usage unique.",
+      "noIspm": "Le marquage NIMP 15 de traitement thermique est généralement obligatoire à l’export."
+    },
+    "bomTitle": "Nomenclature",
+    "bomPart": "Pièce",
+    "bomQty": "Qté",
+    "bomSize": "Dimensions (mm)",
+    "parts": {
+      "top": "Planche du dessus",
+      "cross": "Traverse",
+      "block": "Dé",
+      "bottom": "Planche inférieure",
+      "stringer": "Longeron"
+    },
+    "presSuffix": "(aggloméré)",
+    "quoteNote": "Le prix est établi selon la quantité, l’essence de bois et le lieu de livraison. Envoyez votre demande, notre équipe commerciale vous appelle.",
+    "quoteButton": "Demander un devis",
+    "downloadDrawing": "Télécharger le plan technique (SVG)",
+    "contactLine": "Vous préférez en parler ?",
+    "designTitle": "{type} {L}×{W}",
+    "drawing": {
+      "top": "VUE DE DESSUS",
+      "front": "VUE DE FACE",
+      "side": "VUE DE CÔTÉ",
+      "caption": "{title} × {H} mm · {wood} · cotes en mm"
+    },
+    "form": {
+      "title": "Demande de devis",
+      "close": "Fermer",
+      "snapshotAlt": "Votre palette",
+      "company": "Société",
+      "name": "Interlocuteur",
+      "phone": "Téléphone mobile",
+      "email": "E-mail",
+      "qty": "Quantité",
+      "date": "Date de livraison souhaitée",
+      "pref": "Comment vous joindre ?",
+      "time": "Créneau d’appel",
+      "addr": "Adresse / ville de livraison",
+      "addrPlaceholder": "ex. Kemalpaşa OSB, İzmir",
+      "note": "Remarque",
+      "notePlaceholder": "Type de charge, hauteur de gerbage, pays d’export, exigences particulières…",
+      "cancel": "Annuler",
+      "submit": "Envoyer la demande",
+      "sending": "Envoi…"
+    },
+    "prefs": {
+      "tel": "Par téléphone",
+      "wa": "WhatsApp",
+      "mail": "E-mail"
+    },
+    "times": {
+      "any": "Peu importe",
+      "morning": "Matin (09–12)",
+      "afternoon": "Après-midi (12–17)",
+      "evening": "Soir (17–19)"
+    },
+    "errors": {
+      "company": "Indiquez le nom de la société.",
+      "name": "Indiquez un interlocuteur.",
+      "phone": "Le numéro doit comporter au moins 10 chiffres.",
+      "email": "Indiquez une adresse e-mail valide.",
+      "qty": "La quantité doit être d’au moins 1.",
+      "fixDesign": "Corrigez d’abord l’erreur de dimensions.",
+      "send": "La demande n’a pas pu être envoyée. Vérifiez vos informations et réessayez."
+    },
+    "success": {
+      "title": "Demande reçue",
+      "body": "Notre équipe commerciale étudie votre projet et vous contactera via {contact} avec une offre de prix.",
+      "urgent": "En cas d’urgence :",
+      "newDesign": "Nouveau projet"
+    },
+    "fallback": {
+      "title": "Envoyez votre demande",
+      "body": "Votre projet et vos coordonnées sont prêts. Envoyez-les en un clic par l’un des canaux ci-dessous ; le message est prérempli.",
+      "whatsapp": "Envoyer par WhatsApp",
+      "email": "Envoyer par e-mail",
+      "drawing": "Cliquez ici pour télécharger aussi le plan technique à joindre"
+    },
+    "mail": {
+      "intro": "Demande de devis Atelier palette · {no}",
+      "subject": "Demande de devis {no} · {title}",
+      "language": "Langue du visiteur"
+    }
   }
 }

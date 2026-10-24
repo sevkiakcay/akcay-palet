@@ -13,6 +13,7 @@ type FooterColumn = { heading: string; links: { label: string; href: string }[] 
 function routeFor(anchor: string) {
   const hash = anchor.replace(/^#/, "");
   if (hash === "urunler") return { pathname: "/products" } as const;
+  if (hash === "palet-atolyesi") return { pathname: "/pallet-workshop" } as const;
   if (hash === "iletisim") return null;
   return { pathname: "/", hash } as const;
 }
