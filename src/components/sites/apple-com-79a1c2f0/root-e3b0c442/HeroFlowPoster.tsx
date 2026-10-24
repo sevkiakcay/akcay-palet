@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { PALLET_FRAME_COUNT, palletFrameUrl } from "@/lib/cinematic/pallet-sequence";
 
 /**
@@ -8,6 +9,8 @@ import { PALLET_FRAME_COUNT, palletFrameUrl } from "@/lib/cinematic/pallet-seque
  * present and accessible, same as the cinematic version's opening state.
  */
 export function HeroFlowPoster() {
+  const t = useTranslations("Hero");
+  const tc = useTranslations("Common");
   return (
     <section
       id="ahsap-palet"
@@ -27,30 +30,30 @@ export function HeroFlowPoster() {
           Akçay Palet
         </p>
         <h1 className="font-heading mt-5 max-w-[820px] text-[36px] leading-[1.04] font-bold tracking-[-0.02em] md:text-[62px]">
-          Yükünüzü Taşıyan Güç.
+          {t("title")}
         </h1>
         <p className="mt-4 max-w-[540px] text-[15px] text-surface-dark-foreground/65 md:text-[18px]">
-          Endüstriyel ölçekte, güvenilir ve ihtiyaca özel palet çözümleri.
+          {t("subtitle")}
         </p>
         <div className="mt-7 flex items-center justify-center gap-4 text-[15px] font-medium">
           <a
             href="#iletisim"
             className="rounded-full bg-primary px-5 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Teklif Al
+            {tc("quote")}
           </a>
           <a
             href="#uretim-sureci"
             className="rounded-full border border-surface-dark-foreground/25 px-5 py-2 text-surface-dark-foreground transition-colors hover:bg-surface-dark-foreground/10"
           >
-            Üretimi Keşfet
+            {tc("explore")}
           </a>
         </div>
 
         <div className="relative mt-12 aspect-video w-full max-w-[900px] overflow-hidden rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
           <Image
             src={palletFrameUrl(PALLET_FRAME_COUNT)}
-            alt="Tamamlanmış Akçay Palet ahşap palet"
+            alt={t("posterAlt")}
             fill
             priority
             sizes="(min-width: 900px) 900px, 100vw"

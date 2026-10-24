@@ -151,6 +151,28 @@
   }
 }
 
+/* Space Grotesk has no Greek/Cyrillic glyphs — without this, headings would
+   mix two typefaces letter by letter. Use the body face (Inter) instead. */
+html:lang(el),
+html:lang(ru) {
+  --font-display: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Arabic: Noto Sans Arabic for body and headings. Letter-spacing breaks the
+   joined Arabic script, so tracking utilities are neutralised. */
+html:lang(ar) {
+  --font-geist-sans: var(--font-arabic), system-ui, sans-serif;
+  --font-display: var(--font-arabic), system-ui, sans-serif;
+}
+html:lang(ar) * {
+  letter-spacing: 0 !important;
+}
+/* Monospace faces have no Arabic glyphs and render the joined script as
+   isolated letters — fall back to the Arabic face (digits stay readable). */
+html:lang(ar) .font-mono {
+  font-family: var(--font-arabic), ui-monospace, monospace;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

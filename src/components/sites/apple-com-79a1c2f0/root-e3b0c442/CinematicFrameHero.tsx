@@ -1,7 +1,8 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { ensureGsapRegistered, gsap } from "@/lib/animation/gsap";
+import { useLocale, useTranslations } from "next-intl";
+import { ensureGsapRegistered, gsap, ScrollTrigger } from "@/lib/animation/gsap";
 import { PALLET_FRAME_COUNT, palletFrameUrl } from "@/lib/cinematic/pallet-sequence";
 
 const FIRST_BLOCK_SIZE = 24;
@@ -44,6 +45,9 @@ export function CinematicFrameHero() {
   const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(PALLET_FRAME_COUNT).fill(null));
   const currentFrameRef = useRef(0);
   const [posterReady, setPosterReady] = useState(false);
+  const t = useTranslations("Hero");
+  const tc = useTranslations("Common");
+  const locale = useLocale();
 
   function draw(frameNumber: number) {
     const canvas = canvasRef.current;
@@ -209,15 +213,25 @@ export function CinematicFrameHero() {
         .to(annotations, { opacity: 1, y: 0, duration: 0.08, stagger: 0.03, ease: "power1.out" }, 0.82);
     }, section);
 
-    return () => ctx.revert();
-  }, []);
+    // Copy length and typeface differ per language, which shifts layout —
+    // re-measure every trigger once that language's fonts have loaded.
+    let cancelled = false;
+    document.fonts?.ready.then(() => {
+      if (!cancelled) ScrollTrigger.refresh();
+    });
+
+    return () => {
+      cancelled = true;
+      ctx.revert(); // kills this hero's tweens + ScrollTrigger only, not other sections'
+    };
+  }, [locale]);
 
   return (
     <div ref={wrapperRef} className="relative h-[400vh]">
       <section
         ref={sectionRef}
         id="ahsap-palet"
-        className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-surface-dark text-surface-dark-foreground"
+        className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden bg-surface-dark px-6 pt-[83px] text-surface-dark-foreground"
       >
         <div
           aria-hidden
@@ -228,68 +242,66 @@ export function CinematicFrameHero() {
           }}
         />
 
-        <div
-          data-role="intro-text"
-          className="absolute inset-x-0 top-[14%] z-20 mx-auto max-w-[820px] px-6 text-center"
-        >
+        {/* Copy sits above the frame in normal flow — never on top of the image —
+            so it stays legible against the dark stage before it recedes on scroll. */}
+        <div data-role="intro-text" className="relative z-20 mx-auto max-w-[820px] text-center">
           <p className="text-[11px] font-semibold tracking-[0.28em] text-surface-dark-foreground/50 uppercase">
             Akçay Palet
           </p>
-          <h1 className="font-heading mt-5 text-[40px] leading-[1.04] font-bold tracking-[-0.02em] md:text-[62px]">
-            Yükünüzü Taşıyan Güç.
+          <h1 className="font-heading mt-4 text-[40px] leading-[1.04] font-bold tracking-[-0.02em] lg:text-[56px]">
+            {t("title")}
           </h1>
-          <p className="mt-4 text-[15px] text-surface-dark-foreground/65 md:text-[18px]">
-            Endüstriyel ölçekte, güvenilir ve ihtiyaca özel palet çözümleri.
-          </p>
-          <div className="mt-7 flex items-center justify-center gap-4 text-[15px] font-medium">
+          <p className="mt-3 text-[16px] text-surface-dark-foreground/70 lg:text-[18px]">{t("subtitle")}</p>
+          <div className="mt-6 flex items-center justify-center gap-4 text-[15px] font-medium">
             <a
               href="#iletisim"
               className="rounded-full bg-primary px-5 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Teklif Al
+              {tc("quote")}
             </a>
             <a
               href="#uretim-sureci"
               className="rounded-full border border-surface-dark-foreground/25 px-5 py-2 text-surface-dark-foreground transition-colors hover:bg-surface-dark-foreground/10"
             >
-              Üretimi Keşfet
+              {tc("explore")}
             </a>
           </div>
         </div>
 
-        <div className="relative z-10 mx-6 aspect-video w-full max-w-[1000px] overflow-hidden rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
+        {/* Height-capped so copy + frame always fit one viewport (≥ 800px tall). */}
+        <div className="relative z-10 mt-8 aspect-video h-[min(54vh,562px)] max-w-full overflow-hidden rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
           <canvas
             ref={canvasRef}
             className="h-full w-full transition-opacity duration-700"
             style={{ opacity: posterReady ? 1 : 0 }}
             role="img"
-            aria-label="Akçay Palet ahşap palet montajı — Google Flow sinematik dizisi"
+            aria-label={t("canvasLabel")}
           />
 
           {/* Business-proof annotations, final ~18% of the sequence — blueprint-style, not marketing cards. */}
           <div
             data-role="annotation"
-            className="absolute top-[8%] left-[4%] max-w-[140px] border-l border-white/25 pl-3 text-left text-[11px] tracking-wide text-white/70"
+            className="absolute start-[4%] top-[8%] max-w-[140px] border-s border-white/25 ps-3 text-start text-[11px] tracking-wide text-white/70"
           >
-            80 × 120 cm
+            {t("annotations.size")}
           </div>
           <div
             data-role="annotation"
-            className="absolute top-[8%] right-[4%] max-w-[150px] border-r border-white/25 pr-3 text-right text-[11px] tracking-wide text-white/70"
+            className="absolute end-[4%] top-[8%] max-w-[150px] border-e border-white/25 pe-3 text-end text-[11px] tracking-wide text-white/70"
           >
-            İhracata uygun
+            {t("annotations.export")}
           </div>
           <div
             data-role="annotation"
-            className="absolute bottom-[8%] left-[4%] max-w-[150px] border-l border-white/25 pl-3 text-left text-[11px] tracking-wide text-white/70"
+            className="absolute start-[4%] bottom-[8%] max-w-[150px] border-s border-white/25 ps-3 text-start text-[11px] tracking-wide text-white/70"
           >
-            Isıl işlem seçeneği
+            {t("annotations.heat")}
           </div>
           <div
             data-role="annotation"
-            className="absolute right-[4%] bottom-[8%] max-w-[150px] border-r border-white/25 pr-3 text-right text-[11px] tracking-wide text-white/70"
+            className="absolute end-[4%] bottom-[8%] max-w-[150px] border-e border-white/25 pe-3 text-end text-[11px] tracking-wide text-white/70"
           >
-            Özel ölçü üretim
+            {t("annotations.custom")}
           </div>
         </div>
       </section>
