@@ -49,12 +49,42 @@
       "use": "Utilisation"
     },
     "rows": [
-      { "product": "Palette en bois", "size": "80 × 120 cm", "heat": "En option", "use": "Standard dimensionnel EUR/EPAL, transport polyvalent" },
-      { "product": "Palette en bois", "size": "80 × 100 cm", "heat": "En option", "use": "Transport et stockage polyvalents" },
-      { "product": "Palette en bois", "size": "100 × 120 cm", "heat": "En option", "use": "Transport de charges lourdes" },
-      { "product": "Palette d'export", "size": "Selon commande", "heat": "Conforme NIMP 15", "use": "Expédition à l'international" },
-      { "product": "Palette marché intérieur", "size": "Selon commande", "heat": "Non traitée", "use": "Logistique et stockage nationaux" },
-      { "product": "Sur mesure", "size": "Selon vos cotes", "heat": "Selon le besoin", "use": "Conçue pour votre produit — voir Sur mesure" }
+      {
+        "product": "Palette en bois",
+        "size": "80 × 120 cm",
+        "heat": "En option",
+        "use": "Standard dimensionnel EUR/EPAL, transport polyvalent"
+      },
+      {
+        "product": "Palette en bois",
+        "size": "80 × 100 cm",
+        "heat": "En option",
+        "use": "Transport et stockage polyvalents"
+      },
+      {
+        "product": "Palette en bois",
+        "size": "100 × 120 cm",
+        "heat": "En option",
+        "use": "Transport de charges lourdes"
+      },
+      {
+        "product": "Palette d'export",
+        "size": "Selon commande",
+        "heat": "Conforme NIMP 15",
+        "use": "Expédition à l'international"
+      },
+      {
+        "product": "Palette marché intérieur",
+        "size": "Selon commande",
+        "heat": "Non traitée",
+        "use": "Logistique et stockage nationaux"
+      },
+      {
+        "product": "Sur mesure",
+        "size": "Selon vos cotes",
+        "heat": "Selon le besoin",
+        "use": "Conçue pour votre produit — voir Sur mesure"
+      }
     ]
   },
   "Custom": {
@@ -63,50 +93,110 @@
     "body": "Les dimensions standard ne conviennent pas à tous les besoins. Transmettez-nous les informations ci-dessous et nous préparerons un plan de production et un devis adaptés — bien plus rapidement qu'avec un fabricant traditionnel.",
     "cta": "Demander un devis sur mesure",
     "requirements": [
-      { "label": "Dimensions", "desc": "Longueur, largeur et hauteur." },
-      { "label": "Exigence de charge", "desc": "Poids et répartition du produit à transporter." },
-      { "label": "Quantité", "desc": "Commande ponctuelle ou volume régulier." },
-      { "label": "Traitement thermique", "desc": "Si la norme NIMP 15 est requise pour l'export." },
-      { "label": "Photo / plan / cahier des charges", "desc": "Partagez les documents techniques dont vous disposez." }
+      {
+        "label": "Dimensions",
+        "desc": "Longueur, largeur et hauteur."
+      },
+      {
+        "label": "Exigence de charge",
+        "desc": "Poids et répartition du produit à transporter."
+      },
+      {
+        "label": "Quantité",
+        "desc": "Commande ponctuelle ou volume régulier."
+      },
+      {
+        "label": "Traitement thermique",
+        "desc": "Si la norme NIMP 15 est requise pour l'export."
+      },
+      {
+        "label": "Photo / plan / cahier des charges",
+        "desc": "Partagez les documents techniques dont vous disposez."
+      }
     ]
   },
   "Process": {
     "eyebrow": "Notre processus de production",
     "title": "De la mesure au traitement thermique, une production maîtrisée.",
     "steps": [
-      { "title": "Découpe & façonnage", "desc": "Nous découpons et façonnons le bois aux dimensions de votre commande." },
-      { "title": "Assemblage & clouage", "desc": "Nous assemblons les planches avec des tolérances adaptées à la charge." },
-      { "title": "Traitement thermique & contrôle", "desc": "Les palettes d'export reçoivent un traitement thermique conforme NIMP 15 et un contrôle dimensionnel." }
+      {
+        "title": "Découpe & façonnage",
+        "desc": "Nous découpons et façonnons le bois aux dimensions de votre commande."
+      },
+      {
+        "title": "Assemblage & clouage",
+        "desc": "Nous assemblons les planches avec des tolérances adaptées à la charge."
+      },
+      {
+        "title": "Traitement thermique & contrôle",
+        "desc": "Les palettes d'export reçoivent un traitement thermique conforme NIMP 15 et un contrôle dimensionnel."
+      }
     ],
     "checkpointsTitle": "Nos points de contrôle",
-    "checkpoints": ["Contrôle des dimensions et tolérances", "Contrôle du taux d'humidité", "Solidité des clous et assemblages", "Suivi de la température de traitement"]
+    "checkpoints": [
+      "Contrôle des dimensions et tolérances",
+      "Contrôle du taux d'humidité",
+      "Solidité des clous et assemblages",
+      "Suivi de la température de traitement"
+    ]
   },
   "Why": {
     "title": "Pourquoi Akçay Palet.",
     "pillars": [
-      { "title": "Accompagnement technique", "desc": "Nous déterminons avec vous la dimension de palette adaptée au transport de votre produit." },
-      { "title": "Production flexible", "desc": "En plus des dimensions standard, nous planifions une fabrication aux dimensions de votre produit." },
-      { "title": "Échange direct", "desc": "Pendant le devis et la production, vous échangez directement avec l'équipe de fabrication." }
+      {
+        "title": "Accompagnement technique",
+        "desc": "Nous déterminons avec vous la dimension de palette adaptée au transport de votre produit."
+      },
+      {
+        "title": "Production flexible",
+        "desc": "En plus des dimensions standard, nous planifions une fabrication aux dimensions de votre produit."
+      },
+      {
+        "title": "Échange direct",
+        "desc": "Pendant le devis et la production, vous échangez directement avec l'équipe de fabrication."
+      }
     ]
   },
   "Final": {
-    "titleLines": ["Mesure.", "Production.", "Expédition."],
+    "titleLines": [
+      "Mesure.",
+      "Production.",
+      "Expédition."
+    ],
     "body": "Des dimensions standard au sur-mesure. Transformons votre besoin en production.",
     "whatsappMessage": "Bonjour, je souhaite obtenir un devis pour la fabrication de palettes."
   },
   "Quote": {
-    "steps": ["Produit", "Détails", "Envoi"],
+    "steps": [
+      "Produit",
+      "Détails",
+      "Envoi"
+    ],
     "chooseTitle": "Que souhaitez-vous que nous produisions ?",
-    "palletTypes": ["Palette en bois", "Palette d'export", "Palette marché intérieur", "Fabrication sur mesure"],
+    "palletTypes": [
+      "Palette en bois",
+      "Palette d'export",
+      "Palette marché intérieur",
+      "Fabrication sur mesure"
+    ],
     "detailsTitle": "{type} — détails",
     "dimension": "Dimensions",
-    "dimensions": ["80×120 cm", "80×100 cm", "100×120 cm", "Sur mesure"],
+    "dimensions": [
+      "80×120 cm",
+      "80×100 cm",
+      "100×120 cm",
+      "Sur mesure"
+    ],
     "customDimension": "Dimensions sur mesure (cm)",
     "customPlaceholder": "ex. 90×110",
     "quantity": "Quantité",
     "quantityPlaceholder": "ex. 500",
     "heat": "Traitement thermique",
-    "heatOptions": ["Traitée thermiquement (NIMP 15)", "Non traitée", "Je ne sais pas"],
+    "heatOptions": [
+      "Traitée thermiquement (NIMP 15)",
+      "Non traitée",
+      "Je ne sais pas"
+    ],
     "notes": "Remarque (facultatif)",
     "notesPlaceholder": "Région de livraison, exigences particulières...",
     "back": "Retour",
@@ -125,40 +215,93 @@
       {
         "heading": "Produits",
         "links": [
-          { "label": "Palette en bois (80x120)", "href": "#urunler" },
-          { "label": "Palette en bois (80x100)", "href": "#urunler" },
-          { "label": "Palette en bois (100x120)", "href": "#urunler" },
-          { "label": "Fabrication sur mesure", "href": "#ozel-uretim" }
+          {
+            "label": "Palette en bois (80x120)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Palette en bois (80x100)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Palette en bois (100x120)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Fabrication sur mesure",
+            "href": "#ozel-uretim"
+          }
         ]
       },
       {
         "heading": "Export",
         "links": [
-          { "label": "Palette d'export", "href": "#urunler" },
-          { "label": "Palette traitée thermiquement", "href": "#uretim-sureci" },
-          { "label": "Production conforme NIMP 15", "href": "#uretim-sureci" },
-          { "label": "Palette marché intérieur", "href": "#urunler" }
+          {
+            "label": "Palette d'export",
+            "href": "#urunler"
+          },
+          {
+            "label": "Palette traitée thermiquement",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "Production conforme NIMP 15",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "Palette marché intérieur",
+            "href": "#urunler"
+          }
         ]
       },
       {
         "heading": "Entreprise",
         "links": [
-          { "label": "Notre processus de production", "href": "#uretim-sureci" },
-          { "label": "Pourquoi Akçay Palet", "href": "#neden-akcay" },
-          { "label": "Points de contrôle qualité", "href": "#uretim-sureci" }
+          {
+            "label": "Notre processus de production",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "Pourquoi Akçay Palet",
+            "href": "#neden-akcay"
+          },
+          {
+            "label": "Points de contrôle qualité",
+            "href": "#uretim-sureci"
+          }
         ]
       },
       {
         "heading": "Assistance",
         "links": [
-          { "label": "Demander un devis", "href": "#iletisim" },
-          { "label": "Commandes & expédition", "href": "#iletisim" },
-          { "label": "Contact", "href": "#iletisim" }
+          {
+            "label": "Demander un devis",
+            "href": "#iletisim"
+          },
+          {
+            "label": "Commandes & expédition",
+            "href": "#iletisim"
+          },
+          {
+            "label": "Contact",
+            "href": "#iletisim"
+          }
         ]
       }
     ],
-    "legal": ["Confidentialité", "Conditions d'utilisation", "Cookies"],
+    "legal": [
+      "Confidentialité",
+      "Conditions d'utilisation",
+      "Cookies"
+    ],
     "disclaimer": "Les prix peuvent varier selon la quantité commandée, les dimensions et la région de livraison. Nos palettes traitées thermiquement sont produites selon un procédé conforme à la norme NIMP 15. Images non contractuelles.",
     "copyright": "© {year} Akçay Palet. Tous droits réservés."
+  },
+  "ProductsPage": {
+    "eyebrow": "Produits",
+    "title": "Notre gamme de palettes en bois.",
+    "body": "Palettes standard aux dimensions EUR/EPAL, palettes d'export conformes NIMP 15, palettes pour le marché intérieur et fabrication sur mesure — avec dimensions, traitement thermique et usages.",
+    "metaTitle": "Produits | Akçay Palet",
+    "metaDescription": "Palettes en bois 80×120, 80×100 et 100×120 cm, palettes d'export conformes NIMP 15, palettes marché intérieur et fabrication sur mesure."
   }
 }

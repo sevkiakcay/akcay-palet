@@ -49,12 +49,42 @@
       "use": "Use"
     },
     "rows": [
-      { "product": "Wooden Pallet", "size": "80 × 120 cm", "heat": "Optional", "use": "EUR/EPAL dimension standard, general-purpose transport" },
-      { "product": "Wooden Pallet", "size": "80 × 100 cm", "heat": "Optional", "use": "General-purpose transport and storage" },
-      { "product": "Wooden Pallet", "size": "100 × 120 cm", "heat": "Optional", "use": "Heavy-load transport" },
-      { "product": "Export Pallet", "size": "Made to order", "heat": "ISPM-15 compliant", "use": "International shipping" },
-      { "product": "Domestic Pallet", "size": "Made to order", "heat": "Untreated", "use": "Domestic logistics and storage" },
-      { "product": "Custom Size", "size": "Your specification", "heat": "As required", "use": "Designed for your product — see Custom Production" }
+      {
+        "product": "Wooden Pallet",
+        "size": "80 × 120 cm",
+        "heat": "Optional",
+        "use": "EUR/EPAL dimension standard, general-purpose transport"
+      },
+      {
+        "product": "Wooden Pallet",
+        "size": "80 × 100 cm",
+        "heat": "Optional",
+        "use": "General-purpose transport and storage"
+      },
+      {
+        "product": "Wooden Pallet",
+        "size": "100 × 120 cm",
+        "heat": "Optional",
+        "use": "Heavy-load transport"
+      },
+      {
+        "product": "Export Pallet",
+        "size": "Made to order",
+        "heat": "ISPM-15 compliant",
+        "use": "International shipping"
+      },
+      {
+        "product": "Domestic Pallet",
+        "size": "Made to order",
+        "heat": "Untreated",
+        "use": "Domestic logistics and storage"
+      },
+      {
+        "product": "Custom Size",
+        "size": "Your specification",
+        "heat": "As required",
+        "use": "Designed for your product — see Custom Production"
+      }
     ]
   },
   "Custom": {
@@ -63,50 +93,110 @@
     "body": "Standard sizes don't fit every need. Send us the details below and we'll prepare a production plan and quote tailored to you — much faster than a traditional manufacturer.",
     "cta": "Request a Custom Quote",
     "requirements": [
-      { "label": "Dimensions", "desc": "Length, width and height." },
-      { "label": "Load requirement", "desc": "Weight and distribution of the product to be carried." },
-      { "label": "Quantity", "desc": "One-off or recurring order volume." },
-      { "label": "Heat treatment", "desc": "Whether ISPM-15 is required for export." },
-      { "label": "Photo / drawing / specification", "desc": "Share any technical documents you have." }
+      {
+        "label": "Dimensions",
+        "desc": "Length, width and height."
+      },
+      {
+        "label": "Load requirement",
+        "desc": "Weight and distribution of the product to be carried."
+      },
+      {
+        "label": "Quantity",
+        "desc": "One-off or recurring order volume."
+      },
+      {
+        "label": "Heat treatment",
+        "desc": "Whether ISPM-15 is required for export."
+      },
+      {
+        "label": "Photo / drawing / specification",
+        "desc": "Share any technical documents you have."
+      }
     ]
   },
   "Process": {
     "eyebrow": "Our Production Process",
     "title": "From measurement to heat treatment, controlled production.",
     "steps": [
-      { "title": "Cutting & Shaping", "desc": "We cut and shape the timber to the dimensions of your order." },
-      { "title": "Assembly & Nailing", "desc": "We join the boards with tolerances suited to the load." },
-      { "title": "Heat Treatment & Inspection", "desc": "Export pallets receive ISPM-15 compliant heat treatment and dimensional checks." }
+      {
+        "title": "Cutting & Shaping",
+        "desc": "We cut and shape the timber to the dimensions of your order."
+      },
+      {
+        "title": "Assembly & Nailing",
+        "desc": "We join the boards with tolerances suited to the load."
+      },
+      {
+        "title": "Heat Treatment & Inspection",
+        "desc": "Export pallets receive ISPM-15 compliant heat treatment and dimensional checks."
+      }
     ],
     "checkpointsTitle": "Our checkpoints",
-    "checkpoints": ["Dimension and tolerance check", "Moisture content check", "Nail and joint strength", "Heat-treatment temperature monitoring"]
+    "checkpoints": [
+      "Dimension and tolerance check",
+      "Moisture content check",
+      "Nail and joint strength",
+      "Heat-treatment temperature monitoring"
+    ]
   },
   "Why": {
     "title": "Why Akçay Palet.",
     "pillars": [
-      { "title": "Technical Sizing Support", "desc": "We work with you to determine the right pallet size for your product's transport needs." },
-      { "title": "Flexible Production", "desc": "Alongside standard sizes, we plan production in dimensions specific to your product." },
-      { "title": "Direct Communication", "desc": "Throughout quoting and production, you speak directly with the manufacturing team." }
+      {
+        "title": "Technical Sizing Support",
+        "desc": "We work with you to determine the right pallet size for your product's transport needs."
+      },
+      {
+        "title": "Flexible Production",
+        "desc": "Alongside standard sizes, we plan production in dimensions specific to your product."
+      },
+      {
+        "title": "Direct Communication",
+        "desc": "Throughout quoting and production, you speak directly with the manufacturing team."
+      }
     ]
   },
   "Final": {
-    "titleLines": ["Measure.", "Produce.", "Ship."],
+    "titleLines": [
+      "Measure.",
+      "Produce.",
+      "Ship."
+    ],
     "body": "From standard sizes to custom production. Let's turn your needs into production.",
     "whatsappMessage": "Hello, I would like a quote for pallet production."
   },
   "Quote": {
-    "steps": ["Product", "Details", "Send"],
+    "steps": [
+      "Product",
+      "Details",
+      "Send"
+    ],
     "chooseTitle": "What would you like us to produce?",
-    "palletTypes": ["Wooden Pallet", "Export Pallet", "Domestic Pallet", "Custom-Size Production"],
+    "palletTypes": [
+      "Wooden Pallet",
+      "Export Pallet",
+      "Domestic Pallet",
+      "Custom-Size Production"
+    ],
     "detailsTitle": "{type} — details",
     "dimension": "Size",
-    "dimensions": ["80×120 cm", "80×100 cm", "100×120 cm", "Custom size"],
+    "dimensions": [
+      "80×120 cm",
+      "80×100 cm",
+      "100×120 cm",
+      "Custom size"
+    ],
     "customDimension": "Custom size (cm)",
     "customPlaceholder": "e.g. 90×110",
     "quantity": "Quantity",
     "quantityPlaceholder": "e.g. 500",
     "heat": "Heat treatment",
-    "heatOptions": ["Heat-treated (ISPM-15)", "Untreated", "Not sure"],
+    "heatOptions": [
+      "Heat-treated (ISPM-15)",
+      "Untreated",
+      "Not sure"
+    ],
     "notes": "Additional note (optional)",
     "notesPlaceholder": "Delivery region, special requirements...",
     "back": "Back",
@@ -125,40 +215,93 @@
       {
         "heading": "Products",
         "links": [
-          { "label": "Wooden Pallet (80x120)", "href": "#urunler" },
-          { "label": "Wooden Pallet (80x100)", "href": "#urunler" },
-          { "label": "Wooden Pallet (100x120)", "href": "#urunler" },
-          { "label": "Custom-Size Production", "href": "#ozel-uretim" }
+          {
+            "label": "Wooden Pallet (80x120)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Wooden Pallet (80x100)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Wooden Pallet (100x120)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Custom-Size Production",
+            "href": "#ozel-uretim"
+          }
         ]
       },
       {
         "heading": "Export",
         "links": [
-          { "label": "Export Pallet", "href": "#urunler" },
-          { "label": "Heat-Treated Pallet", "href": "#uretim-sureci" },
-          { "label": "ISPM-15 Compliant Production", "href": "#uretim-sureci" },
-          { "label": "Domestic Pallet", "href": "#urunler" }
+          {
+            "label": "Export Pallet",
+            "href": "#urunler"
+          },
+          {
+            "label": "Heat-Treated Pallet",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "ISPM-15 Compliant Production",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "Domestic Pallet",
+            "href": "#urunler"
+          }
         ]
       },
       {
         "heading": "Company",
         "links": [
-          { "label": "Our Production Process", "href": "#uretim-sureci" },
-          { "label": "Why Akçay Palet", "href": "#neden-akcay" },
-          { "label": "Quality Checkpoints", "href": "#uretim-sureci" }
+          {
+            "label": "Our Production Process",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "Why Akçay Palet",
+            "href": "#neden-akcay"
+          },
+          {
+            "label": "Quality Checkpoints",
+            "href": "#uretim-sureci"
+          }
         ]
       },
       {
         "heading": "Support",
         "links": [
-          { "label": "Get a Quote", "href": "#iletisim" },
-          { "label": "Orders & Shipping", "href": "#iletisim" },
-          { "label": "Contact", "href": "#iletisim" }
+          {
+            "label": "Get a Quote",
+            "href": "#iletisim"
+          },
+          {
+            "label": "Orders & Shipping",
+            "href": "#iletisim"
+          },
+          {
+            "label": "Contact",
+            "href": "#iletisim"
+          }
         ]
       }
     ],
-    "legal": ["Privacy", "Terms of Use", "Cookies"],
+    "legal": [
+      "Privacy",
+      "Terms of Use",
+      "Cookies"
+    ],
     "disclaimer": "Prices may vary by order quantity, dimensions and delivery region. Our heat-treated pallets are produced through an ISPM-15 compliant process. Images are illustrative.",
     "copyright": "© {year} Akçay Palet. All rights reserved."
+  },
+  "ProductsPage": {
+    "eyebrow": "Products",
+    "title": "Our wooden pallet range.",
+    "body": "Standard pallets in EUR/EPAL dimensions, ISPM-15 compliant export pallets, domestic-market pallets and custom-size production — with dimensions, heat treatment and use cases.",
+    "metaTitle": "Products | Akçay Palet",
+    "metaDescription": "80×120, 80×100 and 100×120 cm wooden pallets, ISPM-15 compliant export pallets, domestic pallets and custom-size production."
   }
 }

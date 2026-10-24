@@ -1,9 +1,35 @@
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { LogoMark } from "../shared/icons";
 
 // Each link routes to the section that actually answers it — not a blanket
 // "#iletisim" for everything (that dead-ended the whole footer at one anchor).
 type FooterColumn = { heading: string; links: { label: string; href: string }[] };
+
+/**
+ * Message hrefs are section anchors ("#urunler", "#uretim-sureci"…). Products go to the
+ * products page; the quote anchor exists on every page; other sections live on home.
+ */
+function routeFor(anchor: string) {
+  const hash = anchor.replace(/^#/, "");
+  if (hash === "urunler") return { pathname: "/products" } as const;
+  if (hash === "iletisim") return null;
+  return { pathname: "/", hash } as const;
+}
+
+function FooterLink({ href, label }: { href: string; label: string }) {
+  const route = routeFor(href);
+  const className = "text-[13px] text-surface-dark-foreground/75 transition-colors hover:text-surface-dark-foreground";
+  return route ? (
+    <Link href={route} className={className}>
+      {label}
+    </Link>
+  ) : (
+    <a href={href} className={className}>
+      {label}
+    </a>
+  );
+}
 
 export function Footer() {
   const t = useTranslations("Footer");
@@ -27,12 +53,7 @@ export function Footer() {
               <ul className="mt-3 space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[13px] text-surface-dark-foreground/75 transition-colors hover:text-surface-dark-foreground"
-                    >
-                      {link.label}
-                    </a>
+                    <FooterLink href={link.href} label={link.label} />
                   </li>
                 ))}
               </ul>

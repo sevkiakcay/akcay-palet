@@ -49,12 +49,42 @@
       "use": "Kullanım"
     },
     "rows": [
-      { "product": "Ahşap Palet", "size": "80 × 120 cm", "heat": "Opsiyonel", "use": "EUR/EPAL ölçü standardı, genel amaçlı taşıma" },
-      { "product": "Ahşap Palet", "size": "80 × 100 cm", "heat": "Opsiyonel", "use": "Genel amaçlı taşıma ve depolama" },
-      { "product": "Ahşap Palet", "size": "100 × 120 cm", "heat": "Opsiyonel", "use": "Ağır yük taşıma" },
-      { "product": "İhracat Paleti", "size": "Siparişe göre", "heat": "ISPM-15 uyumlu", "use": "Yurt dışı sevkiyat" },
-      { "product": "İç Piyasa Paleti", "size": "Siparişe göre", "heat": "İşlemsiz", "use": "Yurt içi lojistik ve depolama" },
-      { "product": "Özel Ölçü", "size": "Sizin belirlediğiniz", "heat": "İhtiyaca göre", "use": "Ürününüze özel tasarım — bkz. Özel Üretim" }
+      {
+        "product": "Ahşap Palet",
+        "size": "80 × 120 cm",
+        "heat": "Opsiyonel",
+        "use": "EUR/EPAL ölçü standardı, genel amaçlı taşıma"
+      },
+      {
+        "product": "Ahşap Palet",
+        "size": "80 × 100 cm",
+        "heat": "Opsiyonel",
+        "use": "Genel amaçlı taşıma ve depolama"
+      },
+      {
+        "product": "Ahşap Palet",
+        "size": "100 × 120 cm",
+        "heat": "Opsiyonel",
+        "use": "Ağır yük taşıma"
+      },
+      {
+        "product": "İhracat Paleti",
+        "size": "Siparişe göre",
+        "heat": "ISPM-15 uyumlu",
+        "use": "Yurt dışı sevkiyat"
+      },
+      {
+        "product": "İç Piyasa Paleti",
+        "size": "Siparişe göre",
+        "heat": "İşlemsiz",
+        "use": "Yurt içi lojistik ve depolama"
+      },
+      {
+        "product": "Özel Ölçü",
+        "size": "Sizin belirlediğiniz",
+        "heat": "İhtiyaca göre",
+        "use": "Ürününüze özel tasarım — bkz. Özel Üretim"
+      }
     ]
   },
   "Custom": {
@@ -63,50 +93,110 @@
     "body": "Standart ölçüler her ihtiyaca uymaz. Bize aşağıdaki bilgileri iletin, size özel üretim planını ve teklifini hazırlayalım — geleneksel bir üreticiyle görüşmekten çok daha hızlı.",
     "cta": "Özel Üretim Teklifi İste",
     "requirements": [
-      { "label": "Ölçü", "desc": "Uzunluk, genişlik ve yükseklik." },
-      { "label": "Yük gereksinimi", "desc": "Taşınacak ürünün ağırlığı ve dağılımı." },
-      { "label": "Adet", "desc": "Tek seferlik veya düzenli sipariş miktarı." },
-      { "label": "Isıl işlem ihtiyacı", "desc": "İhracat için ISPM-15 gerekip gerekmediği." },
-      { "label": "Fotoğraf / çizim / şartname", "desc": "Elinizdeki teknik doküman varsa paylaşın." }
+      {
+        "label": "Ölçü",
+        "desc": "Uzunluk, genişlik ve yükseklik."
+      },
+      {
+        "label": "Yük gereksinimi",
+        "desc": "Taşınacak ürünün ağırlığı ve dağılımı."
+      },
+      {
+        "label": "Adet",
+        "desc": "Tek seferlik veya düzenli sipariş miktarı."
+      },
+      {
+        "label": "Isıl işlem ihtiyacı",
+        "desc": "İhracat için ISPM-15 gerekip gerekmediği."
+      },
+      {
+        "label": "Fotoğraf / çizim / şartname",
+        "desc": "Elinizdeki teknik doküman varsa paylaşın."
+      }
     ]
   },
   "Process": {
     "eyebrow": "Üretim Sürecimiz",
     "title": "Ölçüden ısıl işleme, kontrollü üretim.",
     "steps": [
-      { "title": "Kesim & Şekillendirme", "desc": "Keresteyi siparişe uygun ölçüde kesip şekillendiriyoruz." },
-      { "title": "Montaj & Çivileme", "desc": "Tahtaları taşıma yüküne uygun toleranslarla birleştiriyoruz." },
-      { "title": "Isıl İşlem & Kontrol", "desc": "İhracat paletlerinde ISPM-15 uyumlu ısıl işlem ve ölçü kontrolü uyguluyoruz." }
+      {
+        "title": "Kesim & Şekillendirme",
+        "desc": "Keresteyi siparişe uygun ölçüde kesip şekillendiriyoruz."
+      },
+      {
+        "title": "Montaj & Çivileme",
+        "desc": "Tahtaları taşıma yüküne uygun toleranslarla birleştiriyoruz."
+      },
+      {
+        "title": "Isıl İşlem & Kontrol",
+        "desc": "İhracat paletlerinde ISPM-15 uyumlu ısıl işlem ve ölçü kontrolü uyguluyoruz."
+      }
     ],
     "checkpointsTitle": "Kontrol noktalarımız",
-    "checkpoints": ["Ölçü ve tolerans kontrolü", "Nem oranı kontrolü", "Çivi ve bağlantı sağlamlığı", "Isıl işlem sıcaklık takibi"]
+    "checkpoints": [
+      "Ölçü ve tolerans kontrolü",
+      "Nem oranı kontrolü",
+      "Çivi ve bağlantı sağlamlığı",
+      "Isıl işlem sıcaklık takibi"
+    ]
   },
   "Why": {
     "title": "Neden Akçay Palet.",
     "pillars": [
-      { "title": "Teknik Ölçü Desteği", "desc": "Ürününüzün taşıma ihtiyacına göre doğru palet ölçüsünü birlikte belirliyoruz." },
-      { "title": "Esnek Üretim", "desc": "Standart ölçülerin yanı sıra ürününüze özel ölçüde üretim planlıyoruz." },
-      { "title": "Doğrudan İletişim", "desc": "Teklif ve üretim sürecinde doğrudan üretici ekibiyle görüşürsünüz." }
+      {
+        "title": "Teknik Ölçü Desteği",
+        "desc": "Ürününüzün taşıma ihtiyacına göre doğru palet ölçüsünü birlikte belirliyoruz."
+      },
+      {
+        "title": "Esnek Üretim",
+        "desc": "Standart ölçülerin yanı sıra ürününüze özel ölçüde üretim planlıyoruz."
+      },
+      {
+        "title": "Doğrudan İletişim",
+        "desc": "Teklif ve üretim sürecinde doğrudan üretici ekibiyle görüşürsünüz."
+      }
     ]
   },
   "Final": {
-    "titleLines": ["Ölçü.", "Üretim.", "Sevkiyat."],
+    "titleLines": [
+      "Ölçü.",
+      "Üretim.",
+      "Sevkiyat."
+    ],
     "body": "Standart ölçülerden özel üretime. İhtiyacınızı üretime dönüştürelim.",
     "whatsappMessage": "Merhaba, palet üretimi hakkında teklif almak istiyorum."
   },
   "Quote": {
-    "steps": ["Ürün", "Detaylar", "Gönder"],
+    "steps": [
+      "Ürün",
+      "Detaylar",
+      "Gönder"
+    ],
     "chooseTitle": "Ne üretmemizi istiyorsunuz?",
-    "palletTypes": ["Ahşap Palet", "İhracat Paleti", "İç Piyasa Paleti", "Özel Ölçü Üretim"],
+    "palletTypes": [
+      "Ahşap Palet",
+      "İhracat Paleti",
+      "İç Piyasa Paleti",
+      "Özel Ölçü Üretim"
+    ],
     "detailsTitle": "{type} — detaylar",
     "dimension": "Ölçü",
-    "dimensions": ["80×120 cm", "80×100 cm", "100×120 cm", "Özel ölçü"],
+    "dimensions": [
+      "80×120 cm",
+      "80×100 cm",
+      "100×120 cm",
+      "Özel ölçü"
+    ],
     "customDimension": "Özel ölçü (cm)",
     "customPlaceholder": "örn. 90×110",
     "quantity": "Adet",
     "quantityPlaceholder": "örn. 500",
     "heat": "Isıl işlem",
-    "heatOptions": ["Isıl işlemli (ISPM-15)", "Isıl işlemsiz", "Emin değilim"],
+    "heatOptions": [
+      "Isıl işlemli (ISPM-15)",
+      "Isıl işlemsiz",
+      "Emin değilim"
+    ],
     "notes": "Ek not (opsiyonel)",
     "notesPlaceholder": "Teslimat bölgesi, özel gereksinimler...",
     "back": "Geri",
@@ -125,40 +215,93 @@
       {
         "heading": "Ürünler",
         "links": [
-          { "label": "Ahşap Palet (80x120)", "href": "#urunler" },
-          { "label": "Ahşap Palet (80x100)", "href": "#urunler" },
-          { "label": "Ahşap Palet (100x120)", "href": "#urunler" },
-          { "label": "Özel Ölçü Üretim", "href": "#ozel-uretim" }
+          {
+            "label": "Ahşap Palet (80x120)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Ahşap Palet (80x100)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Ahşap Palet (100x120)",
+            "href": "#urunler"
+          },
+          {
+            "label": "Özel Ölçü Üretim",
+            "href": "#ozel-uretim"
+          }
         ]
       },
       {
         "heading": "İhracat",
         "links": [
-          { "label": "İhracat Paleti", "href": "#urunler" },
-          { "label": "Isıl İşlemli Palet", "href": "#uretim-sureci" },
-          { "label": "ISPM-15 Uyumlu Üretim", "href": "#uretim-sureci" },
-          { "label": "İç Piyasa Paleti", "href": "#urunler" }
+          {
+            "label": "İhracat Paleti",
+            "href": "#urunler"
+          },
+          {
+            "label": "Isıl İşlemli Palet",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "ISPM-15 Uyumlu Üretim",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "İç Piyasa Paleti",
+            "href": "#urunler"
+          }
         ]
       },
       {
         "heading": "Kurumsal",
         "links": [
-          { "label": "Üretim Sürecimiz", "href": "#uretim-sureci" },
-          { "label": "Neden Akçay Palet", "href": "#neden-akcay" },
-          { "label": "Kalite Kontrol Noktalarımız", "href": "#uretim-sureci" }
+          {
+            "label": "Üretim Sürecimiz",
+            "href": "#uretim-sureci"
+          },
+          {
+            "label": "Neden Akçay Palet",
+            "href": "#neden-akcay"
+          },
+          {
+            "label": "Kalite Kontrol Noktalarımız",
+            "href": "#uretim-sureci"
+          }
         ]
       },
       {
         "heading": "Destek",
         "links": [
-          { "label": "Teklif Al", "href": "#iletisim" },
-          { "label": "Sipariş & Sevkiyat", "href": "#iletisim" },
-          { "label": "İletişim", "href": "#iletisim" }
+          {
+            "label": "Teklif Al",
+            "href": "#iletisim"
+          },
+          {
+            "label": "Sipariş & Sevkiyat",
+            "href": "#iletisim"
+          },
+          {
+            "label": "İletişim",
+            "href": "#iletisim"
+          }
         ]
       }
     ],
-    "legal": ["Gizlilik", "Kullanım Şartları", "Çerezler"],
+    "legal": [
+      "Gizlilik",
+      "Kullanım Şartları",
+      "Çerezler"
+    ],
     "disclaimer": "Fiyatlar sipariş miktarı, ölçü ve teslimat bölgesine göre değişebilir. Isıl işlemli paletlerimiz ISPM-15 standardına uygun süreçle üretilir. Görseller temsilidir.",
     "copyright": "© {year} Akçay Palet. Tüm hakları saklıdır."
+  },
+  "ProductsPage": {
+    "eyebrow": "Ürünler",
+    "title": "Ahşap palet ürün yelpazemiz.",
+    "body": "EUR/EPAL ölçülerinde standart paletler, ISPM-15 uyumlu ihracat paletleri, iç piyasa paletleri ve ürününüze özel ölçüde üretim — ölçü, ısıl işlem ve kullanım bilgileriyle.",
+    "metaTitle": "Ürünler | Akçay Palet",
+    "metaDescription": "80×120, 80×100 ve 100×120 cm ahşap paletler, ISPM-15 uyumlu ihracat paletleri, iç piyasa paletleri ve özel ölçü üretim."
   }
 }

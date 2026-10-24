@@ -6,6 +6,21 @@ export const routing = defineRouting({
   // other language lives under its own subpath (`/en`, `/de`, …).
   defaultLocale: "tr",
   localePrefix: "as-needed",
+  // Internal route keys (folder names under app/[locale]) → localized public slugs.
+  pathnames: {
+    "/": "/",
+    "/products": {
+      tr: "/urunler",
+      en: "/products",
+      de: "/produkte",
+      fr: "/produits",
+      it: "/prodotti",
+      el: "/proionta",
+      ru: "/produkty",
+      // Latin slug: Arabic-script slugs turn into long percent-encoded URLs when shared.
+      ar: "/products",
+    },
+  },
 });
 
 export type Locale = (typeof routing.locales)[number];
