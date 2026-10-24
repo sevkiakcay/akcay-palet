@@ -9,6 +9,7 @@ import { LogoMark, MenuIcon, SearchIcon } from "../shared/icons";
 // Routed links (not bare "#…" anchors) so the nav works from every page, not just home.
 const NAV_LINKS = [
   { key: "products", href: { pathname: "/products" } },
+  { key: "workshop", href: { pathname: "/pallet-workshop" } },
   { key: "custom", href: { pathname: "/", hash: "ozel-uretim" } },
   { key: "process", href: { pathname: "/", hash: "uretim-sureci" } },
   { key: "why", href: { pathname: "/", hash: "neden-akcay" } },

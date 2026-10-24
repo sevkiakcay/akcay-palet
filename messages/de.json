@@ -15,6 +15,7 @@
     "homeLabel": "Akçay Palet Startseite",
     "nav": {
       "products": "Produkte",
+      "workshop": "Konfigurator",
       "custom": "Sonderanfertigung",
       "process": "Produktionsprozess",
       "why": "Warum Akçay"
@@ -230,6 +231,10 @@
           {
             "label": "Fertigung in Sondermaßen",
             "href": "#ozel-uretim"
+          },
+          {
+            "label": "Paletten-Konfigurator",
+            "href": "#palet-atolyesi"
           }
         ]
       },
@@ -303,5 +308,208 @@
     "body": "Standardpaletten in EUR/EPAL-Maßen, ISPM-15-konforme Exportpaletten, Paletten für den Inlandsmarkt und Fertigung in Sondermaßen — mit Maßen, Hitzebehandlung und Einsatzbereichen.",
     "metaTitle": "Produkte | Akçay Palet",
     "metaDescription": "Holzpaletten in 80×120, 80×100 und 100×120 cm, ISPM-15-konforme Exportpaletten, Inlandspaletten und Fertigung in Sondermaßen."
+  },
+  "Workshop": {
+    "metaTitle": "Paletten-Konfigurator: Palette selbst gestalten | Akçay Palet",
+    "metaDescription": "Gestalten Sie Ihre Holzpalette nach Maß: 3D-Ansicht, technische Zeichnung, Stückliste und Tragfähigkeitsschätzung. Senden Sie Ihren Entwurf und erhalten Sie ein individuelles Angebot.",
+    "eyebrow": "Paletten-Konfigurator",
+    "title": "Palette gestalten, Angebot erhalten.",
+    "body": "Wählen Sie Maße, Brettanzahl und Holzart – Ihre Palette erscheint sofort in 3D, mit technischer Zeichnung und Stückliste. Senden Sie den Entwurf mit einem Klick, unser Vertrieb meldet sich bei Ihnen.",
+    "specsTitle": "Palettendaten",
+    "presets": {
+      "eu": "Europalette 1200×800",
+      "ind": "Industrie 1200×1000",
+      "kz": "Kufen 1200×1000",
+      "us": "US 1219×1016",
+      "tk": "Leicht, Einweg",
+      "half": "Halbpalette 800×600",
+      "custom": "Sondermaß"
+    },
+    "groups": {
+      "dims": "Maße",
+      "construction": "Bauart",
+      "top": "Deckbretter",
+      "blocks": "Klötze und Querbretter",
+      "stringers": "Kufen",
+      "bottom": "Bodenbretter",
+      "material": "Material und Behandlung"
+    },
+    "fields": {
+      "L": "Länge",
+      "W": "Breite",
+      "type": "Typ",
+      "topN": "Anzahl Bretter",
+      "topW": "Brettbreite",
+      "topT": "Stärke",
+      "blkX": "Klotzlänge",
+      "blkZ": "Klotzbreite",
+      "blkH": "Klotzhöhe",
+      "crsW": "Querbrettbreite",
+      "crsT": "Querbrettstärke",
+      "blkMat": "Klotzmaterial",
+      "strN": "Anzahl Kufen",
+      "strH": "Kufenhöhe",
+      "strT": "Kufenstärke",
+      "botN": "Anzahl Bretter",
+      "botW": "Brettbreite",
+      "botT": "Stärke",
+      "wood": "Holzart",
+      "treat": "Behandlung",
+      "paint": "Farbe Klötze/Kufen",
+      "stamp": "Stempel / Markentext"
+    },
+    "units": {
+      "mm": "mm",
+      "pcs": "Stk."
+    },
+    "typeShort": {
+      "blok": "Klotzpalette",
+      "kizak": "Kufenpalette"
+    },
+    "options": {
+      "type": {
+        "blok": "Klotzpalette · 4-seitig unterfahrbar",
+        "kizak": "Kufenpalette · 2-seitig unterfahrbar"
+      },
+      "blkMat": {
+        "masif": "Massivholz",
+        "pres": "Pressspanklotz"
+      },
+      "wood": {
+        "cam": "Kiefer",
+        "ladin": "Fichte",
+        "kavak": "Pappel",
+        "kayin": "Buche"
+      },
+      "treat": {
+        "yok": "Unbehandelt",
+        "ht": "Hitzebehandelt (ISPM-15 HT)",
+        "kd": "Kammergetrocknet (KD)",
+        "htkd": "Hitzebehandelt + getrocknet"
+      },
+      "paint": {
+        "yok": "Unlackiert",
+        "mavi": "Blau",
+        "kirmizi": "Rot",
+        "yesil": "Grün",
+        "sari": "Gelb"
+      }
+    },
+    "blockNote": "Bei der Klotzpalette liegen die 3 Bodenbretter in einer Flucht mit den Klotzreihen.",
+    "viewLabel": "Ansicht",
+    "viewDrawing": "Technische Zeichnung",
+    "camLabel": "Kamera",
+    "cams": {
+      "iso": "Perspektive",
+      "top": "Oben",
+      "front": "Vorne",
+      "side": "Seite",
+      "under": "Unten"
+    },
+    "hint": "Ziehen: drehen · Mausrad: zoomen",
+    "canvasLabel": "3D-Ansicht der Palette",
+    "no3d": "Die 3D-Ansicht ist auf diesem Gerät nicht verfügbar; die technische Zeichnung wird angezeigt.",
+    "sheetTitle": "Berechnung",
+    "estimate": "geschätzt",
+    "metrics": {
+      "height": "Höhe",
+      "weight": "Gewicht",
+      "dyn": "Dynamische Last",
+      "stat": "Statische Last",
+      "rack": "Regallast",
+      "volume": "Holzvolumen"
+    },
+    "loadNote": "Die Lastwerte sind eine grobe Schätzung aus der Durchbiegung der Deckbretter; unser Technikteam bestätigt sie vor der Produktion.",
+    "warnings": {
+      "topNoFit": "Die Deckbretter passen nicht auf das Palettenmaß. Verringern Sie Anzahl oder Breite der Bretter.",
+      "topGapWide": "Abstand der Deckbretter: {gap} mm. Für kleine Kartons werden unter 75 mm empfohlen.",
+      "bottomNoFit": "Die Bodenbretter passen nicht auf die Palettenlänge.",
+      "blocksTouch": "Die Klötze berühren sich; verkleinern Sie das Klotzmaß.",
+      "blockLow": "Klotzhöhe unter 70 mm: Hubwagengabeln passen evtl. nicht.",
+      "stringerLow": "Kufenhöhe unter 75 mm: Unterfahren mit dem Stapler wird schwierig.",
+      "thinTop": "Deckbretter unter 16 mm eignen sich nur für leichte Einweglasten.",
+      "noIspm": "Für Exportsendungen ist der ISPM-15-Hitzebehandlungsstempel meist Pflicht."
+    },
+    "bomTitle": "Stückliste",
+    "bomPart": "Teil",
+    "bomQty": "Anz.",
+    "bomSize": "Maß (mm)",
+    "parts": {
+      "top": "Deckbrett",
+      "cross": "Querbrett",
+      "block": "Klotz",
+      "bottom": "Bodenbrett",
+      "stringer": "Kufe"
+    },
+    "presSuffix": "(Pressspan)",
+    "quoteNote": "Der Preis wird individuell nach Menge, Holzart und Lieferort erstellt. Senden Sie Ihre Anfrage, unser Vertrieb ruft Sie an.",
+    "quoteButton": "Angebot anfordern",
+    "downloadDrawing": "Technische Zeichnung herunterladen (SVG)",
+    "contactLine": "Lieber direkt sprechen?",
+    "designTitle": "{type} {L}×{W}",
+    "drawing": {
+      "top": "DRAUFSICHT",
+      "front": "VORDERANSICHT",
+      "side": "SEITENANSICHT",
+      "caption": "{title} × {H} mm · {wood} · Maße in mm"
+    },
+    "form": {
+      "title": "Angebotsanfrage",
+      "close": "Schließen",
+      "snapshotAlt": "Ihr Palettenentwurf",
+      "company": "Firmenname",
+      "name": "Ansprechpartner",
+      "phone": "Mobiltelefon",
+      "email": "E-Mail",
+      "qty": "Menge",
+      "date": "Gewünschter Liefertermin",
+      "pref": "Wie sollen wir Sie erreichen?",
+      "time": "Beste Zeit für einen Anruf",
+      "addr": "Lieferadresse / Stadt",
+      "addrPlaceholder": "z. B. Kemalpaşa OSB, İzmir",
+      "note": "Anmerkung",
+      "notePlaceholder": "Ladungsart, Stapelhöhe, Exportland, Sonderwünsche…",
+      "cancel": "Abbrechen",
+      "submit": "Anfrage senden",
+      "sending": "Wird gesendet…"
+    },
+    "prefs": {
+      "tel": "Telefonisch",
+      "wa": "WhatsApp",
+      "mail": "E-Mail"
+    },
+    "times": {
+      "any": "Egal",
+      "morning": "Vormittag (09–12)",
+      "afternoon": "Nachmittag (12–17)",
+      "evening": "Abend (17–19)"
+    },
+    "errors": {
+      "company": "Bitte Firmennamen angeben.",
+      "name": "Bitte Ansprechpartner angeben.",
+      "phone": "Die Telefonnummer muss mindestens 10 Ziffern haben.",
+      "email": "Bitte eine gültige E-Mail-Adresse angeben.",
+      "qty": "Die Menge muss mindestens 1 sein.",
+      "fixDesign": "Bitte zuerst den Maßfehler im Entwurf beheben.",
+      "send": "Die Anfrage konnte nicht gesendet werden. Bitte Angaben prüfen und erneut versuchen."
+    },
+    "success": {
+      "title": "Anfrage erhalten",
+      "body": "Unser Vertrieb prüft Ihren Entwurf und meldet sich über {contact} mit einem Preisangebot.",
+      "urgent": "In dringenden Fällen:",
+      "newDesign": "Neuer Entwurf"
+    },
+    "fallback": {
+      "title": "Anfrage senden",
+      "body": "Ihr Entwurf und Ihre Angaben sind bereit. Senden Sie sie mit einem Klick über einen der folgenden Kanäle; die Nachricht wird automatisch ausgefüllt.",
+      "whatsapp": "Per WhatsApp senden",
+      "email": "Per E-Mail senden",
+      "drawing": "Hier klicken, um auch die technische Zeichnung zum Anhängen herunterzuladen"
+    },
+    "mail": {
+      "intro": "Angebotsanfrage Paletten-Konfigurator · {no}",
+      "subject": "Angebotsanfrage {no} · {title}",
+      "language": "Sprache des Besuchers"
+    }
   }
 }
