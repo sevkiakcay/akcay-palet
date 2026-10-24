@@ -33,7 +33,8 @@
       "export": "Export-ready",
       "heat": "Heat treatment option",
       "custom": "Custom-size production"
-    }
+    },
+    "replay": "Replay"
   },
   "Transition": {
     "title": "We Produce More Than Pallets.",
@@ -511,5 +512,18 @@
       "subject": "Quote request {no} · {title}",
       "language": "Visitor language"
     }
+  },
+  "Builder": {
+    "title": "Build Your Pallet.",
+    "body": "Choose the dimensions and your pallet takes shape in 3D instantly. The technical drawing, bill of materials and load estimate are ready — send your design and we'll prepare your quote.",
+    "startFrom": "Start from a size",
+    "cta": "Build Your Pallet",
+    "features": [
+      "3D view",
+      "Technical drawing",
+      "Calculation sheet",
+      "Bill of materials"
+    ],
+    "imageAlt": "1200×800 mm wooden pallet designed in the Pallet Workshop"
   }
 }

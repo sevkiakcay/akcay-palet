@@ -16,18 +16,25 @@ export function ProductsIntro() {
         }}
       />
       <div className="relative mx-auto max-w-[760px] text-center">
-        <p className="text-[11px] font-semibold tracking-[0.28em] text-surface-dark-foreground/50 uppercase">
+        <p className="reveal text-[11px] font-semibold tracking-[0.28em] text-surface-dark-foreground/55 uppercase">
           {t("eyebrow")}
         </p>
-        <h1 className="font-heading mt-4 text-[36px] leading-[1.06] font-bold tracking-[-0.02em] md:text-[56px]">
+        <h1
+          className="reveal font-heading mt-4 text-[36px] leading-[1.06] font-bold tracking-[-0.02em] md:text-[56px]"
+          style={{ animationDelay: "80ms" }}
+        >
           {t("title")}
         </h1>
-        <p className="mx-auto mt-4 max-w-[560px] text-[15px] leading-relaxed text-surface-dark-foreground/70 md:text-[18px]">
+        <p
+          className="reveal mx-auto mt-4 max-w-[560px] text-[15px] leading-relaxed text-surface-dark-foreground/70 md:text-[18px]"
+          style={{ animationDelay: "160ms" }}
+        >
           {t("body")}
         </p>
         <a
           href="#iletisim"
-          className="mt-7 inline-flex rounded-full bg-primary px-6 py-2.5 text-[15px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          className="reveal mt-7 inline-flex rounded-full bg-primary px-6 py-2.5 text-[15px] font-medium text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
+          style={{ animationDelay: "240ms" }}
         >
           {tc("quote")}
         </a>

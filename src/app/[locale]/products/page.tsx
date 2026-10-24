@@ -24,14 +24,16 @@ export default function ProductsPage({ params }: Props) {
   setRequestLocale(locale);
 
   return (
-    <main id="top" className="flex min-h-screen flex-col">
+    <>
       <BusinessJsonLd locale={locale} />
       <Header />
-      <ProductsIntro />
-      <ProductSpecs />
-      <CustomManufacturing />
-      <FinalCta />
+      <main id="top" className="flex min-h-screen flex-col">
+        <ProductsIntro />
+        <ProductSpecs />
+        <CustomManufacturing />
+        <FinalCta />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

@@ -35,6 +35,7 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-bright: var(--primary-bright);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -49,6 +50,7 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --ease-precise: var(--motion-ease);
 }
 
 :root {
@@ -63,6 +65,8 @@
   --popover-foreground: oklch(0.19 0.007 60);
   --primary: oklch(0.5 0.14 40);
   --primary-foreground: oklch(0.99 0 0);
+  /* Copper lifted for text and focus rings on the dark surfaces, where --primary falls under 4.5:1. */
+  --primary-bright: oklch(0.74 0.12 52);
   --secondary: oklch(0.955 0.006 70);
   --secondary-foreground: oklch(0.19 0.007 60);
   --muted: oklch(0.955 0.006 70);
@@ -90,6 +94,16 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Motion — one easing family site-wide: a quick, decisive start that settles
+     precisely, like a machined part seating. Backs the `ease-precise` utility and
+     the reveal system below. */
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Dark sections: the lighter copper keeps the focus ring clearly visible against near-black. */
+.bg-surface-dark {
+  --ring: var(--primary-bright);
 }
 
 .dark {
@@ -140,7 +154,6 @@
 .reveal {
   animation: reveal-up 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--delay, 0ms);
-  animation-play-state: var(--play-state, running);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -148,6 +161,116 @@
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* ── Scroll reveal ──────────────────────────────────────────────────────────
+   <Reveal> marks its root `data-inview` the first time it scrolls into view;
+   its children then animate in, each delayed by stagger index × --stagger:
+     .reveal-item   rises 16px and fades in
+     .reveal-line   a masked line of display type slides up from its baseline
+     .reveal-image  an image opens from a slight inset and settles from 108%
+     .draw-x        a hairline draws across from the inline start
+   The hidden starting state only applies on screen, with scripting on and no
+   reduced-motion preference — print, no-JS visitors and crawlers always get
+   the final, fully visible layout. */
+@media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .reveal-item {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  .reveal-line > * {
+    transform: translate3d(0, 150%, 0);
+  }
+  .reveal-image {
+    clip-path: inset(7% round 12px);
+    transform: scale(1.08);
+  }
+  .draw-x {
+    transform: scaleX(0);
+  }
+
+  [data-inview] .reveal-item,
+  [data-inview] .reveal-line > *,
+  [data-inview] .reveal-image,
+  [data-inview] .draw-x {
+    animation-duration: 800ms;
+    animation-timing-function: var(--motion-ease);
+    animation-fill-mode: both;
+    animation-delay: calc(var(--i, 0) * var(--stagger, 70ms));
+  }
+  [data-inview] .reveal-item {
+    animation-name: rise;
+  }
+  [data-inview] .reveal-line > * {
+    animation-name: line-up;
+    animation-duration: 1000ms;
+  }
+  [data-inview] .reveal-image {
+    animation-name: aperture;
+    animation-duration: 1300ms;
+  }
+  [data-inview] .draw-x {
+    animation-name: draw-x;
+    animation-duration: 1100ms;
+    animation-timing-function: var(--motion-ease-in-out);
+  }
+}
+
+/* The mask is padded so accents (Ö, Ü) and descenders (Ç) aren't clipped at rest. */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+.reveal-line > * {
+  display: block;
+}
+.draw-x {
+  transform-origin: left center;
+}
+[dir="rtl"] .draw-x {
+  transform-origin: right center;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes line-up {
+  from {
+    transform: translate3d(0, 150%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes aperture {
+  from {
+    clip-path: inset(7% round 12px);
+    transform: scale(1.08);
+  }
+  to {
+    clip-path: inset(0 round 0);
+    transform: none;
+  }
+}
+
+@keyframes draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
   }
 }
 
@@ -182,5 +305,39 @@ html:lang(ar) .font-mono {
   }
   html {
     @apply font-sans;
+    /* Anchor jumps and keyboard focus land below the fixed nav bar (44px + hairline), not under it. */
+    scroll-padding-top: calc(2.75rem + 1px);
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background-color: color-mix(in oklch, var(--primary) 28%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Phones: the sticky quote bar covers the bottom of the viewport. */
+@media (max-width: 767px) {
+  html {
+    scroll-padding-bottom: 5rem;
   }
 }

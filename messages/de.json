@@ -33,7 +33,8 @@
       "export": "Exportgeeignet",
       "heat": "Option Hitzebehandlung",
       "custom": "Fertigung in Sondermaßen"
-    }
+    },
+    "replay": "Erneut abspielen"
   },
   "Transition": {
     "title": "Wir produzieren mehr als Paletten.",
@@ -511,5 +512,18 @@
       "subject": "Angebotsanfrage {no} · {title}",
       "language": "Sprache des Besuchers"
     }
+  },
+  "Builder": {
+    "title": "Palette konfigurieren.",
+    "body": "Wählen Sie die Maße – Ihre Palette entsteht sofort in 3D. Technische Zeichnung, Stückliste und Lastschätzung sind direkt verfügbar; senden Sie Ihren Entwurf und wir erstellen Ihr Angebot.",
+    "startFrom": "Mit einem Maß beginnen",
+    "cta": "Palette konfigurieren",
+    "features": [
+      "3D-Ansicht",
+      "Technische Zeichnung",
+      "Berechnung",
+      "Stückliste"
+    ],
+    "imageAlt": "Im Paletten-Konfigurator gestaltete Holzpalette 1200×800 mm"
   }
 }
