@@ -96,13 +96,13 @@ export function Hero() {
         >
           <a
             href="#iletisim"
-            className="rounded-full bg-primary px-5 py-2.5 text-primary-foreground transition-colors hover:bg-primary/90"
+            className="rounded-full bg-primary px-5 py-2.5 text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
           >
             {tc("quote")}
           </a>
           <a
             href="#uretim-sureci"
-            className="rounded-full border border-surface-dark-foreground/25 px-5 py-2.5 text-surface-dark-foreground transition-colors hover:bg-surface-dark-foreground/10"
+            className="rounded-full border border-surface-dark-foreground/25 px-5 py-2.5 text-surface-dark-foreground transition duration-200 hover:border-surface-dark-foreground/45 hover:bg-surface-dark-foreground/10 active:scale-[0.97]"
           >
             {tc("explore")}
           </a>
@@ -149,24 +149,28 @@ export function Hero() {
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={replay}
-          aria-label={t("replay")}
-          tabIndex={ended ? 0 : -1}
-          className={`absolute bottom-3 left-1/2 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-opacity duration-500 hover:bg-black/70 ${ended ? "opacity-100" : "pointer-events-none opacity-0"}`}
-        >
-          <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
-            <path
-              d="M4 12a8 8 0 1 0 2.34-5.66M4 4v4h4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+        {/* Corner on phones, where the centred spot would cover the pallet; centred between
+            the callouts on larger screens. A flex row keeps "end" correct in RTL. */}
+        <div className="pointer-events-none absolute inset-x-3 bottom-3 flex justify-end md:justify-center">
+          <button
+            type="button"
+            onClick={replay}
+            aria-label={t("replay")}
+            tabIndex={ended ? 0 : -1}
+            className={`flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition duration-500 hover:bg-black/70 active:scale-95 ${ended ? "pointer-events-auto opacity-100" : "opacity-0"}`}
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
+              <path
+                d="M4 12a8 8 0 1 0 2.34-5.66M4 4v4h4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
   );

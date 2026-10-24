@@ -1,4 +1,7 @@
 import { useTranslations } from "next-intl";
+import { stagger } from "@/lib/motion";
+import { CtaArrow } from "../shared/CtaArrow";
+import { Reveal } from "../shared/Reveal";
 
 type Requirement = { label: string; desc: string };
 
@@ -14,36 +17,41 @@ export function CustomManufacturing() {
   return (
     <section id="ozel-uretim" className="bg-surface-alt px-4 py-16 md:px-6 md:py-24">
       <div className="mx-auto grid max-w-[1024px] gap-10 md:grid-cols-2 md:gap-16">
-        <div>
-          <p className="text-[12px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">{t("eyebrow")}</p>
-          <h2 className="font-heading mt-3 text-[33px] leading-[1.06] font-semibold tracking-[-0.015em] text-foreground md:text-[46px]">
+        <Reveal>
+          <p className="reveal-item text-[12px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+            {t("eyebrow")}
+          </p>
+          <h2
+            className="reveal-item font-heading mt-3 text-[33px] leading-[1.06] font-semibold tracking-[-0.015em] text-foreground md:text-[46px]"
+            style={stagger(1)}
+          >
             {t("title")}
           </h2>
-          <p className="mt-4 max-w-[440px] text-[15px] leading-relaxed text-muted-foreground">{t("body")}</p>
+          <p className="reveal-item mt-4 max-w-[440px] text-[15px] leading-relaxed text-muted-foreground" style={stagger(2)}>
+            {t("body")}
+          </p>
           <a
             href="#iletisim"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            className="reveal-item group mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
+            style={stagger(3)}
           >
             {t("cta")}
-            <span aria-hidden className="rtl:-scale-x-100">
-              →
-            </span>
+            <CtaArrow />
           </a>
-        </div>
+        </Reveal>
 
-        <ol className="flex flex-col divide-y divide-border">
+        {/* Each requirement — and its divider — fills in like lines on a spec sheet. */}
+        <Reveal as="ol" className="flex flex-col divide-y divide-border">
           {requirements.map((req, i) => (
-            <li key={i} className="flex gap-4 py-4 first:pt-0 last:pb-0">
-              <span className="font-mono text-[13px] text-primary/70 tabular-nums">
-                {String(i + 1).padStart(2, "0")}
-              </span>
+            <li key={i} className="reveal-item flex gap-4 py-4 first:pt-0 last:pb-0" style={stagger(i + 1)}>
+              <span className="font-mono text-[13px] text-primary tabular-nums">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <p className="text-[15px] font-medium text-foreground">{req.label}</p>
                 <p className="mt-0.5 text-[13px] text-muted-foreground">{req.desc}</p>
               </div>
             </li>
           ))}
-        </ol>
+        </Reveal>
       </div>
     </section>
   );

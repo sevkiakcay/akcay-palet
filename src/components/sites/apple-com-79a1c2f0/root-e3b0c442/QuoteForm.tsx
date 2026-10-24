@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { CONTACT, whatsappUrl } from "@/lib/contact";
+import { CtaArrow } from "../shared/CtaArrow";
 
 /** Index of the "custom size" entry in `Quote.dimensions` — options are tracked by index, not label, so every language works. */
 const CUSTOM_DIMENSION_INDEX = 3;
 
 const inputClass =
-  "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-[14px] text-foreground outline-none transition-colors focus:border-primary";
+  "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-[14px] text-foreground transition-colors focus:border-primary focus-visible:outline-offset-2";
 const labelClass = "text-[12px] font-medium text-muted-foreground";
 
 /**
@@ -81,17 +82,24 @@ export function QuoteForm() {
         {stepLabels.map((label, i) => (
           <div key={label} className="flex flex-1 items-center gap-2">
             <span
-              className={`text-[11px] font-medium tracking-wide uppercase ${i === step ? "text-primary" : "text-surface-dark-foreground/35"}`}
+              className={`text-[11px] font-medium tracking-wide uppercase transition-colors duration-300 ${i === step ? "text-primary-bright" : i < step ? "text-surface-dark-foreground/70" : "text-surface-dark-foreground/50"}`}
             >
               {i + 1}. {label}
             </span>
-            {i < stepLabels.length - 1 && <span className="h-px flex-1 bg-surface-dark-foreground/10" aria-hidden />}
+            {i < stepLabels.length - 1 && (
+              <span className="relative h-px flex-1 bg-surface-dark-foreground/10" aria-hidden>
+                {/* Fills in copper once the step it leads from is done. */}
+                <span
+                  className={`absolute inset-0 origin-left bg-primary-bright/60 transition-transform duration-500 ease-precise rtl:origin-right ${i < step ? "scale-x-100" : "scale-x-0"}`}
+                />
+              </span>
+            )}
           </div>
         ))}
       </div>
 
       {step === 0 && (
-        <div>
+        <div className="animate-in fade-in slide-in-from-bottom-1 duration-300 ease-precise motion-reduce:animate-none">
           <p className="text-[16px] font-semibold text-surface-dark-foreground">{t("chooseTitle")}</p>
           <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {palletTypes.map((type, i) => (
@@ -102,7 +110,7 @@ export function QuoteForm() {
                   setPalletTypeIndex(i);
                   setStep(1);
                 }}
-                className="rounded-lg border border-surface-dark-foreground/15 bg-transparent px-4 py-3.5 text-start text-[14px] font-medium text-surface-dark-foreground transition-colors hover:border-primary hover:bg-primary/5"
+                className="rounded-lg border border-surface-dark-foreground/15 bg-transparent px-4 py-3.5 text-start text-[14px] font-medium text-surface-dark-foreground transition duration-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98]"
               >
                 {type}
               </button>
@@ -112,7 +120,7 @@ export function QuoteForm() {
       )}
 
       {step === 1 && (
-        <div>
+        <div className="animate-in fade-in slide-in-from-bottom-1 duration-300 ease-precise motion-reduce:animate-none">
           <p className="text-[16px] font-semibold text-surface-dark-foreground">{t("detailsTitle", { type: palletType })}</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="flex flex-col gap-1.5">
@@ -194,7 +202,7 @@ export function QuoteForm() {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="ms-auto rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              className="ms-auto rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
             >
               {t("continue")}
             </button>
@@ -203,7 +211,7 @@ export function QuoteForm() {
       )}
 
       {step === 2 && (
-        <div>
+        <div className="animate-in fade-in slide-in-from-bottom-1 duration-300 ease-precise motion-reduce:animate-none">
           <p className="text-[16px] font-semibold text-surface-dark-foreground">{t("reviewTitle")}</p>
           <dl className="mt-4 space-y-2 text-[14px]">
             {reviewRows.map((row, i) => (
@@ -232,12 +240,10 @@ export function QuoteForm() {
               type="button"
               onClick={handleSend}
               disabled={!hasChannel}
-              className="ms-auto flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
+              className="group ms-auto flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
             >
               {t("send")}
-              <span aria-hidden className="rtl:-scale-x-100">
-                →
-              </span>
+              <CtaArrow />
             </button>
           </div>
 

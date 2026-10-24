@@ -22,12 +22,14 @@ export default function PalletWorkshopPage({ params }: Props) {
   setRequestLocale(locale);
 
   return (
-    <main id="top" className="flex min-h-screen flex-col">
+    <>
       <BusinessJsonLd locale={locale} />
       <Header />
-      <PalletWorkshop />
-      <FinalCta />
+      <main id="top" className="flex min-h-screen flex-col">
+        <PalletWorkshop />
+        <FinalCta />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

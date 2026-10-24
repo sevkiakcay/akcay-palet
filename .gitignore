@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Local temp files
 temp/
+
+# Python (bytecode from running skill scripts)
+__pycache__/

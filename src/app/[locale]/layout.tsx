@@ -65,6 +65,8 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={isRtl(locale as Locale) ? "rtl" : "ltr"}
+      // In-page anchors scroll smoothly (globals.css); this keeps route changes instant.
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${spaceGrotesk.variable} ${notoArabic.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { LogoMark } from "../shared/icons";
 
 // Each link routes to the section that actually answers it — not a blanket
 // "#iletisim" for everything (that dead-ended the whole footer at one anchor).
@@ -40,15 +40,16 @@ export function Footer() {
 
   return (
     <footer className="border-t border-surface-dark-foreground/10 bg-surface-dark text-surface-dark-foreground">
-      <div className="mx-auto max-w-[1024px] px-6 py-14">
-        <div className="flex items-center gap-2 text-[13px] font-semibold tracking-tight">
-          <LogoMark className="h-4 w-4 text-primary" />
+      <div className="mx-auto box-content max-w-[1024px] px-6 py-14">
+        <div className="flex items-center gap-3 text-[13px] font-semibold tracking-tight">
+          {/* Same 1280×440 badge as the header; its black plate melts into the footer surface. */}
+          <Image src="/brand/akcay-pallets-logo.png" alt="" width={93} height={32} className="h-8 w-auto" />
           Akçay Palet
         </div>
         <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
           {columns.map((col) => (
             <div key={col.heading}>
-              <h4 className="text-[11px] font-semibold tracking-[0.1em] text-surface-dark-foreground/45 uppercase">
+              <h4 className="text-[11px] font-semibold tracking-[0.1em] text-surface-dark-foreground/55 uppercase">
                 {col.heading}
               </h4>
               <ul className="mt-3 space-y-2.5">
@@ -64,10 +65,10 @@ export function Footer() {
       </div>
 
       <div className="border-t border-surface-dark-foreground/10 px-6 py-6">
-        <p className="mx-auto max-w-[1024px] text-[11px] leading-relaxed text-surface-dark-foreground/40">
+        <p className="mx-auto max-w-[1024px] text-[11px] leading-relaxed text-surface-dark-foreground/55">
           {t("disclaimer")}
         </p>
-        <div className="mx-auto mt-4 flex max-w-[1024px] flex-col items-start justify-between gap-3 text-[11px] text-surface-dark-foreground/40 sm:flex-row sm:items-center">
+        <div className="mx-auto mt-4 flex max-w-[1024px] flex-col items-start justify-between gap-3 text-[11px] text-surface-dark-foreground/55 sm:flex-row sm:items-center">
           <span>{t("copyright", { year: new Date().getFullYear() })}</span>
           <div className="flex gap-5">
             {legalLabels.map((label) => (

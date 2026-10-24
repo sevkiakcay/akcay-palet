@@ -19,19 +19,22 @@ export default function Home({ params }: { params: Promise<{ locale: Locale }> }
   setRequestLocale(locale);
 
   return (
-    <main id="top" className="flex min-h-screen flex-col">
+    <>
       <BusinessJsonLd locale={locale} />
       <Header />
-      <Hero />
-      <HeroTransition />
-      <ProductSpecs />
-      <PalletBuilderTeaser />
-      <CustomManufacturing />
-      <ProcessShowcase />
-      <WhyUs />
-      <FinalCta />
+      {/* Header and footer sit outside <main> so the skip link (#top) really skips the nav. */}
+      <main id="top" className="flex min-h-screen flex-col">
+        <Hero />
+        <HeroTransition />
+        <ProductSpecs />
+        <PalletBuilderTeaser />
+        <CustomManufacturing />
+        <ProcessShowcase />
+        <WhyUs />
+        <FinalCta />
+      </main>
       <Footer />
       <StickyQuoteBar />
-    </main>
+    </>
   );
 }
