@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { PALLET_FRAME_COUNT, palletFrameUrl } from "@/lib/cinematic/pallet-sequence";
 
 /**
@@ -13,6 +14,8 @@ import { PALLET_FRAME_COUNT, palletFrameUrl } from "@/lib/cinematic/pallet-seque
  * frame used by the reduced-motion poster — still shows).
  */
 export function HeroMobileVideo() {
+  const t = useTranslations("Hero");
+  const tc = useTranslations("Common");
   return (
     <section
       id="ahsap-palet"
@@ -32,23 +35,23 @@ export function HeroMobileVideo() {
           Akçay Palet
         </p>
         <h1 className="font-heading mt-5 max-w-[820px] text-[33px] leading-[1.05] font-bold tracking-[-0.02em]">
-          Yükünüzü Taşıyan Güç.
+          {t("title")}
         </h1>
         <p className="mt-4 max-w-[520px] text-[15px] text-surface-dark-foreground/65">
-          Endüstriyel ölçekte, güvenilir ve ihtiyaca özel palet çözümleri.
+          {t("subtitle")}
         </p>
         <div className="mt-7 flex items-center justify-center gap-3 text-[15px] font-medium">
           <a
             href="#iletisim"
             className="rounded-full bg-primary px-5 py-2.5 text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Teklif Al
+            {tc("quote")}
           </a>
           <a
             href="#uretim-sureci"
             className="rounded-full border border-surface-dark-foreground/25 px-5 py-2.5 text-surface-dark-foreground transition-colors hover:bg-surface-dark-foreground/10"
           >
-            Üretimi Keşfet
+            {tc("explore")}
           </a>
         </div>
 
@@ -60,7 +63,7 @@ export function HeroMobileVideo() {
             muted
             playsInline
             preload="auto"
-            aria-label="Akçay Palet ahşap palet montajı"
+            aria-label={t("canvasLabel")}
           >
             <source src="/cinematic/pallet/video/flow-1-mobile.webm" type="video/webm" />
             <source src="/cinematic/pallet/video/flow-1-mobile.mp4" type="video/mp4" />

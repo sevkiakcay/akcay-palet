@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 /**
  * Mobile-only sticky bottom "Teklif Al" bar — the quote CTA within thumb
@@ -10,6 +11,7 @@ import { useEffect, useState } from "react";
  * doesn't float redundantly over it.
  */
 export function StickyQuoteBar() {
+  const t = useTranslations("Common");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export function StickyQuoteBar() {
         href="#iletisim"
         className="flex w-full items-center justify-center rounded-full bg-primary py-3 text-[15px] font-semibold text-primary-foreground transition-colors active:bg-primary/90"
       >
-        Teklif Al
+        {t("quote")}
       </a>
     </div>
   );

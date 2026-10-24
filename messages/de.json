@@ -1,0 +1,164 @@
+{
+  "Meta": {
+    "title": "Akçay Palet | Herstellung von Holzpaletten",
+    "description": "Akçay Palet — Herstellung von Holzpaletten nach EUR/EPAL-Maßen. Exportpaletten durchlaufen eine ISPM-15-konforme Hitzebehandlung; Standard- und Sondermaße werden gefertigt."
+  },
+  "Common": {
+    "skipToContent": "Zum Inhalt springen",
+    "quote": "Angebot anfordern",
+    "explore": "Produktion entdecken",
+    "language": "Sprache"
+  },
+  "Header": {
+    "announcement": "Arbeiten Sie bei Holzpaletten direkt mit dem Hersteller zusammen.",
+    "announcementLink": "Angebot anfordern",
+    "homeLabel": "Akçay Palet Startseite",
+    "nav": {
+      "products": "Produkte",
+      "custom": "Sonderanfertigung",
+      "process": "Produktionsprozess",
+      "why": "Warum Akçay"
+    },
+    "menuOpen": "Menü öffnen",
+    "menuClose": "Menü schließen"
+  },
+  "Hero": {
+    "title": "Die Stärke, die Ihre Last trägt.",
+    "subtitle": "Zuverlässige, bedarfsgerechte Palettenlösungen im industriellen Maßstab.",
+    "canvasLabel": "Montage einer Akçay-Palet-Holzpalette",
+    "posterAlt": "Fertige Holzpalette von Akçay Palet",
+    "annotations": {
+      "size": "80 × 120 cm",
+      "export": "Exportgeeignet",
+      "heat": "Option Hitzebehandlung",
+      "custom": "Fertigung in Sondermaßen"
+    }
+  },
+  "Transition": {
+    "title": "Wir produzieren mehr als Paletten.",
+    "body": "Von EPAL/EUR-Maßen bis zur hitzebehandelten Exportproduktion, von Sondermaßen bis zu Paletten für den Inlandsmarkt — eine durchgängige Lösung aus einer Hand."
+  },
+  "Products": {
+    "eyebrow": "Unsere Produktlösungen",
+    "title": "Vom Standard zur Sonderanfertigung, ein Hersteller.",
+    "body": "Vom EUR/EPAL-Maßstandard bis zur Sondermaßfertigung, von der hitzebehandelten Exportpalette bis zur Inlandslogistik — wir decken Ihren gesamten Palettenbedarf aus einer Hand.",
+    "cols": {
+      "product": "Produkt",
+      "size": "Maß",
+      "heat": "Hitzebehandlung",
+      "use": "Verwendung"
+    },
+    "rows": [
+      { "product": "Holzpalette", "size": "80 × 120 cm", "heat": "Optional", "use": "EUR/EPAL-Maßstandard, allgemeiner Transport" },
+      { "product": "Holzpalette", "size": "80 × 100 cm", "heat": "Optional", "use": "Allgemeiner Transport und Lagerung" },
+      { "product": "Holzpalette", "size": "100 × 120 cm", "heat": "Optional", "use": "Schwerlasttransport" },
+      { "product": "Exportpalette", "size": "Nach Auftrag", "heat": "ISPM-15-konform", "use": "Auslandsversand" },
+      { "product": "Inlandspalette", "size": "Nach Auftrag", "heat": "Unbehandelt", "use": "Inlandslogistik und Lagerung" },
+      { "product": "Sondermaß", "size": "Nach Ihrer Vorgabe", "heat": "Nach Bedarf", "use": "Für Ihr Produkt konstruiert — siehe Sonderanfertigung" }
+    ]
+  },
+  "Custom": {
+    "eyebrow": "Sonderanfertigung",
+    "title": "Wir fertigen nach Ihren Maßen.",
+    "body": "Standardmaße passen nicht zu jedem Bedarf. Senden Sie uns die folgenden Angaben, und wir erstellen Ihren individuellen Produktionsplan und Ihr Angebot — viel schneller als bei einem herkömmlichen Hersteller.",
+    "cta": "Angebot für Sonderanfertigung anfordern",
+    "requirements": [
+      { "label": "Maße", "desc": "Länge, Breite und Höhe." },
+      { "label": "Lastanforderung", "desc": "Gewicht und Verteilung des zu transportierenden Produkts." },
+      { "label": "Stückzahl", "desc": "Einmalige oder regelmäßige Bestellmenge." },
+      { "label": "Hitzebehandlung", "desc": "Ob für den Export ISPM-15 erforderlich ist." },
+      { "label": "Foto / Zeichnung / Spezifikation", "desc": "Teilen Sie vorhandene technische Unterlagen mit uns." }
+    ]
+  },
+  "Process": {
+    "eyebrow": "Unser Produktionsprozess",
+    "title": "Vom Maß bis zur Hitzebehandlung: kontrollierte Produktion.",
+    "steps": [
+      { "title": "Zuschnitt & Formgebung", "desc": "Wir schneiden und formen das Holz auf die Maße Ihres Auftrags zu." },
+      { "title": "Montage & Nagelung", "desc": "Wir verbinden die Bretter mit lastgerechten Toleranzen." },
+      { "title": "Hitzebehandlung & Prüfung", "desc": "Exportpaletten erhalten eine ISPM-15-konforme Hitzebehandlung und eine Maßkontrolle." }
+    ],
+    "checkpointsTitle": "Unsere Prüfpunkte",
+    "checkpoints": ["Maß- und Toleranzprüfung", "Prüfung der Holzfeuchte", "Festigkeit von Nägeln und Verbindungen", "Überwachung der Behandlungstemperatur"]
+  },
+  "Why": {
+    "title": "Warum Akçay Palet.",
+    "pillars": [
+      { "title": "Technische Maßberatung", "desc": "Gemeinsam bestimmen wir das passende Palettenmaß für den Transportbedarf Ihres Produkts." },
+      { "title": "Flexible Produktion", "desc": "Neben Standardmaßen planen wir die Fertigung in Maßen speziell für Ihr Produkt." },
+      { "title": "Direkte Kommunikation", "desc": "Bei Angebot und Produktion sprechen Sie direkt mit dem Herstellerteam." }
+    ]
+  },
+  "Final": {
+    "titleLines": ["Maß.", "Produktion.", "Versand."],
+    "body": "Von Standardmaßen bis zur Sonderanfertigung. Machen wir aus Ihrem Bedarf eine Produktion.",
+    "whatsappMessage": "Hallo, ich möchte ein Angebot für die Palettenproduktion erhalten."
+  },
+  "Quote": {
+    "steps": ["Produkt", "Details", "Senden"],
+    "chooseTitle": "Was sollen wir für Sie produzieren?",
+    "palletTypes": ["Holzpalette", "Exportpalette", "Inlandspalette", "Fertigung in Sondermaßen"],
+    "detailsTitle": "{type} — Details",
+    "dimension": "Maß",
+    "dimensions": ["80×120 cm", "80×100 cm", "100×120 cm", "Sondermaß"],
+    "customDimension": "Sondermaß (cm)",
+    "customPlaceholder": "z. B. 90×110",
+    "quantity": "Stückzahl",
+    "quantityPlaceholder": "z. B. 500",
+    "heat": "Hitzebehandlung",
+    "heatOptions": ["Hitzebehandelt (ISPM-15)", "Unbehandelt", "Nicht sicher"],
+    "notes": "Zusätzliche Anmerkung (optional)",
+    "notesPlaceholder": "Lieferregion, besondere Anforderungen...",
+    "back": "Zurück",
+    "continue": "Weiter",
+    "reviewTitle": "Anfrage überprüfen",
+    "palletType": "Palettentyp",
+    "notSpecified": "nicht angegeben",
+    "send": "Angebotsanfrage senden",
+    "noChannel": "Ein Kontaktkanal wird in Kürze hinzugefügt — das Formular ist bereit und funktioniert, sobald der Versand aktiviert ist.",
+    "messageIntro": "Hallo, ich möchte ein Angebot für die Palettenproduktion erhalten.",
+    "messageNote": "Anmerkung",
+    "emailSubject": "Angebotsanfrage Paletten"
+  },
+  "Footer": {
+    "columns": [
+      {
+        "heading": "Produkte",
+        "links": [
+          { "label": "Holzpalette (80x120)", "href": "#urunler" },
+          { "label": "Holzpalette (80x100)", "href": "#urunler" },
+          { "label": "Holzpalette (100x120)", "href": "#urunler" },
+          { "label": "Fertigung in Sondermaßen", "href": "#ozel-uretim" }
+        ]
+      },
+      {
+        "heading": "Export",
+        "links": [
+          { "label": "Exportpalette", "href": "#urunler" },
+          { "label": "Hitzebehandelte Palette", "href": "#uretim-sureci" },
+          { "label": "ISPM-15-konforme Produktion", "href": "#uretim-sureci" },
+          { "label": "Inlandspalette", "href": "#urunler" }
+        ]
+      },
+      {
+        "heading": "Unternehmen",
+        "links": [
+          { "label": "Unser Produktionsprozess", "href": "#uretim-sureci" },
+          { "label": "Warum Akçay Palet", "href": "#neden-akcay" },
+          { "label": "Qualitätsprüfpunkte", "href": "#uretim-sureci" }
+        ]
+      },
+      {
+        "heading": "Service",
+        "links": [
+          { "label": "Angebot anfordern", "href": "#iletisim" },
+          { "label": "Bestellung & Versand", "href": "#iletisim" },
+          { "label": "Kontakt", "href": "#iletisim" }
+        ]
+      }
+    ],
+    "legal": ["Datenschutz", "Nutzungsbedingungen", "Cookies"],
+    "disclaimer": "Die Preise können je nach Bestellmenge, Maßen und Lieferregion variieren. Unsere hitzebehandelten Paletten werden in einem ISPM-15-konformen Verfahren hergestellt. Abbildungen dienen der Veranschaulichung.",
+    "copyright": "© {year} Akçay Palet. Alle Rechte vorbehalten."
+  }
+}

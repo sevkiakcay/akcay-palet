@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import { useTranslations } from "next-intl";
 import { useInView } from "@/hooks/use-in-view";
 
 /**
@@ -10,6 +11,7 @@ import { useInView } from "@/hooks/use-in-view";
  * ui-ux-pro-max's "Subtle" tier), no pin, no scrub.
  */
 export function HeroTransition() {
+  const t = useTranslations("Transition");
   const { ref, inView } = useInView<HTMLDivElement>();
   const playState = { "--play-state": inView ? "running" : "paused" } as CSSProperties;
 
@@ -17,14 +19,13 @@ export function HeroTransition() {
     <section className="bg-surface-dark text-surface-dark-foreground">
       <div ref={ref} style={playState} className="mx-auto max-w-[720px] px-6 py-20 text-center md:py-28">
         <h2 className="reveal font-heading text-[29px] leading-[1.1] font-semibold tracking-[-0.015em] md:text-[40px]">
-          Paletten Fazlasını Üretiyoruz.
+          {t("title")}
         </h2>
         <p
           className="reveal mt-4 text-[15px] text-surface-dark-foreground/65 md:text-[17px]"
           style={{ animationDelay: "100ms" }}
         >
-          EPAL/EUR ölçülerinden ihracata özel ısıl işlemli üretime, özel ölçülerden iç piyasa paletlerine —
-          tek üreticiden uçtan uca çözüm.
+          {t("body")}
         </p>
       </div>
     </section>

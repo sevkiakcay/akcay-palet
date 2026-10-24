@@ -1,0 +1,164 @@
+{
+  "Meta": {
+    "title": "Akçay Palet | Produzione di pallet in legno",
+    "description": "Akçay Palet — produzione di pallet in legno secondo le misure EUR/EPAL. I pallet per l'export sono sottoposti a trattamento termico conforme a ISPM-15; produzione in misure standard e su misura."
+  },
+  "Common": {
+    "skipToContent": "Vai al contenuto",
+    "quote": "Richiedi un preventivo",
+    "explore": "Scopri la produzione",
+    "language": "Lingua"
+  },
+  "Header": {
+    "announcement": "Per i tuoi pallet in legno, lavora direttamente con il produttore.",
+    "announcementLink": "Richiedi un preventivo",
+    "homeLabel": "Home Akçay Palet",
+    "nav": {
+      "products": "Prodotti",
+      "custom": "Su misura",
+      "process": "Processo produttivo",
+      "why": "Perché Akçay"
+    },
+    "menuOpen": "Apri menu",
+    "menuClose": "Chiudi menu"
+  },
+  "Hero": {
+    "title": "La forza che sostiene il tuo carico.",
+    "subtitle": "Soluzioni di pallet affidabili e su misura, su scala industriale.",
+    "canvasLabel": "Assemblaggio di un pallet in legno Akçay Palet",
+    "posterAlt": "Pallet in legno Akçay Palet finito",
+    "annotations": {
+      "size": "80 × 120 cm",
+      "export": "Adatto all'export",
+      "heat": "Opzione trattamento termico",
+      "custom": "Produzione su misura"
+    }
+  },
+  "Transition": {
+    "title": "Produciamo più che pallet.",
+    "body": "Dalle misure EPAL/EUR alla produzione trattata termicamente per l'export, dalle misure speciali ai pallet per il mercato interno — una soluzione completa da un unico produttore."
+  },
+  "Products": {
+    "eyebrow": "Le nostre soluzioni",
+    "title": "Dallo standard al su misura, un unico produttore.",
+    "body": "Dallo standard dimensionale EUR/EPAL alla produzione su misura, dal pallet per l'export trattato termicamente alla logistica nazionale — copriamo ogni esigenza di pallet da un unico punto.",
+    "cols": {
+      "product": "Prodotto",
+      "size": "Misura",
+      "heat": "Trattamento termico",
+      "use": "Utilizzo"
+    },
+    "rows": [
+      { "product": "Pallet in legno", "size": "80 × 120 cm", "heat": "Opzionale", "use": "Standard dimensionale EUR/EPAL, trasporto generico" },
+      { "product": "Pallet in legno", "size": "80 × 100 cm", "heat": "Opzionale", "use": "Trasporto e stoccaggio generici" },
+      { "product": "Pallet in legno", "size": "100 × 120 cm", "heat": "Opzionale", "use": "Trasporto di carichi pesanti" },
+      { "product": "Pallet per l'export", "size": "Su ordinazione", "heat": "Conforme ISPM-15", "use": "Spedizioni internazionali" },
+      { "product": "Pallet mercato interno", "size": "Su ordinazione", "heat": "Non trattato", "use": "Logistica e stoccaggio nazionali" },
+      { "product": "Su misura", "size": "Secondo le tue specifiche", "heat": "Secondo necessità", "use": "Progettato per il tuo prodotto — vedi Su misura" }
+    ]
+  },
+  "Custom": {
+    "eyebrow": "Produzione su misura",
+    "title": "Produciamo sulle tue misure.",
+    "body": "Le misure standard non si adattano a ogni esigenza. Inviaci le informazioni qui sotto e prepareremo un piano di produzione e un preventivo su misura — molto più rapidamente rispetto a un produttore tradizionale.",
+    "cta": "Richiedi un preventivo su misura",
+    "requirements": [
+      { "label": "Misure", "desc": "Lunghezza, larghezza e altezza." },
+      { "label": "Requisito di carico", "desc": "Peso e distribuzione del prodotto da trasportare." },
+      { "label": "Quantità", "desc": "Ordine singolo o volume ricorrente." },
+      { "label": "Trattamento termico", "desc": "Se per l'export è richiesto ISPM-15." },
+      { "label": "Foto / disegno / capitolato", "desc": "Condividi la documentazione tecnica di cui disponi." }
+    ]
+  },
+  "Process": {
+    "eyebrow": "Il nostro processo produttivo",
+    "title": "Dalla misura al trattamento termico, una produzione controllata.",
+    "steps": [
+      { "title": "Taglio e sagomatura", "desc": "Tagliamo e sagomiamo il legname secondo le misure del tuo ordine." },
+      { "title": "Assemblaggio e chiodatura", "desc": "Uniamo le tavole con tolleranze adeguate al carico." },
+      { "title": "Trattamento termico e controllo", "desc": "I pallet per l'export ricevono un trattamento termico conforme a ISPM-15 e un controllo dimensionale." }
+    ],
+    "checkpointsTitle": "I nostri punti di controllo",
+    "checkpoints": ["Controllo di misure e tolleranze", "Controllo dell'umidità", "Tenuta di chiodi e giunzioni", "Monitoraggio della temperatura di trattamento"]
+  },
+  "Why": {
+    "title": "Perché Akçay Palet.",
+    "pillars": [
+      { "title": "Supporto tecnico sulle misure", "desc": "Definiamo insieme la misura di pallet più adatta al trasporto del tuo prodotto." },
+      { "title": "Produzione flessibile", "desc": "Oltre alle misure standard, pianifichiamo produzioni nelle misure specifiche del tuo prodotto." },
+      { "title": "Comunicazione diretta", "desc": "Durante preventivo e produzione parli direttamente con il team del produttore." }
+    ]
+  },
+  "Final": {
+    "titleLines": ["Misura.", "Produzione.", "Spedizione."],
+    "body": "Dalle misure standard alla produzione su misura. Trasformiamo la tua esigenza in produzione.",
+    "whatsappMessage": "Buongiorno, vorrei ricevere un preventivo per la produzione di pallet."
+  },
+  "Quote": {
+    "steps": ["Prodotto", "Dettagli", "Invio"],
+    "chooseTitle": "Cosa desideri che produciamo?",
+    "palletTypes": ["Pallet in legno", "Pallet per l'export", "Pallet mercato interno", "Produzione su misura"],
+    "detailsTitle": "{type} — dettagli",
+    "dimension": "Misura",
+    "dimensions": ["80×120 cm", "80×100 cm", "100×120 cm", "Su misura"],
+    "customDimension": "Misura personalizzata (cm)",
+    "customPlaceholder": "es. 90×110",
+    "quantity": "Quantità",
+    "quantityPlaceholder": "es. 500",
+    "heat": "Trattamento termico",
+    "heatOptions": ["Trattato termicamente (ISPM-15)", "Non trattato", "Non sono sicuro"],
+    "notes": "Nota aggiuntiva (facoltativa)",
+    "notesPlaceholder": "Zona di consegna, requisiti particolari...",
+    "back": "Indietro",
+    "continue": "Continua",
+    "reviewTitle": "Controlla la tua richiesta",
+    "palletType": "Tipo di pallet",
+    "notSpecified": "non specificato",
+    "send": "Invia richiesta di preventivo",
+    "noChannel": "Un canale di contatto sarà aggiunto a breve — il modulo è pronto e funzionerà non appena l'invio sarà attivo.",
+    "messageIntro": "Buongiorno, vorrei ricevere un preventivo per la produzione di pallet.",
+    "messageNote": "Nota",
+    "emailSubject": "Richiesta di preventivo pallet"
+  },
+  "Footer": {
+    "columns": [
+      {
+        "heading": "Prodotti",
+        "links": [
+          { "label": "Pallet in legno (80x120)", "href": "#urunler" },
+          { "label": "Pallet in legno (80x100)", "href": "#urunler" },
+          { "label": "Pallet in legno (100x120)", "href": "#urunler" },
+          { "label": "Produzione su misura", "href": "#ozel-uretim" }
+        ]
+      },
+      {
+        "heading": "Export",
+        "links": [
+          { "label": "Pallet per l'export", "href": "#urunler" },
+          { "label": "Pallet trattato termicamente", "href": "#uretim-sureci" },
+          { "label": "Produzione conforme ISPM-15", "href": "#uretim-sureci" },
+          { "label": "Pallet mercato interno", "href": "#urunler" }
+        ]
+      },
+      {
+        "heading": "Azienda",
+        "links": [
+          { "label": "Il nostro processo produttivo", "href": "#uretim-sureci" },
+          { "label": "Perché Akçay Palet", "href": "#neden-akcay" },
+          { "label": "Punti di controllo qualità", "href": "#uretim-sureci" }
+        ]
+      },
+      {
+        "heading": "Assistenza",
+        "links": [
+          { "label": "Richiedi un preventivo", "href": "#iletisim" },
+          { "label": "Ordini e spedizioni", "href": "#iletisim" },
+          { "label": "Contatti", "href": "#iletisim" }
+        ]
+      }
+    ],
+    "legal": ["Privacy", "Termini di utilizzo", "Cookie"],
+    "disclaimer": "I prezzi possono variare in base a quantità ordinata, misure e zona di consegna. I nostri pallet trattati termicamente sono prodotti con un processo conforme a ISPM-15. Le immagini sono puramente illustrative.",
+    "copyright": "© {year} Akçay Palet. Tutti i diritti riservati."
+  }
+}
