@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { getPathname } from "@/i18n/navigation";
-import { PALLET_FRAME_COUNT, palletFrameUrl } from "@/lib/cinematic/pallet-sequence";
 import { OG_LOCALES, routing, type Locale } from "@/i18n/routing";
 
 // TODO: the production domain is not verified yet — set NEXT_PUBLIC_SITE_URL
@@ -31,7 +30,8 @@ export function buildMetadata(opts: {
   const { locale, href = "/", title, description } = opts;
   const url = absoluteUrl(locale, href);
   // Final, fully-assembled frame of the hero sequence (1280×720).
-  const image = { url: palletFrameUrl(PALLET_FRAME_COUNT), width: 1280, height: 720, alt: title };
+  // Last frame of the intro film: the assembled pallet with the TR · HT · AKÇAY block stamp.
+  const image = { url: "/cinematic/hero/hero-og.jpg", width: 1280, height: 720, alt: title };
 
   return {
     metadataBase: new URL(SITE_URL),

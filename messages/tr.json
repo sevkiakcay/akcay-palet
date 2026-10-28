@@ -34,7 +34,9 @@
       "heat": "Isıl işlem seçeneği",
       "custom": "Özel ölçü üretim"
     },
-    "replay": "Tekrar oynat"
+    "replay": "Tekrar oynat",
+    "pause": "Arka plan videosunu duraklat",
+    "play": "Arka plan videosunu oynat"
   },
   "Transition": {
     "title": "Paletten Fazlasını Üretiyoruz.",
