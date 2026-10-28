@@ -34,7 +34,9 @@
       "heat": "Option traitement thermique",
       "custom": "Fabrication sur mesure"
     },
-    "replay": "Rejouer"
+    "replay": "Rejouer",
+    "pause": "Mettre la vidéo d’arrière-plan en pause",
+    "play": "Lire la vidéo d’arrière-plan"
   },
   "Transition": {
     "title": "Nous produisons plus que des palettes.",

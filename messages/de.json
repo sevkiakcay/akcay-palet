@@ -34,7 +34,9 @@
       "heat": "Option Hitzebehandlung",
       "custom": "Fertigung in Sondermaßen"
     },
-    "replay": "Erneut abspielen"
+    "replay": "Erneut abspielen",
+    "pause": "Hintergrundvideo pausieren",
+    "play": "Hintergrundvideo abspielen"
   },
   "Transition": {
     "title": "Wir produzieren mehr als Paletten.",

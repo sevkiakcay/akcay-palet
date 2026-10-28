@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
-import { PALLET_FRAME_COUNT, palletFrameUrl } from "@/lib/cinematic/pallet-sequence";
 
-const VIDEO_BASE = "/cinematic/pallet/video";
+const VIDEO_BASE = "/cinematic/hero";
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
 function subscribeReducedMotion(onChange: () => void) {
@@ -14,13 +13,11 @@ function subscribeReducedMotion(onChange: () => void) {
 }
 
 /**
- * Intro video hero: the Google Flow pallet-assembly shot plays once, muted,
- * as the first thing a visitor sees, then holds on the assembled pallet.
- * Server-rendered as a plain <video> with the first frame as poster, so there
- * is no placeholder swap on hydration. Desktop gets a 1280×720 encode, phones
- * the lighter 1080×608 one (picked by the browser via <source media>).
- * Under `prefers-reduced-motion` the video never plays — the poster switches
- * to the final, fully-assembled frame instead.
+ * Full-bleed intro: the pallet assembly film (middle block stamped TR · HT · AKÇAY)
+ * loops muted behind the headline, darkened so the copy always reads. Phones get a
+ * 720p encode, larger screens 1080p (picked by <source media>). A pause control
+ * satisfies WCAG 2.2.2 for auto-playing motion; under `prefers-reduced-motion` the
+ * film never starts and the poster (assembled pallet) stands in.
  */
 export function Hero() {
   const t = useTranslations("Hero");
@@ -32,149 +29,97 @@ export function Hero() {
     () => window.matchMedia(REDUCED_MOTION).matches,
     () => false,
   );
-  const [playbackDone, setPlaybackDone] = useState(false);
-  // Reduced-motion visitors start on the end state; pressing replay is their opt-in to watch.
-  const [userPlaying, setUserPlaying] = useState(false);
-  const ended = playbackDone || (reducedMotion && !userPlaying);
+  const [paused, setPaused] = useState(false);
+  const stopped = paused || reducedMotion;
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    // Query the media directly: on the hydration pass `reducedMotion` is still the server
-    // value (false), and starting playback then would move the video for these visitors.
-    if (window.matchMedia(REDUCED_MOTION).matches) {
+    // Query the media directly: on the hydration pass `reducedMotion` is still the server value.
+    if (paused || window.matchMedia(REDUCED_MOTION).matches) {
       video.pause();
       return;
     }
-    // Started here rather than via the autoplay attribute so reduced-motion
-    // visitors never see a frame of movement. Muted + playsInline is allowed everywhere.
-    video.play().catch(() => setPlaybackDone(true));
-  }, [reducedMotion]);
-
-  function replay() {
-    const video = videoRef.current;
-    if (!video) return;
-    setPlaybackDone(false);
-    setUserPlaying(true);
-    video.currentTime = 0;
-    video.play().catch(() => setPlaybackDone(true));
-  }
+    video.play().catch(() => setPaused(true));
+  }, [paused, reducedMotion]);
 
   return (
     <section
       id="ahsap-palet"
-      className="film-grain relative flex flex-col items-center overflow-hidden bg-surface-dark px-6 pt-[132px] pb-16 text-surface-dark-foreground lg:min-h-[100svh] lg:justify-center lg:pt-[100px] lg:pb-14"
+      className="film-grain relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-surface-dark px-6 pt-[120px] pb-20 text-surface-dark-foreground"
     >
+      <video
+        ref={videoRef}
+        // Portrait crops keep the stamped middle block (≈68% across the frame) in shot.
+        className="absolute inset-0 h-full w-full object-cover object-[65%_center] md:object-center"
+        poster={`${VIDEO_BASE}/hero-poster.webp`}
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
+        tabIndex={-1}
+      >
+        <source media="(min-width: 768px)" src={`${VIDEO_BASE}/hero-1080.mp4`} type="video/mp4" />
+        <source src={`${VIDEO_BASE}/hero-720.mp4`} type="video/mp4" />
+      </video>
+
+      {/* Darkening: heavier at top (nav + headline) and bottom (hand-off to the next section). */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(60% 55% at 50% 18%, color-mix(in oklch, var(--primary) 22%, transparent) 0%, transparent 70%)",
-        }}
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,6,0.78)_0%,rgba(10,8,6,0.45)_38%,rgba(10,8,6,0.55)_70%,var(--surface-dark)_100%)]"
       />
+      <div aria-hidden className="letterbox letterbox-top" />
+      <div aria-hidden className="letterbox letterbox-bottom" />
 
-      <div className="relative z-20 mx-auto max-w-[820px] text-center">
-        <p className="reveal text-[11px] font-semibold tracking-[0.28em] text-surface-dark-foreground/50 uppercase">
+      <div className="relative z-20 mx-auto max-w-[880px] text-center">
+        <p className="reveal text-[11px] font-semibold tracking-[0.28em] text-surface-dark-foreground/70 uppercase">
           Akçay Palet
         </p>
         <h1
-          className="reveal font-heading mt-4 text-[34px] leading-[1.05] font-bold tracking-[-0.02em] sm:text-[44px] lg:text-[56px]"
+          className="reveal font-heading mt-4 text-[40px] leading-[1.02] font-bold tracking-[-0.025em] [text-shadow:0_2px_30px_rgba(0,0,0,0.45)] sm:text-[56px] lg:text-[80px]"
           style={{ animationDelay: "80ms" }}
         >
           {t("title")}
         </h1>
         <p
-          className="reveal mx-auto mt-3 max-w-[560px] text-[15px] text-surface-dark-foreground/70 lg:text-[18px]"
+          className="reveal mx-auto mt-4 max-w-[560px] text-[16px] text-surface-dark-foreground/85 lg:text-[19px]"
           style={{ animationDelay: "160ms" }}
         >
           {t("subtitle")}
         </p>
         <div
-          className="reveal mt-6 flex flex-wrap items-center justify-center gap-3 text-[15px] font-medium"
+          className="reveal mt-8 flex flex-wrap items-center justify-center gap-3 text-[15px] font-medium"
           style={{ animationDelay: "240ms" }}
         >
           <a
             href="#iletisim"
-            className="rounded-full bg-primary px-5 py-2.5 text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
+            className="rounded-full bg-primary px-6 py-3 text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
           >
             {tc("quote")}
           </a>
           <a
             href="#uretim-sureci"
-            className="rounded-full border border-surface-dark-foreground/25 px-5 py-2.5 text-surface-dark-foreground transition duration-200 hover:border-surface-dark-foreground/45 hover:bg-surface-dark-foreground/10 active:scale-[0.97]"
+            className="rounded-full border border-surface-dark-foreground/35 bg-black/20 px-6 py-3 text-surface-dark-foreground backdrop-blur-sm transition duration-200 hover:border-surface-dark-foreground/60 hover:bg-surface-dark-foreground/10 active:scale-[0.97]"
           >
             {tc("explore")}
           </a>
         </div>
       </div>
 
-      {/* Height-capped on desktop so copy + video always fit one viewport. */}
-      <div className="relative z-10 mt-9 aspect-video w-full max-w-[640px] overflow-hidden rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] lg:h-[min(54vh,562px)] lg:w-auto lg:max-w-full">
-        <video
-          ref={videoRef}
-          className="h-full w-full object-cover"
-          poster={palletFrameUrl(reducedMotion ? PALLET_FRAME_COUNT : 1)}
-          muted
-          playsInline
-          preload="auto"
-          onEnded={() => {
-            setPlaybackDone(true);
-            setUserPlaying(false);
-          }}
-          aria-label={t("canvasLabel")}
+      {!reducedMotion && (
+        <button
+          type="button"
+          onClick={() => setPaused((v) => !v)}
+          aria-label={stopped ? t("play") : t("pause")}
+          aria-pressed={paused}
+          className="absolute end-4 bottom-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition duration-200 hover:bg-black/65 active:scale-95"
         >
-          <source media="(min-width: 1024px)" src={`${VIDEO_BASE}/flow-1-desktop.webm`} type="video/webm" />
-          <source media="(min-width: 1024px)" src={`${VIDEO_BASE}/flow-1-desktop.mp4`} type="video/mp4" />
-          <source src={`${VIDEO_BASE}/flow-1-mobile.webm`} type="video/webm" />
-          <source src={`${VIDEO_BASE}/flow-1-mobile.mp4`} type="video/mp4" />
-        </video>
-        {/* Cinema bars that retract as the film begins (static-free under reduced motion). */}
-        <div aria-hidden className="letterbox letterbox-top" />
-        <div aria-hidden className="letterbox letterbox-bottom" />
-
-        {/* Blueprint-style spec callouts once the pallet is assembled — desktop only, too small on phones. */}
-        <div
-          aria-hidden
-          className={`pointer-events-none absolute inset-0 hidden transition-opacity duration-700 md:block ${ended ? "opacity-100" : "opacity-0"}`}
-        >
-          <span className="absolute start-[4%] top-[8%] border-s border-white/30 ps-3 text-[11px] tracking-wide text-white/75">
-            {t("annotations.size")}
-          </span>
-          <span className="absolute end-[4%] top-[8%] border-e border-white/30 pe-3 text-end text-[11px] tracking-wide text-white/75">
-            {t("annotations.export")}
-          </span>
-          <span className="absolute start-[4%] bottom-[8%] border-s border-white/30 ps-3 text-[11px] tracking-wide text-white/75">
-            {t("annotations.heat")}
-          </span>
-          <span className="absolute end-[4%] bottom-[8%] border-e border-white/30 pe-3 text-end text-[11px] tracking-wide text-white/75">
-            {t("annotations.custom")}
-          </span>
-        </div>
-
-        {/* Corner on phones, where the centred spot would cover the pallet; centred between
-            the callouts on larger screens. A flex row keeps "end" correct in RTL. */}
-        <div className="pointer-events-none absolute inset-x-3 bottom-3 flex justify-end md:justify-center">
-          <button
-            type="button"
-            onClick={replay}
-            aria-label={t("replay")}
-            tabIndex={ended ? 0 : -1}
-            className={`flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition duration-500 hover:bg-black/70 active:scale-95 ${ended ? "pointer-events-auto opacity-100" : "opacity-0"}`}
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
-              <path
-                d="M4 12a8 8 0 1 0 2.34-5.66M4 4v4h4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+          <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden fill="currentColor">
+            {stopped ? <path d="M8 5.5v13l11-6.5-11-6.5Z" /> : <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />}
+          </svg>
+        </button>
+      )}
     </section>
   );
 }

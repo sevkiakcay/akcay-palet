@@ -34,7 +34,9 @@
       "heat": "Opzione trattamento termico",
       "custom": "Produzione su misura"
     },
-    "replay": "Riproduci di nuovo"
+    "replay": "Riproduci di nuovo",
+    "pause": "Metti in pausa il video di sfondo",
+    "play": "Riproduci il video di sfondo"
   },
   "Transition": {
     "title": "Produciamo più che pallet.",

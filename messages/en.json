@@ -34,7 +34,9 @@
       "heat": "Heat treatment option",
       "custom": "Custom-size production"
     },
-    "replay": "Replay"
+    "replay": "Replay",
+    "pause": "Pause background video",
+    "play": "Play background video"
   },
   "Transition": {
     "title": "We Produce More Than Pallets.",
