@@ -23,7 +23,7 @@ export default function Home({ params }: { params: Promise<{ locale: Locale }> }
       <BusinessJsonLd locale={locale} />
       <Header />
       {/* Header and footer sit outside <main> so the skip link (#top) really skips the nav. */}
-      <main id="top" className="flex min-h-screen flex-col">
+      <main id="top" className="flex min-h-screen flex-col bg-black">
         <Hero />
         <HeroTransition />
         <ProductSpecs />

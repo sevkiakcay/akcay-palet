@@ -27,7 +27,7 @@ export default function ProductsPage({ params }: Props) {
     <>
       <BusinessJsonLd locale={locale} />
       <Header />
-      <main id="top" className="flex min-h-screen flex-col">
+      <main id="top" className="flex min-h-screen flex-col bg-black">
         <ProductsIntro />
         <ProductSpecs />
         <CustomManufacturing />

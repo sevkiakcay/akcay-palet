@@ -14,7 +14,7 @@ export function WhyUs() {
   const pillars = t.raw("pillars") as Pillar[];
 
   return (
-    <section id="neden-akcay" className="bg-surface-alt px-6 py-20 md:py-28">
+    <section id="neden-akcay" className="frame-open bg-surface-alt px-6 py-20 md:py-28">
       <div className="mx-auto max-w-[1024px]">
         <Reveal>
           <h2 className="reveal-item font-heading text-[29px] leading-[1.1] font-semibold tracking-[-0.015em] text-foreground md:text-[42px]">

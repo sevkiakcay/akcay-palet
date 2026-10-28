@@ -20,7 +20,7 @@ export function PalletBuilderTeaser() {
   const features = t.raw("features") as string[];
 
   return (
-    <section id="paletini-hazirla" className="bg-surface-dark px-4 py-20 text-surface-dark-foreground md:px-6 md:py-28">
+    <section id="paletini-hazirla" className="frame-open film-grain light-sweep bg-surface-dark px-4 py-20 text-surface-dark-foreground md:px-6 md:py-28">
       <div className="mx-auto grid max-w-[1024px] items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:gap-14">
         <Reveal>
           <p className="reveal-item text-[12px] font-semibold tracking-[0.2em] text-surface-dark-foreground/55 uppercase">

@@ -6,7 +6,7 @@ export function ProductsIntro() {
   const tc = useTranslations("Common");
 
   return (
-    <section className="relative overflow-hidden bg-surface-dark px-6 pt-[150px] pb-20 text-surface-dark-foreground md:pt-[180px] md:pb-24">
+    <section className="film-grain light-sweep relative overflow-hidden bg-surface-dark px-6 pt-[150px] pb-20 text-surface-dark-foreground md:pt-[180px] md:pb-24">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

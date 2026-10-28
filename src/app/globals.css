@@ -341,3 +341,121 @@ html:lang(ar) .font-mono {
     scroll-padding-bottom: 5rem;
   }
 }
+/* ── Cinematic layer ────────────────────────────────────────────────────────
+   Film grain, an overhead light sweep, sections that open like a frame as they
+   scroll in, statement words that light up with scroll, and letterbox bars on
+   the intro video. Scroll-linked effects use CSS scroll-driven animations — no
+   scroll-jacking, and browsers without support simply show the final state. */
+
+/* Grain: tiled SVG noise over the section, jittered a few px per frame. */
+.film-grain {
+  position: relative;
+  isolation: isolate;
+  /* The jittering grain layer overhangs by 8px; keep it from bleeding into the next section.
+     clip, not hidden: hidden would make the section a scroll container and stall the
+     scroll-driven animations inside it. */
+  overflow: clip;
+}
+.film-grain::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Light sweep: a soft warm band that crosses the section now and then, like a
+   work lamp passing overhead. */
+.light-sweep {
+  position: relative;
+  overflow: clip;
+}
+.light-sweep::before {
+  content: "";
+  position: absolute;
+  inset: -20% auto -20% 0;
+  width: 45%;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    color-mix(in oklch, var(--primary-bright) 9%, transparent) 45%,
+    color-mix(in oklch, var(--primary-bright) 14%, transparent) 50%,
+    color-mix(in oklch, var(--primary-bright) 9%, transparent) 55%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  opacity: 0;
+}
+
+@keyframes grain-jitter {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(2px, -3px); }
+  60% { transform: translate(-2px, -1px); }
+  80% { transform: translate(3px, 3px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes sweep {
+  0% { transform: translateX(-120%) skewX(-12deg); opacity: 0; }
+  8% { opacity: 1; }
+  45% { transform: translateX(260%) skewX(-12deg); opacity: 0; }
+  100% { transform: translateX(260%) skewX(-12deg); opacity: 0; }
+}
+@keyframes frame-open {
+  from { clip-path: inset(0 5% 0 5% round 32px); }
+  to { clip-path: inset(0 0 0 0 round 0); }
+}
+@keyframes word-light {
+  from { opacity: 0.16; }
+  to { opacity: 1; }
+}
+@keyframes letterbox-open {
+  to { transform: scaleY(0); }
+}
+
+/* Letterbox bars (2.39:1 inside the 16:9 frame) retract after the film starts. */
+.letterbox {
+  position: absolute;
+  inset-inline: 0;
+  height: 12.6%;
+  z-index: 5;
+  background: #000;
+  pointer-events: none;
+  transform: scaleY(0);
+}
+.letterbox-top { top: 0; transform-origin: top; }
+.letterbox-bottom { bottom: 0; transform-origin: bottom; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .film-grain::after { animation: grain-jitter 0.9s steps(5) infinite; }
+  .light-sweep::before { animation: sweep 11s var(--motion-ease-in-out) 1.5s infinite; }
+  .letterbox {
+    transform: scaleY(1);
+    animation: letterbox-open 1.6s var(--motion-ease-in-out) 1.2s both;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* The section starts as an inset, rounded frame and opens to full bleed as it scrolls in. */
+    .frame-open {
+      animation: frame-open linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    /* Statement words light up one after another as the heading crosses the viewport. */
+    .scroll-words {
+      view-timeline-name: --words;
+    }
+    .scroll-words > span {
+      animation: word-light linear both;
+      animation-timeline: --words;
+      animation-range: var(--word-range, cover 20% cover 50%);
+    }
+  }
+}

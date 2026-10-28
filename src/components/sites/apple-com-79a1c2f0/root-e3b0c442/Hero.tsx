@@ -63,7 +63,7 @@ export function Hero() {
   return (
     <section
       id="ahsap-palet"
-      className="relative flex flex-col items-center overflow-hidden bg-surface-dark px-6 pt-[132px] pb-16 text-surface-dark-foreground lg:min-h-[100svh] lg:justify-center lg:pt-[100px] lg:pb-14"
+      className="film-grain relative flex flex-col items-center overflow-hidden bg-surface-dark px-6 pt-[132px] pb-16 text-surface-dark-foreground lg:min-h-[100svh] lg:justify-center lg:pt-[100px] lg:pb-14"
     >
       <div
         aria-hidden
@@ -129,6 +129,9 @@ export function Hero() {
           <source src={`${VIDEO_BASE}/flow-1-mobile.webm`} type="video/webm" />
           <source src={`${VIDEO_BASE}/flow-1-mobile.mp4`} type="video/mp4" />
         </video>
+        {/* Cinema bars that retract as the film begins (static-free under reduced motion). */}
+        <div aria-hidden className="letterbox letterbox-top" />
+        <div aria-hidden className="letterbox letterbox-bottom" />
 
         {/* Blueprint-style spec callouts once the pallet is assembled — desktop only, too small on phones. */}
         <div
