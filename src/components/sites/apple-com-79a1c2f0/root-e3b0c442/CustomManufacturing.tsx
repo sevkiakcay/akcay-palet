@@ -15,7 +15,7 @@ export function CustomManufacturing() {
   const requirements = t.raw("requirements") as Requirement[];
 
   return (
-    <section id="ozel-uretim" className="bg-surface-alt px-4 py-16 md:px-6 md:py-24">
+    <section id="ozel-uretim" className="frame-open bg-surface-alt px-4 py-16 md:px-6 md:py-24">
       <div className="mx-auto grid max-w-[1024px] gap-10 md:grid-cols-2 md:gap-16">
         <Reveal>
           <p className="reveal-item text-[12px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">

@@ -16,7 +16,7 @@ export function ProductSpecs() {
   const rows = t.raw("rows") as SpecRow[];
 
   return (
-    <section id="urunler" className="bg-background px-4 py-16 md:px-6 md:py-24">
+    <section id="urunler" className="frame-open bg-background px-4 py-16 md:px-6 md:py-24">
       <div className="mx-auto max-w-[1024px]">
         <div className="grid gap-8 md:grid-cols-[minmax(0,320px)_1fr] md:gap-12">
           <Reveal>

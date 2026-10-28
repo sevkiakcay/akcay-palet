@@ -15,7 +15,7 @@ export function ProcessShowcase() {
   const checkpoints = t.raw("checkpoints") as string[];
 
   return (
-    <section id="uretim-sureci" className="bg-surface-dark py-20 text-surface-dark-foreground md:py-28">
+    <section id="uretim-sureci" className="frame-open film-grain bg-surface-dark py-20 text-surface-dark-foreground md:py-28">
       <Reveal className="px-6 text-center">
         <p className="reveal-item text-[12px] font-semibold tracking-[0.2em] text-surface-dark-foreground/55 uppercase">
           {t("eyebrow")}

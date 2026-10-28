@@ -16,7 +16,7 @@ export function FinalCta() {
   ].filter((c): c is { label: string; value: string } => Boolean(c.label && c.value));
 
   return (
-    <section id="iletisim" className="bg-surface-dark py-24 text-center text-surface-dark-foreground md:py-32">
+    <section id="iletisim" className="frame-open film-grain light-sweep bg-surface-dark py-24 text-center text-surface-dark-foreground md:py-32">
       {/* Each word of the closing line rises from behind its own baseline, one after another. */}
       <Reveal className="[--stagger:120ms]">
         <h2 className="font-heading mx-auto px-6 text-[40px] leading-[1.03] font-bold tracking-[-0.01em] uppercase md:text-[74px]">
