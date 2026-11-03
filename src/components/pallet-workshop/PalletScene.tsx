@@ -21,7 +21,9 @@ type Props = {
   label: string;
   onUnavailable: () => void;
   /** Plain prop (not `ref`) so it survives `next/dynamic`. */
-  handleRef: RefObject<PalletSceneHandle | null>;
+  handleRef?: RefObject<PalletSceneHandle | null>;
+  /** Home-page "digital" look: transparent stage, copper wire edges and grid, slow auto-rotation, no zoom. */
+  showcase?: boolean;
 };
 
 type SceneState = {
@@ -126,12 +128,14 @@ function disposeGroup(group: THREE.Group) {
   });
 }
 
-function buildPallet(group: THREE.Group, d: PalletDesign) {
+function buildPallet(group: THREE.Group, d: PalletDesign, digital = false) {
   disposeGroup(group);
   const { boxes } = calc(d);
   const baseCol = WOOD[d.wood].color;
   const mats: Record<string, THREE.MeshStandardMaterial> = {};
-  const edgeMat = new THREE.LineBasicMaterial({ color: 0x3a2a18, transparent: true, opacity: 0.35 });
+  const edgeMat = digital
+    ? new THREE.LineBasicMaterial({ color: 0xe0a070, transparent: true, opacity: 0.9 })
+    : new THREE.LineBasicMaterial({ color: 0x3a2a18, transparent: true, opacity: 0.35 });
   const getMat = (k: string, i: number) => {
     const paintC = (k === "block" || k === "stringer") && PAINT[d.paint];
     const pres = k === "block" && d.blkMat === "pres";
@@ -218,13 +222,14 @@ function placeCamera(s: SceneState, d: PalletDesign, kind: CameraKind) {
 }
 
 /** WebGL view of the pallet. Lives only on the client; reports back if WebGL is missing so the UI can fall back to the drawing. */
-export function PalletScene({ design, camera, cameraNonce, active, label, onUnavailable, handleRef }: Props) {
+export function PalletScene({ design, camera, cameraNonce, active, label, onUnavailable, handleRef, showcase = false }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<SceneState | null>(null);
   const activeRef = useRef(active);
   const designRef = useRef(design);
   const onUnavailableRef = useRef(onUnavailable);
+  const showcaseRef = useRef(showcase);
 
   useEffect(() => {
     activeRef.current = active;
@@ -238,7 +243,7 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     if (!canvas || !wrap) return;
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: showcaseRef.current, preserveDrawingBuffer: true });
     } catch {
       onUnavailableRef.current();
       return;
@@ -249,13 +254,21 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(STAGE_BG);
+    const digital = showcaseRef.current;
+    if (!digital) scene.background = new THREE.Color(STAGE_BG);
     const cam = new THREE.PerspectiveCamera(35, 1, 0.01, 50);
     const controls = new OrbitControls(cam, canvas);
     controls.enableDamping = true;
     controls.dampingFactor = 0.12;
     controls.minDistance = 0.6;
     controls.maxDistance = 8;
+    if (digital) {
+      // Turntable: rotates on its own, can be dragged, never hijacks page scroll.
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 1.4;
+      controls.enableZoom = false;
+      controls.enablePan = false;
+    }
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8070, 2.2));
     const sun = new THREE.DirectionalLight(0xffffff, 2.4);
@@ -267,14 +280,19 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     const fill = new THREE.DirectionalLight(0xffffff, 0.7);
     fill.position.set(-2, 1.2, -1.5);
     scene.add(fill);
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.ShadowMaterial({ opacity: 0.18 }));
+    if (digital) {
+      const rim = new THREE.DirectionalLight(0xffb070, 1.6);
+      rim.position.set(-2.4, 1.6, -2.2);
+      scene.add(rim);
+    }
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.ShadowMaterial({ opacity: digital ? 0.5 : 0.18 }));
     ground.rotation.x = -Math.PI / 2;
     ground.receiveShadow = true;
     scene.add(ground);
-    const grid = new THREE.GridHelper(6, 30, 0x000000, 0x000000);
+    const grid = digital ? new THREE.GridHelper(6, 30, 0xc8874f, 0xc8874f) : new THREE.GridHelper(6, 30, 0x000000, 0x000000);
     const gridMat = grid.material as THREE.Material;
     gridMat.transparent = true;
-    gridMat.opacity = 0.07;
+    gridMat.opacity = digital ? 0.22 : 0.07;
     grid.position.y = 0.0005;
     scene.add(grid);
     const group = new THREE.Group();
@@ -294,7 +312,7 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     const ro = new ResizeObserver(resize);
     ro.observe(wrap);
     resize();
-    buildPallet(group, designRef.current);
+    buildPallet(group, designRef.current, digital);
     placeCamera(state, designRef.current, "iso");
 
     let raf = 0;
@@ -317,7 +335,7 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
 
   useEffect(() => {
     const s = stateRef.current;
-    if (s) buildPallet(s.group, design);
+    if (s) buildPallet(s.group, design, showcaseRef.current);
   }, [design]);
 
   useEffect(() => {
