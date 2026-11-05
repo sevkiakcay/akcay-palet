@@ -431,7 +431,10 @@
       "blockLow": "Takoz yüksekliği 70 mm altında: transpalet çatalı girmeyebilir.",
       "stringerLow": "Kızak yüksekliği 75 mm altında: forklift girişi zorlaşır.",
       "thinTop": "16 mm altı üst tabla yalnız hafif, tek kullanımlık yükler içindir.",
-      "noIspm": "İhracat yüklerinde ISPM-15 ısıl işlem damgası genellikle zorunludur."
+      "noIspm": "İhracat yüklerinde ISPM-15 ısıl işlem damgası genellikle zorunludur.",
+      "topOutside": "Üst tahta {boards} palet ölçüsünün dışına taşıyor.",
+      "topOverlap": "Üst tahtalar çakışıyor: {pairs}. Konum ya da eni düzeltin.",
+      "topEdge": "Kenar tahtaları palet kenarına oturmuyor. Genelde ilk ve son tahta kenarla aynı hizadadır."
     },
     "bomTitle": "Malzeme listesi",
     "bomPart": "Parça",
@@ -513,6 +516,20 @@
       "intro": "Palet Atölyesi teklif talebi · {no}",
       "subject": "Teklif talebi {no} · {title}",
       "language": "Ziyaretçi dili"
+    },
+    "topBoard": {
+      "toggle": "Her tahtayı ayrı ayarla",
+      "hint": "Açınca her üst tahtanın konumunu, enini ve kalınlığını tek tek girebilirsiniz.",
+      "stripLabel": "Üst tahta yerleşimi",
+      "widthAxis": "genişlik",
+      "lengthAxis": "uzunluk",
+      "pos": "Konum",
+      "width": "En",
+      "thick": "Kalınlık",
+      "even": "Eşit aralıkla dağıt",
+      "same": "1. tahtayı hepsine uygula",
+      "noteBlok": "Ölçüler mm. Konum, paletin ön kenarından tahtanın kenarına olan mesafedir. Bir satıra geçince tahta 3D'de işaretlenir.",
+      "noteKizak": "Ölçüler mm. Konum, paletin sol kenarından tahtanın kenarına olan mesafedir. Bir satıra geçince tahta 3D'de işaretlenir."
     }
   },
   "Builder": {

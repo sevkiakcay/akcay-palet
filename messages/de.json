@@ -431,7 +431,10 @@
       "blockLow": "Klotzhöhe unter 70 mm: Hubwagengabeln passen evtl. nicht.",
       "stringerLow": "Kufenhöhe unter 75 mm: Unterfahren mit dem Stapler wird schwierig.",
       "thinTop": "Deckbretter unter 16 mm eignen sich nur für leichte Einweglasten.",
-      "noIspm": "Für Exportsendungen ist der ISPM-15-Hitzebehandlungsstempel meist Pflicht."
+      "noIspm": "Für Exportsendungen ist der ISPM-15-Hitzebehandlungsstempel meist Pflicht.",
+      "topOutside": "Deckbrett {boards} ragt über die Palettengröße hinaus.",
+      "topOverlap": "Deckbretter überlappen sich: {pairs}. Position oder Breite anpassen.",
+      "topEdge": "Die Randbretter sitzen nicht an der Palettenkante. Üblicherweise schließen das erste und letzte Brett mit der Kante ab."
     },
     "bomTitle": "Stückliste",
     "bomPart": "Teil",
@@ -513,6 +516,20 @@
       "intro": "Angebotsanfrage Paletten-Konfigurator · {no}",
       "subject": "Angebotsanfrage {no} · {title}",
       "language": "Sprache des Besuchers"
+    },
+    "topBoard": {
+      "toggle": "Jedes Brett einzeln einstellen",
+      "hint": "Einschalten, um Position, Breite und Dicke jedes Deckbretts einzeln einzugeben.",
+      "stripLabel": "Deckbrett-Anordnung",
+      "widthAxis": "Breite",
+      "lengthAxis": "Länge",
+      "pos": "Position",
+      "width": "Breite",
+      "thick": "Dicke",
+      "even": "Gleichmäßig verteilen",
+      "same": "Brett 1 auf alle anwenden",
+      "noteBlok": "Maße in mm. Position ab der Vorderkante der Palette bis zur Brettkante. Beim Fokus einer Zeile wird das Brett in 3D markiert.",
+      "noteKizak": "Maße in mm. Position ab der linken Kante der Palette bis zur Brettkante. Beim Fokus einer Zeile wird das Brett in 3D markiert."
     }
   },
   "Builder": {

@@ -20,6 +20,10 @@ export type PalletDesign = {
   topN: number;
   topW: number;
   topT: number;
+  /** When true, each top board is sized individually from `tops` instead of topN/topW. */
+  topCustom: boolean;
+  /** Per-board top-deck layout (only used when topCustom). Position p, width w, thickness t — all mm. */
+  tops: TopBoard[];
   blkX: number;
   blkZ: number;
   blkH: number;
@@ -37,6 +41,11 @@ export type PalletDesign = {
   paint: PaintKey;
   stamp: string;
 };
+
+export type TopBoard = { p: number; w: number; t: number };
+
+/** Per-board limits for the custom top editor: [min, max] width and thickness, mm. */
+export const TOP_BOARD_LIMITS = { w: [50, 250] as const, t: [12, 40] as const };
 
 export type NumericKey = {
   [K in keyof PalletDesign]: PalletDesign[K] extends number ? K : never;
@@ -65,6 +74,8 @@ export const BASE: PalletDesign = {
   W: 800,
   topN: 5,
   topW: 120,
+  topCustom: false,
+  tops: [],
   topT: 22,
   blkX: 145,
   blkZ: 100,
@@ -128,8 +139,8 @@ export const SCHEMA: FieldGroup[] = [
     g: "top",
     items: [
       { k: "topN", u: "pcs", min: 2, max: 15, step: 1 },
-      { k: "topW", u: "mm", min: 50, max: 220, step: 5 },
-      { k: "topT", u: "mm", min: 12, max: 40, step: 1 },
+      { k: "topW", u: "mm", min: 50, max: 220, step: 5, show: (d) => !d.topCustom },
+      { k: "topT", u: "mm", min: 12, max: 40, step: 1, show: (d) => !d.topCustom },
     ],
   },
   {
@@ -193,6 +204,44 @@ function spread(n: number, size: number, total: number) {
   return Array.from({ length: n }, (_, i) => (i * (total - size)) / (n - 1));
 }
 
+/** The deck's span in the board-laying direction: across the width for block pallets, along the length for stringer pallets. */
+export function deckSpan(d: PalletDesign) {
+  return d.type === "blok" ? d.W : d.L;
+}
+
+/** Resolved top-deck boards: the custom layout when `topCustom`, otherwise topN evenly-spread boards of width topW. */
+export function topBoards(d: PalletDesign): TopBoard[] {
+  if (d.topCustom && d.tops.length) return d.tops.map((b) => ({ p: +b.p, w: +b.w, t: +b.t }));
+  return spread(d.topN, d.topW, deckSpan(d)).map((p) => ({ p, w: d.topW, t: d.topT }));
+}
+
+/** Re-position boards left-to-right with equal gaps across `span`, keeping each board's own width/thickness. */
+export function evenSpread(tops: TopBoard[], span: number): TopBoard[] {
+  const n = tops.length;
+  if (!n) return tops;
+  if (n === 1) {
+    tops[0].p = Math.round((span - tops[0].w) / 2);
+    return tops;
+  }
+  const gap = (span - tops.reduce((a, b) => a + b.w, 0)) / (n - 1);
+  let acc = 0;
+  tops.forEach((b) => {
+    b.p = Math.round(acc);
+    acc += b.w + gap;
+  });
+  return tops;
+}
+
+/** Rebuild `d.tops` to match topN (carrying over existing board sizes) and re-space them evenly. Mutates and returns a fresh array. */
+export function syncTops(d: PalletDesign): TopBoard[] {
+  const old = d.tops;
+  const t: TopBoard[] = Array.from({ length: d.topN }, (_, i) => {
+    const src = old[i] || old[old.length - 1] || { w: d.topW, t: d.topT };
+    return { p: 0, w: src.w, t: src.t };
+  });
+  return evenSpread(t, deckSpan(d));
+}
+
 export function geometry(d: PalletDesign): { boxes: Box[]; H: number } {
   const B: Box[] = [];
   const { L, W } = d;
@@ -216,15 +265,17 @@ export function geometry(d: PalletDesign): { boxes: Box[]; H: number } {
       box("cross", x0, x0 + d.crsW, y, y + d.crsT, 0, W);
     });
     y += d.crsT;
-    spread(d.topN, d.topW, W).forEach((z) => box("top", 0, L, y, y + d.topT, z, z + d.topW));
-    y += d.topT;
+    const tb = topBoards(d);
+    tb.forEach((b) => box("top", 0, L, y, y + b.t, b.p, b.p + b.w));
+    y += Math.max(...tb.map((b) => b.t));
   } else {
     spread(d.botN, d.botW, L).forEach((x) => box("bottom", x, x + d.botW, 0, d.botT, 0, W));
     y = d.botT;
     spread(d.strN, d.strT, W).forEach((z) => box("stringer", 0, L, y, y + d.strH, z, z + d.strT));
     y += d.strH;
-    spread(d.topN, d.topW, L).forEach((x) => box("top", x, x + d.topW, y, y + d.topT, 0, W));
-    y += d.topT;
+    const tb = topBoards(d);
+    tb.forEach((b) => box("top", b.p, b.p + b.w, y, y + b.t, 0, W));
+    y += Math.max(...tb.map((b) => b.t));
   }
   return { boxes: B, H: y };
 }
@@ -235,6 +286,9 @@ export type BomRow = { k: PartKind; dims: number[]; n: number; v: number };
 export type Warning =
   | { code: "topNoFit" }
   | { code: "topGapWide"; gap: number }
+  | { code: "topOutside"; boards: string }
+  | { code: "topOverlap"; pairs: string }
+  | { code: "topEdge" }
   | { code: "bottomNoFit" }
   | { code: "blocksTouch" }
   | { code: "blockLow" }
@@ -243,7 +297,7 @@ export type Warning =
   | { code: "noIspm" };
 
 /** Warnings that make the design physically impossible — a quote can't be requested until they're fixed. */
-export const BLOCKING_WARNINGS: Warning["code"][] = ["topNoFit", "bottomNoFit", "blocksTouch"];
+export const BLOCKING_WARNINGS: Warning["code"][] = ["topNoFit", "bottomNoFit", "blocksTouch", "topOutside", "topOverlap"];
 
 export type Calc = {
   boxes: Box[];
@@ -292,18 +346,36 @@ export function calc(d: PalletDesign): Calc {
     blen = d.W;
   }
   s = Math.max(s, 80);
-  const Z = (d.topW * d.topT * d.topT) / 6;
-  const q = (8 * sig * Z) / (s * s);
+  const tb = topBoards(d);
+  const sumZ = tb.reduce((a, b) => a + (b.w * b.t * b.t) / 6, 0);
   const r50 = (n: number) => Math.max(50, Math.round(n / 50) * 50);
-  const dyn = r50(((q * blen * d.topN) / 9.81) * 0.9);
+  const dyn = r50((((8 * sig * sumZ) / (s * s)) * blen) / 9.81 * 0.9);
   const stat = r50(dyn * 2.6);
   const rack = d.type === "blok" ? r50(dyn * 0.6) : null;
 
   const warns: Warning[] = [];
-  const deckSpan = d.type === "blok" ? d.W : d.L;
-  const gapTop = d.topN > 1 ? (deckSpan - d.topN * d.topW) / (d.topN - 1) : 0;
-  if (gapTop < 0) warns.push({ code: "topNoFit" });
-  else if (gapTop > 110) warns.push({ code: "topGapWide", gap: Math.round(gapTop) });
+  const span = deckSpan(d);
+  const sorted = tb.map((b, i) => ({ ...b, i })).sort((a, b) => a.p - b.p);
+  let maxGap = 0;
+  const overlap: string[] = [];
+  const outside: number[] = [];
+  sorted.forEach((b, k) => {
+    if (b.p < 0 || b.p + b.w > span + 0.5) outside.push(b.i + 1);
+    if (k) {
+      const g = b.p - (sorted[k - 1].p + sorted[k - 1].w);
+      if (g < 0) overlap.push(`${sorted[k - 1].i + 1}\u2013${b.i + 1}`);
+      maxGap = Math.max(maxGap, g);
+    }
+  });
+  if (!d.topCustom) {
+    if (maxGap < 0 || overlap.length) warns.push({ code: "topNoFit" });
+  } else {
+    if (outside.length) warns.push({ code: "topOutside", boards: outside.join(", ") });
+    if (overlap.length) warns.push({ code: "topOverlap", pairs: overlap.join(", ") });
+    if (sorted.length && !outside.length && (sorted[0].p > 0 || sorted[sorted.length - 1].p + sorted[sorted.length - 1].w < span - 0.5))
+      warns.push({ code: "topEdge" });
+  }
+  if (!overlap.length && maxGap > 110) warns.push({ code: "topGapWide", gap: Math.round(maxGap) });
   if (d.type === "kizak") {
     const g = (d.L - d.botN * d.botW) / Math.max(1, d.botN - 1);
     if (g < 0) warns.push({ code: "bottomNoFit" });
@@ -311,7 +383,7 @@ export function calc(d: PalletDesign): Calc {
   if (d.type === "blok" && (d.blkX * 3 > d.L || d.blkZ * 3 > d.W)) warns.push({ code: "blocksTouch" });
   if (d.type === "blok" && d.blkH < 70) warns.push({ code: "blockLow" });
   if (d.type === "kizak" && d.strH < 75) warns.push({ code: "stringerLow" });
-  if (d.topT < 16) warns.push({ code: "thinTop" });
+  if (Math.min(...tb.map((b) => b.t)) < 16) warns.push({ code: "thinTop" });
   if (d.treat === "yok") warns.push({ code: "noIspm" });
 
   return { boxes, H, bom, vol, weight, dyn, stat, rack, warns };

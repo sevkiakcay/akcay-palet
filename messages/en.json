@@ -431,7 +431,10 @@
       "blockLow": "Block height is under 70 mm: pallet truck forks may not fit.",
       "stringerLow": "Stringer height is under 75 mm: forklift entry becomes difficult.",
       "thinTop": "A top deck under 16 mm is only for light, one-way loads.",
-      "noIspm": "Export shipments usually require the ISPM-15 heat treatment stamp."
+      "noIspm": "Export shipments usually require the ISPM-15 heat treatment stamp.",
+      "topOutside": "Top board {boards} extends beyond the pallet size.",
+      "topOverlap": "Top boards overlap: {pairs}. Adjust the position or width.",
+      "topEdge": "The edge boards don't sit at the pallet edge. Usually the first and last board are flush with the edge."
     },
     "bomTitle": "Bill of materials",
     "bomPart": "Part",
@@ -513,6 +516,20 @@
       "intro": "Pallet Workshop quote request · {no}",
       "subject": "Quote request {no} · {title}",
       "language": "Visitor language"
+    },
+    "topBoard": {
+      "toggle": "Set each board individually",
+      "hint": "Turn on to enter the position, width and thickness of every top board one by one.",
+      "stripLabel": "Top board layout",
+      "widthAxis": "width",
+      "lengthAxis": "length",
+      "pos": "Position",
+      "width": "Width",
+      "thick": "Thickness",
+      "even": "Space evenly",
+      "same": "Apply board 1 to all",
+      "noteBlok": "Dimensions in mm. Position is from the pallet's front edge to the board's edge. Focusing a row highlights that board in 3D.",
+      "noteKizak": "Dimensions in mm. Position is from the pallet's left edge to the board's edge. Focusing a row highlights that board in 3D."
     }
   },
   "Builder": {
