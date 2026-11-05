@@ -3,7 +3,7 @@
 import { useEffect, useImperativeHandle, useRef, type RefObject } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { calc, PAINT, WOOD, type PalletDesign } from "@/lib/pallet/model";
+import { calc, geometry, PAINT, WOOD, type PalletDesign } from "@/lib/pallet/model";
 
 export type CameraKind = "iso" | "top" | "front" | "side" | "under";
 
@@ -24,6 +24,8 @@ type Props = {
   handleRef?: RefObject<PalletSceneHandle | null>;
   /** Home-page "digital" look: transparent stage, copper wire edges and grid, slow auto-rotation, no zoom. */
   showcase?: boolean;
+  /** Index of the top-deck board to highlight (from the editor), or -1 for none. */
+  highlightTop?: number;
 };
 
 type SceneState = {
@@ -32,6 +34,7 @@ type SceneState = {
   camera: THREE.PerspectiveCamera;
   controls: OrbitControls;
   group: THREE.Group;
+  highlight: THREE.Mesh | null;
 };
 
 // Warm light grey matching the site's `--surface-alt` (three.js can't parse oklch()).
@@ -222,7 +225,7 @@ function placeCamera(s: SceneState, d: PalletDesign, kind: CameraKind) {
 }
 
 /** WebGL view of the pallet. Lives only on the client; reports back if WebGL is missing so the UI can fall back to the drawing. */
-export function PalletScene({ design, camera, cameraNonce, active, label, onUnavailable, handleRef, showcase = false }: Props) {
+export function PalletScene({ design, camera, cameraNonce, active, label, onUnavailable, handleRef, showcase = false, highlightTop = -1 }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<SceneState | null>(null);
@@ -298,7 +301,7 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     const group = new THREE.Group();
     scene.add(group);
 
-    const state: SceneState = { renderer, scene, camera: cam, controls, group };
+    const state: SceneState = { renderer, scene, camera: cam, controls, group, highlight: null };
     stateRef.current = state;
 
     const resize = () => {
@@ -342,6 +345,33 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     const s = stateRef.current;
     if (s) placeCamera(s, designRef.current, camera);
   }, [camera, cameraNonce]);
+
+  // Translucent copper overlay on the highlighted top board; rebuilt whenever the index or design changes.
+  useEffect(() => {
+    const s = stateRef.current;
+    if (!s) return;
+    if (s.highlight) {
+      s.group.remove(s.highlight);
+      s.highlight.geometry.dispose();
+      (s.highlight.material as THREE.Material).dispose();
+      s.highlight = null;
+    }
+    if (highlightTop < 0) return;
+    const tops = geometry(design).boxes.filter((b) => b.k === "top");
+    const b = tops[highlightTop];
+    if (!b) return;
+    const dx = b.x1 - b.x0;
+    const dy = b.y1 - b.y0;
+    const dz = b.z1 - b.z0;
+    const mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(dx + 6, dy + 6, dz + 6),
+      new THREE.MeshBasicMaterial({ color: 0xe0a070, transparent: true, opacity: 0.4, depthWrite: false }),
+    );
+    mesh.position.set(b.x0 + dx / 2 - design.L / 2, b.y0 + dy / 2, b.z0 + dz / 2 - design.W / 2);
+    mesh.scale.setScalar(1);
+    s.group.add(mesh);
+    s.highlight = mesh;
+  }, [highlightTop, design]);
 
   useImperativeHandle(handleRef, () => ({
     snapshot() {

@@ -431,7 +431,10 @@
       "blockLow": "Altezza blocchetto sotto 70 mm: le forche del transpallet potrebbero non entrare.",
       "stringerLow": "Altezza longherone sotto 75 mm: l’inforcamento con il carrello diventa difficile.",
       "thinTop": "Un piano superiore sotto i 16 mm è adatto solo a carichi leggeri a perdere.",
-      "noIspm": "Per le spedizioni all’estero il marchio ISPM-15 di trattamento termico è di norma obbligatorio."
+      "noIspm": "Per le spedizioni all’estero il marchio ISPM-15 di trattamento termico è di norma obbligatorio.",
+      "topOutside": "La tavola superiore {boards} sporge oltre le dimensioni del pallet.",
+      "topOverlap": "Le tavole superiori si sovrappongono: {pairs}. Regola la posizione o la larghezza.",
+      "topEdge": "Le tavole di bordo non poggiano sul bordo del pallet. Di solito la prima e l'ultima tavola sono a filo del bordo."
     },
     "bomTitle": "Distinta materiali",
     "bomPart": "Pezzo",
@@ -513,6 +516,20 @@
       "intro": "Richiesta preventivo Configuratore pallet · {no}",
       "subject": "Richiesta preventivo {no} · {title}",
       "language": "Lingua del visitatore"
+    },
+    "topBoard": {
+      "toggle": "Imposta ogni tavola singolarmente",
+      "hint": "Attiva per inserire posizione, larghezza e spessore di ogni tavola superiore una per una.",
+      "stripLabel": "Disposizione tavole superiori",
+      "widthAxis": "larghezza",
+      "lengthAxis": "lunghezza",
+      "pos": "Posizione",
+      "width": "Larghezza",
+      "thick": "Spessore",
+      "even": "Distribuisci uniformemente",
+      "same": "Applica la tavola 1 a tutte",
+      "noteBlok": "Dimensioni in mm. La posizione è dal bordo anteriore del pallet al bordo della tavola. Selezionando una riga la tavola viene evidenziata in 3D.",
+      "noteKizak": "Dimensioni in mm. La posizione è dal bordo sinistro del pallet al bordo della tavola. Selezionando una riga la tavola viene evidenziata in 3D."
     }
   },
   "Builder": {

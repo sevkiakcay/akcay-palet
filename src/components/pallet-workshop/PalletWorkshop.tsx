@@ -9,6 +9,9 @@ import {
   BLOCKING_WARNINGS,
   PRESETS,
   SCHEMA,
+  deckSpan,
+  evenSpread,
+  syncTops,
   calc,
   drawingSVG,
   isNumberField,
@@ -22,6 +25,7 @@ import {
 import { designTitle, drawingLabels } from "@/lib/pallet/quote";
 import type { CameraKind, PalletSceneHandle } from "./PalletScene";
 import { QuoteDialog } from "./QuoteDialog";
+import { TopBoardEditor } from "./TopBoardEditor";
 
 const PalletScene = dynamic(() => import("./PalletScene").then((m) => m.PalletScene), { ssr: false });
 
@@ -104,6 +108,8 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [snapshot, setSnapshot] = useState<string | null>(null);
   const [blockedMsg, setBlockedMsg] = useState(false);
+  // Index of the top board focused in the editor, mirrored in the 3D view (-1 = none).
+  const [highlightTop, setHighlightTop] = useState(-1);
   // Raw text of number inputs while typing, so a half-typed "12" doesn't get clamped to the minimum.
   const [drafts, setDrafts] = useState<Partial<Record<NumericKey, string>>>({});
   const sceneRef = useRef<PalletSceneHandle | null>(null);
@@ -142,13 +148,46 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
     if (!p) return;
     setDesign({ ...BASE, ...p.d });
     setDrafts({});
+    setHighlightTop(-1);
     snapCamera("iso");
   }
 
   function update<K extends keyof PalletDesign>(k: K, v: PalletDesign[K]) {
-    setDesign((d) => ({ ...d, [k]: v }));
+    setDesign((d) => {
+      const next = { ...d, [k]: v };
+      // Keep the per-board layout board-count/span-correct when the deck changes shape.
+      if (next.topCustom && (k === "topN" || k === "type" || k === "L" || k === "W")) next.tops = syncTops(next);
+      return next;
+    });
     setPreset("custom");
     if (k === "type") snapCamera("iso");
+  }
+
+  function toggleTopCustom(on: boolean) {
+    setDesign((d) => {
+      const next = { ...d, topCustom: on };
+      if (on) next.tops = syncTops(next);
+      return next;
+    });
+    setPreset("custom");
+    setHighlightTop(-1);
+  }
+
+  function updateBoard(i: number, f: "p" | "w" | "t", v: number) {
+    setDesign((d) => ({ ...d, tops: d.tops.map((b, j) => (j === i ? { ...b, [f]: v } : b)) }));
+    setPreset("custom");
+  }
+
+  function evenTops() {
+    setDesign((d) => ({ ...d, tops: evenSpread(d.tops.map((b) => ({ ...b })), deckSpan(d)) }));
+  }
+
+  function sameTops() {
+    setDesign((d) => {
+      const f = d.tops[0];
+      if (!f) return d;
+      return { ...d, tops: evenSpread(d.tops.map((b) => ({ ...b, w: f.w, t: f.t })), deckSpan(d)) };
+    });
   }
 
   function onNumberInput(k: NumericKey, raw: string, commit: boolean) {
@@ -166,7 +205,10 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
   }
 
   function warningText(w: Warning) {
-    return w.code === "topGapWide" ? t("warnings.topGapWide", { gap: fmt(w.gap) }) : t(`warnings.${w.code}`);
+    if (w.code === "topGapWide") return t("warnings.topGapWide", { gap: fmt(w.gap) });
+    if (w.code === "topOutside") return t("warnings.topOutside", { boards: w.boards });
+    if (w.code === "topOverlap") return t("warnings.topOverlap", { pairs: w.pairs });
+    return t(`warnings.${w.code}`);
   }
 
   function openQuote() {
@@ -211,6 +253,7 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
                 camera={camera}
                 cameraNonce={cameraNonce}
                 active={mode === "3d"}
+                highlightTop={highlightTop}
                 label={t("canvasLabel")}
                 onUnavailable={() => setNo3d(true)}
                 handleRef={sceneRef}
@@ -353,6 +396,17 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
                       </div>
                     );
                   })}
+                  {g.g === "top" && (
+                    <TopBoardEditor
+                      design={design}
+                      onToggle={toggleTopCustom}
+                      onBoard={updateBoard}
+                      onEven={evenTops}
+                      onSame={sameTops}
+                      highlight={highlightTop}
+                      setHighlight={setHighlightTop}
+                    />
+                  )}
                 </fieldset>
               ))}
               {design.type === "blok" && <p className="px-3.5 py-2.5 text-[11px] text-muted-foreground">{t("blockNote")}</p>}

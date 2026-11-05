@@ -431,7 +431,10 @@
       "blockLow": "Hauteur de dé inférieure à 70 mm : les fourches du transpalette risquent de ne pas passer.",
       "stringerLow": "Hauteur de longeron inférieure à 75 mm : l’accès au chariot élévateur devient difficile.",
       "thinTop": "Un plancher supérieur de moins de 16 mm convient seulement aux charges légères à usage unique.",
-      "noIspm": "Le marquage NIMP 15 de traitement thermique est généralement obligatoire à l’export."
+      "noIspm": "Le marquage NIMP 15 de traitement thermique est généralement obligatoire à l’export.",
+      "topOutside": "La planche supérieure {boards} dépasse la taille de la palette.",
+      "topOverlap": "Les planches supérieures se chevauchent : {pairs}. Ajustez la position ou la largeur.",
+      "topEdge": "Les planches de bord ne reposent pas sur le bord de la palette. En général, la première et la dernière planche affleurent le bord."
     },
     "bomTitle": "Nomenclature",
     "bomPart": "Pièce",
@@ -513,6 +516,20 @@
       "intro": "Demande de devis Atelier palette · {no}",
       "subject": "Demande de devis {no} · {title}",
       "language": "Langue du visiteur"
+    },
+    "topBoard": {
+      "toggle": "Régler chaque planche séparément",
+      "hint": "Activez pour saisir la position, la largeur et l'épaisseur de chaque planche supérieure une à une.",
+      "stripLabel": "Disposition des planches supérieures",
+      "widthAxis": "largeur",
+      "lengthAxis": "longueur",
+      "pos": "Position",
+      "width": "Largeur",
+      "thick": "Épaisseur",
+      "even": "Répartir uniformément",
+      "same": "Appliquer la planche 1 à toutes",
+      "noteBlok": "Dimensions en mm. La position est mesurée du bord avant de la palette au bord de la planche. Le focus d'une ligne met la planche en évidence en 3D.",
+      "noteKizak": "Dimensions en mm. La position est mesurée du bord gauche de la palette au bord de la planche. Le focus d'une ligne met la planche en évidence en 3D."
     }
   },
   "Builder": {
