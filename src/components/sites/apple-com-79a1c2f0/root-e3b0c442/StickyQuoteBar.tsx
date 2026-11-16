@@ -47,7 +47,7 @@ export function StickyQuoteBar() {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-surface-dark-foreground/10 bg-surface-dark/95 px-4 pt-3 backdrop-blur-md transition-transform duration-300 md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/95 px-4 pt-3 backdrop-blur-md transition-transform duration-300 md:hidden"
       style={{
         paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))",
         transform: visible ? "translateY(0)" : "translateY(100%)",
@@ -55,7 +55,7 @@ export function StickyQuoteBar() {
     >
       <a
         href="#iletisim"
-        className="flex w-full items-center justify-center rounded-full bg-primary py-3 text-[15px] font-semibold text-primary-foreground transition duration-200 active:scale-[0.98] active:bg-primary/90"
+        className="flex w-full items-center justify-center rounded-pill bg-white py-3 text-[15px] font-semibold text-black transition duration-200 active:scale-[0.98] active:bg-white/90"
       >
         {t("quote")}
       </a>

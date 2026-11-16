@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
+import SplitText from "@/components/SplitText";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 const VIDEO_BASE = "/cinematic/hero";
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
@@ -17,12 +19,33 @@ function subscribeReducedMotion(onChange: () => void) {
  * loops muted behind the headline, darkened so the copy always reads. Phones get a
  * 720p encode, larger screens 1080p (picked by <source media>). A pause control
  * satisfies WCAG 2.2.2 for auto-playing motion; under `prefers-reduced-motion` the
- * film never starts and the poster (assembled pallet) stands in.
+ * film never starts and the poster (assembled pallet) stands in. None of this
+ * video-control mechanism changed in the editorial-rebrand pass below — the video
+ * itself, its sources/poster, the play/pause state and autoplay logic are exactly
+ * what they were; only the cinematic layers around it are new.
+ *
+ * The intro choreography (letterbox retract + eyebrow/subtitle/CTA stagger) is one
+ * GSAP timeline, positioned on one shared clock. The headline is no longer part of
+ * that timeline — it's a <SplitText> firing on load with its own char-by-char
+ * stagger, since folding per-character animation into the section timeline would
+ * mean two systems fighting over the same element. A second, independent
+ * ScrollTrigger (scrubbed, not timeline-based) drives the parallax + exit fade as
+ * the hero scrolls past. Film grain stays pure CSS — it's an infinite ambient loop
+ * on a `::after` pseudo-element, which no JS animation library can target.
  */
 export function Hero() {
   const t = useTranslations("Hero");
   const tc = useTranslations("Common");
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoLayerRef = useRef<HTMLDivElement>(null);
+  const textLayerRef = useRef<HTMLDivElement>(null);
+  const exitFadeRef = useRef<HTMLDivElement>(null);
+  const letterboxTopRef = useRef<HTMLDivElement>(null);
+  const letterboxBottomRef = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLParagraphElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
   // false on the server and during hydration, so the first client render matches the HTML.
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
@@ -43,69 +66,135 @@ export function Hero() {
     video.play().catch(() => setPaused(true));
   }, [paused, reducedMotion]);
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Intro: eyebrow → subtitle → CTA → letterbox retract, same shared clock as before.
+        const tl = gsap.timeline();
+        tl.to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.7, ease: "motionEase" }, 0)
+          .to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.7, ease: "motionEase" }, 0.16)
+          .to(ctaRef.current, { opacity: 1, y: 0, duration: 0.7, ease: "motionEase" }, 0.24)
+          .to(
+            [letterboxTopRef.current, letterboxBottomRef.current],
+            { scaleY: 0, duration: 1.6, ease: "motionEaseInOut" },
+            1.2,
+          );
+
+        // Parallax, scrubbed across the hero's own scroll-past range: the film
+        // drifts down slightly slower than scroll, the text block exits faster —
+        // the depth cue, not a pin (the hero never stops scrolling naturally).
+        const parallaxTrigger = {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        };
+        gsap.to(videoLayerRef.current, { yPercent: 14, ease: "none", scrollTrigger: parallaxTrigger });
+        gsap.to(textLayerRef.current, { yPercent: -30, ease: "none", scrollTrigger: parallaxTrigger });
+
+        // Cinematic hand-off: fades to black over the second half of the hero's
+        // exit, ahead of HeroTransition picking up on the same dark surface.
+        gsap.to(exitFadeRef.current, {
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: { trigger: sectionRef.current, start: "center top", end: "bottom top", scrub: true },
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="ahsap-palet"
-      className="film-grain relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-surface-dark px-6 pt-[120px] pb-20 text-surface-dark-foreground"
+      className="film-grain relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-editorial-ink px-6 pt-[120px] pb-20 text-white"
     >
-      <video
-        ref={videoRef}
-        // Portrait crops keep the stamped middle block (≈68% across the frame) in shot.
-        className="absolute inset-0 h-full w-full object-cover object-[65%_center] md:object-center"
-        poster={`${VIDEO_BASE}/hero-poster.webp`}
-        muted
-        loop
-        playsInline
-        preload="auto"
+      {/* Oversized so a vertical parallax shift never exposes an edge — the
+          section's own `overflow-hidden` clips anything beyond its bounds. */}
+      <div ref={videoLayerRef} className="absolute inset-x-0 -top-[10%] h-[120%]">
+        <video
+          ref={videoRef}
+          // Portrait crops keep the stamped middle block (≈68% across the frame) in shot.
+          className="h-full w-full object-cover object-[65%_center] md:object-center"
+          poster={`${VIDEO_BASE}/hero-poster.webp`}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden
+          tabIndex={-1}
+        >
+          <source media="(min-width: 768px)" src={`${VIDEO_BASE}/hero-1080.mp4`} type="video/mp4" />
+          <source src={`${VIDEO_BASE}/hero-720.mp4`} type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Cinematic grade — sage → amber → oxblood. Hero media only; this
+          gradient never appears as a UI color anywhere else on the site. */}
+      <div
         aria-hidden
-        tabIndex={-1}
-      >
-        <source media="(min-width: 768px)" src={`${VIDEO_BASE}/hero-1080.mp4`} type="video/mp4" />
-        <source src={`${VIDEO_BASE}/hero-720.mp4`} type="video/mp4" />
-      </video>
+        className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-40"
+        style={{
+          backgroundImage:
+            "linear-gradient(135deg, var(--editorial-sage) 0%, var(--editorial-amber) 52%, var(--editorial-oxblood) 100%)",
+        }}
+      />
 
       {/* Darkening: heavier at top (nav + headline) and bottom (hand-off to the next section). */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,6,0.78)_0%,rgba(10,8,6,0.45)_38%,rgba(10,8,6,0.55)_70%,var(--surface-dark)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.45)_38%,rgba(0,0,0,0.55)_70%,var(--editorial-ink)_100%)]"
       />
-      <div aria-hidden className="letterbox letterbox-top" />
-      <div aria-hidden className="letterbox letterbox-bottom" />
+      <div ref={letterboxTopRef} aria-hidden className="letterbox letterbox-top" />
+      <div ref={letterboxBottomRef} aria-hidden className="letterbox letterbox-bottom" />
 
-      <div className="relative z-20 mx-auto max-w-[880px] text-center">
-        <p className="reveal text-[11px] font-semibold tracking-[0.28em] text-surface-dark-foreground/70 uppercase">
+      <div ref={textLayerRef} className="relative z-20 mx-auto max-w-[1078px] text-center">
+        <p
+          ref={eyebrowRef}
+          className="gsap-reveal text-[11px] font-normal tracking-[0.3em] text-white/70 uppercase"
+        >
           Akçay Palet
         </p>
-        <h1
-          className="reveal font-heading mt-4 text-[40px] leading-[1.02] font-bold tracking-[-0.025em] [text-shadow:0_2px_30px_rgba(0,0,0,0.45)] sm:text-[56px] lg:text-[80px]"
-          style={{ animationDelay: "80ms" }}
-        >
-          {t("title")}
-        </h1>
+        <SplitText
+          text={t("title")}
+          tag="h1"
+          trigger="load"
+          splitType="chars"
+          delay={30}
+          duration={1.1}
+          effect="rise"
+          className="mt-4 text-[clamp(2.5rem,14vw,225px)] leading-[0.74] font-normal tracking-[-0.02em] text-white"
+        />
         <p
-          className="reveal mx-auto mt-4 max-w-[560px] text-[16px] text-surface-dark-foreground/85 lg:text-[19px]"
-          style={{ animationDelay: "160ms" }}
+          ref={subtitleRef}
+          className="gsap-reveal mx-auto mt-6 max-w-[560px] text-[16px] font-light text-white/80 lg:text-[19px]"
         >
           {t("subtitle")}
         </p>
         <div
-          className="reveal mt-8 flex flex-wrap items-center justify-center gap-3 text-[15px] font-medium"
-          style={{ animationDelay: "240ms" }}
+          ref={ctaRef}
+          className="gsap-reveal mt-8 flex flex-wrap items-center justify-center gap-3 text-[15px] font-medium"
         >
           <a
             href="#iletisim"
-            className="rounded-full bg-primary px-6 py-3 text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
+            className="rounded-pill bg-white px-6 py-3 text-black transition duration-200 hover:bg-white/90 active:scale-[0.97]"
           >
             {tc("quote")}
           </a>
           <a
             href="#uretim-sureci"
-            className="rounded-full border border-surface-dark-foreground/35 bg-black/20 px-6 py-3 text-surface-dark-foreground backdrop-blur-sm transition duration-200 hover:border-surface-dark-foreground/60 hover:bg-surface-dark-foreground/10 active:scale-[0.97]"
+            className="rounded-pill border border-white/35 px-6 py-3 text-white transition duration-200 hover:border-white/60 hover:bg-white/10 active:scale-[0.97]"
           >
             {tc("explore")}
           </a>
         </div>
       </div>
+
+      {/* Cinematic hand-off overlay — see the ScrollTrigger above. */}
+      <div ref={exitFadeRef} aria-hidden className="pointer-events-none absolute inset-0 z-30 bg-black opacity-0" />
 
       {!reducedMotion && (
         <button

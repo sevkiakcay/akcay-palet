@@ -1,6 +1,11 @@
+"use client";
+
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
-import { stagger } from "@/lib/motion";
-import { Reveal } from "../shared/Reveal";
+import SplitText from "@/components/SplitText";
+import { useEditorialReveal } from "@/hooks/use-editorial-reveal";
+import { useFrameOpenReveal } from "@/hooks/use-frame-open-reveal";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 type Step = { title: string; desc: string };
 
@@ -13,60 +18,95 @@ export function ProcessShowcase() {
   const t = useTranslations("Process");
   const steps = t.raw("steps") as Step[];
   const checkpoints = t.raw("checkpoints") as string[];
+  const sectionRef = useFrameOpenReveal();
+  const bodyRef = useEditorialReveal();
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  // The copper (now white) line across the steps track: its own tween, since
+  // a growing scaleX line isn't the same shape as the fade/rise batch above.
+  // No static CSS "hidden" class for this one (unlike `.gsap-reveal`/
+  // `.frame-closed`) — gsap.set() establishes scaleX:0 only inside the same
+  // matchMedia branch that animates it back, so the safe default with no JS
+  // or under reduced motion is simply a fully-drawn line, never a stuck-at-0
+  // invisible one.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set(lineRef.current, { scaleX: 0 });
+        gsap.to(lineRef.current, {
+          scaleX: 1,
+          duration: 1.1,
+          ease: "editorialEase",
+          scrollTrigger: { trigger: lineRef.current, start: "top 85%", once: true },
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: lineRef },
+  );
 
   return (
-    <section id="uretim-sureci" className="frame-open film-grain bg-surface-dark py-20 text-surface-dark-foreground md:py-28">
-      <Reveal className="px-6 text-center">
-        <p className="reveal-item text-[12px] font-semibold tracking-[0.2em] text-surface-dark-foreground/55 uppercase">
-          {t("eyebrow")}
-        </p>
-        <h2
-          className="reveal-item font-heading mt-3 text-[31px] font-semibold tracking-[-0.015em] md:text-[46px]"
-          style={stagger(1)}
-        >
-          {t("title")}
-        </h2>
-      </Reveal>
-
-      <div className="mx-auto mt-16 max-w-[1024px] px-6 md:mt-20">
-        {/* Desktop choreography: a copper line draws across the track and each step
-            arrives as the line reaches it, so the order of operations is the motion.
-            Stacked on phones, the steps simply follow each other in quicker succession. */}
-        <Reveal className="relative grid gap-x-6 gap-y-12 [--stagger:120ms] sm:grid-cols-3 sm:[--stagger:500ms]">
-          <div
-            aria-hidden
-            className="absolute top-[14px] right-[16.5%] left-[16.5%] hidden h-px bg-surface-dark-foreground/15 sm:block"
-          >
-            <div className="draw-x h-full bg-primary/70" style={stagger(0.3)} />
-          </div>
-          {steps.map((step, i) => (
-            <div key={i} className="reveal-item relative text-center" style={stagger(i)}>
-              <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-surface-dark ring-1 ring-surface-dark-foreground/25">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              </div>
-              <p className="mt-4 font-mono text-[13px] tracking-widest text-primary-bright">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-1 text-[17px] font-semibold">{step.title}</h3>
-              <p className="mx-auto mt-2 max-w-[240px] text-[14px] text-surface-dark-foreground/60">{step.desc}</p>
-            </div>
-          ))}
-        </Reveal>
-      </div>
-
-      <Reveal className="mx-auto mt-20 max-w-[1024px] px-6 md:mt-24">
-        <p className="reveal-item text-center text-[12px] font-medium tracking-wide text-surface-dark-foreground/55 uppercase">
-          {t("checkpointsTitle")}
-        </p>
-        <div
-          className="reveal-item mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
-          style={stagger(1)}
-        >
-          {checkpoints.map((point) => (
-            <span key={point} className="text-[13px] text-surface-dark-foreground/80">
-              {point}
-            </span>
-          ))}
+    <section
+      ref={sectionRef}
+      id="uretim-sureci"
+      className="frame-closed film-grain bg-black py-20 text-white md:py-28"
+    >
+      <div ref={bodyRef}>
+        <div className="px-6 text-center">
+          <p className="gsap-reveal text-[12px] font-normal tracking-[0.2em] text-white/55 uppercase">
+            {t("eyebrow")}
+          </p>
+          <SplitText
+            text={t("title")}
+            tag="h2"
+            splitType="words"
+            delay={40}
+            duration={0.9}
+            effect="rise"
+            className="mt-3 text-[31px] leading-[1.0] font-normal tracking-[-0.015em] text-white md:text-[46px]"
+          />
         </div>
-      </Reveal>
+
+        <div className="mx-auto mt-16 max-w-[1078px] px-6 md:mt-20">
+          {/* Desktop choreography: a line draws across the track and each step
+              arrives as the line reaches it. Stacked on phones, the steps simply
+              follow each other in quicker succession. */}
+          <div className="relative grid gap-x-6 gap-y-12 sm:grid-cols-3">
+            <div
+              aria-hidden
+              className="absolute top-[14px] right-[16.5%] left-[16.5%] hidden h-px bg-white/15 sm:block"
+            >
+              <div ref={lineRef} className="h-full origin-left bg-white" />
+            </div>
+            {steps.map((step, i) => (
+              <div key={i} className="gsap-reveal relative text-center">
+                <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-black ring-1 ring-white/25">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                </div>
+                <p className="mt-4 font-mono text-[13px] tracking-widest text-white/70">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-1 text-[17px] font-medium">{step.title}</h3>
+                <p className="mx-auto mt-2 max-w-[240px] text-[14px] text-white/60">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mx-auto mt-20 max-w-[1078px] px-6 md:mt-24">
+          <p className="gsap-reveal text-center text-[12px] font-medium tracking-wide text-white/55 uppercase">
+            {t("checkpointsTitle")}
+          </p>
+          <div className="gsap-reveal mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {checkpoints.map((point) => (
+              <span key={point} className="text-[13px] text-white/80">
+                {point}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

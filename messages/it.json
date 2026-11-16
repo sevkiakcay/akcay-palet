@@ -38,6 +38,26 @@
     "pause": "Metti in pausa il video di sfondo",
     "play": "Riproduci il video di sfondo"
   },
+  "Stats": {
+    "eyebrow": "In Numeri",
+    "items": [
+      {
+        "value": 25,
+        "suffix": "+",
+        "label": "Anni di Esperienza"
+      },
+      {
+        "value": 500000,
+        "suffix": "+",
+        "label": "Pallet Prodotti"
+      },
+      {
+        "value": 150,
+        "suffix": "+",
+        "label": "Clienti Attivi"
+      }
+    ]
+  },
   "Transition": {
     "title": "Produciamo più che pallet.",
     "body": "Dalle misure EPAL/EUR alla produzione trattata termicamente per l'export, dalle misure speciali ai pallet per il mercato interno — una soluzione completa da un unico produttore."

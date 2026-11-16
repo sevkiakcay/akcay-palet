@@ -10,6 +10,8 @@ import { ProductSpecs } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c44
 import { CustomManufacturing } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/CustomManufacturing";
 import { FinalCta } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/FinalCta";
 import { Footer } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/Footer";
+import { AmbientMotionPause } from "@/components/sites/apple-com-79a1c2f0/shared/AmbientMotionPause";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -34,6 +36,8 @@ export default function ProductsPage({ params }: Props) {
         <FinalCta />
       </main>
       <Footer />
+      <AmbientMotionPause />
+      <SmoothScroll />
     </>
   );
 }

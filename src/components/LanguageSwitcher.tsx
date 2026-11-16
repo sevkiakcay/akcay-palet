@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { LOCALE_LABELS, isRtl, routing, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
-/** Minimal dropdown in the site palette: Warm Ivory panel on the light header, Graphite Black text. */
+/** Minimal dropdown in the editorial mono palette: white panel, black text, hairline border. */
 export function LanguageSwitcher({ className }: { className?: string }) {
   const t = useTranslations("Common");
   const locale = useLocale() as Locale;
@@ -49,7 +49,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         aria-label={t("language")}
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 font-mono text-[11px] tracking-[0.08em] text-foreground/80 uppercase transition-colors hover:bg-foreground/5 hover:text-foreground",
+          "inline-flex items-center gap-1 rounded-pill px-2.5 py-1.5 font-mono text-[11px] tracking-[0.08em] text-black/70 uppercase transition-colors hover:bg-black/5 hover:text-black",
           isPending && "opacity-50",
         )}
       >
@@ -63,7 +63,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         <ul
           role="listbox"
           aria-label={t("language")}
-          className="absolute end-0 top-full z-50 mt-2 min-w-[172px] origin-top-right animate-in overflow-hidden rounded-xl border border-border bg-background py-1 text-foreground shadow-[0_16px_40px_-16px_rgba(0,0,0,0.35)] duration-150 ease-precise fade-in zoom-in-95 slide-in-from-top-1 motion-reduce:animate-none rtl:origin-top-left"
+          className="absolute end-0 top-full z-50 mt-2 min-w-[172px] origin-top-right animate-in overflow-hidden rounded-none border border-black/10 bg-white py-1 text-black duration-150 ease-editorial fade-in zoom-in-95 slide-in-from-top-1 motion-reduce:animate-none rtl:origin-top-left"
         >
           {routing.locales.map((l) => {
             const active = l === locale;
@@ -74,10 +74,10 @@ export function LanguageSwitcher({ className }: { className?: string }) {
                   lang={l}
                   dir={isRtl(l) ? "rtl" : "ltr"}
                   onClick={() => select(l)}
-                  className="flex w-full items-center justify-between gap-4 px-4 py-2 text-start text-[13px] transition-colors hover:bg-foreground/[0.04]"
+                  className="flex w-full items-center justify-between gap-4 px-4 py-2 text-start text-[13px] transition-colors hover:bg-black/[0.04]"
                 >
                   <span className={active ? "font-semibold" : undefined}>{LOCALE_LABELS[l]}</span>
-                  <span className={cn("font-mono text-[10px] uppercase", active ? "text-primary" : "text-foreground/35")}>
+                  <span className={cn("font-mono text-[10px] uppercase", active ? "text-black" : "text-black/35")}>
                     {l}
                   </span>
                 </button>

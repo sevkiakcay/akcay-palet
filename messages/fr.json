@@ -38,6 +38,26 @@
     "pause": "Mettre la vidéo d’arrière-plan en pause",
     "play": "Lire la vidéo d’arrière-plan"
   },
+  "Stats": {
+    "eyebrow": "En Chiffres",
+    "items": [
+      {
+        "value": 25,
+        "suffix": "+",
+        "label": "Ans d'Expérience"
+      },
+      {
+        "value": 500000,
+        "suffix": "+",
+        "label": "Palettes Produites"
+      },
+      {
+        "value": 150,
+        "suffix": "+",
+        "label": "Clients Actifs"
+      }
+    ]
+  },
   "Transition": {
     "title": "Nous produisons plus que des palettes.",
     "body": "Des dimensions EPAL/EUR à la production traitée thermiquement pour l'export, des formats sur mesure aux palettes pour le marché intérieur — une solution complète auprès d'un seul fabricant."

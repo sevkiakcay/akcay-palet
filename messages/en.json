@@ -38,6 +38,26 @@
     "pause": "Pause background video",
     "play": "Play background video"
   },
+  "Stats": {
+    "eyebrow": "By the Numbers",
+    "items": [
+      {
+        "value": 25,
+        "suffix": "+",
+        "label": "Years of Experience"
+      },
+      {
+        "value": 500000,
+        "suffix": "+",
+        "label": "Pallets Produced"
+      },
+      {
+        "value": 150,
+        "suffix": "+",
+        "label": "Active Customers"
+      }
+    ]
+  },
   "Transition": {
     "title": "We Produce More Than Pallets.",
     "body": "From EPAL/EUR dimensions to heat-treated export production, from custom sizes to domestic-market pallets — an end-to-end solution from a single manufacturer."

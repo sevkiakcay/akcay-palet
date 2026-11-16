@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import { BusinessJsonLd } from "@/components/seo/BusinessJsonLd";
 import { Header } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/Header";
 import { Hero } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/Hero";
+import { StatsSection } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/StatsSection";
 import { HeroTransition } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/HeroTransition";
 import { ProductSpecs } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/ProductSpecs";
 import { PalletBuilderTeaser } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/PalletBuilderTeaser";
@@ -13,6 +14,8 @@ import { WhyUs } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/WhyUs
 import { FinalCta } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/FinalCta";
 import { Footer } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/Footer";
 import { StickyQuoteBar } from "@/components/sites/apple-com-79a1c2f0/root-e3b0c442/StickyQuoteBar";
+import { AmbientMotionPause } from "@/components/sites/apple-com-79a1c2f0/shared/AmbientMotionPause";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 export default function Home({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = use(params);
@@ -25,6 +28,7 @@ export default function Home({ params }: { params: Promise<{ locale: Locale }> }
       {/* Header and footer sit outside <main> so the skip link (#top) really skips the nav. */}
       <main id="top" className="flex min-h-screen flex-col bg-black">
         <Hero />
+        <StatsSection />
         <HeroTransition />
         <ProductSpecs />
         <PalletBuilderTeaser />
@@ -35,6 +39,8 @@ export default function Home({ params }: { params: Promise<{ locale: Locale }> }
       </main>
       <Footer />
       <StickyQuoteBar />
+      <AmbientMotionPause />
+      <SmoothScroll />
     </>
   );
 }

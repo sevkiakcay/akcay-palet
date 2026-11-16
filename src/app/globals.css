@@ -51,6 +51,19 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --ease-precise: var(--motion-ease);
+
+  /* Editorial rebrand tokens (monopo.vn-referenced) — additive, alongside the
+     existing copper/industrial tokens above. New work (starting with Hero)
+     uses these; nothing else is repointed to them yet. See the comment on
+     `--editorial-ink` below for the full migration plan. */
+  --color-editorial-bg: var(--editorial-bg);
+  --color-editorial-ink: var(--editorial-ink);
+  --color-editorial-gray-1: var(--editorial-gray-1);
+  --color-editorial-gray-2: var(--editorial-gray-2);
+  --color-editorial-gray-3: var(--editorial-gray-3);
+  --color-editorial-gray-4: var(--editorial-gray-4);
+  --radius-pill: 75px;
+  --ease-editorial: var(--editorial-ease);
 }
 
 :root {
@@ -99,6 +112,27 @@
      the reveal system below. */
   --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Editorial rebrand (monopo.vn-referenced) ─────────────────────────────
+     New, parallel token set for the full site rebrand in progress. Additive:
+     every existing oklch token above (--primary, --surface-dark, etc.) stays
+     exactly as-is and in use until each section is migrated. Once every
+     consumer of the old tokens is gone, they get removed the same way the
+     legacy `.frame-open`/`.reveal` CSS did earlier in this project — deleted
+     only after an exhaustive grep confirms zero remaining references. */
+  --editorial-bg: #ffffff;
+  --editorial-ink: #000000;
+  --editorial-gray-1: #181818;
+  --editorial-gray-2: #636363;
+  --editorial-gray-3: #808080;
+  --editorial-gray-4: #9a9a9a;
+  /* Hero media gradient only — never used as a UI color elsewhere. */
+  --editorial-sage: rgb(160 224 171);
+  --editorial-amber: rgb(255 172 46);
+  --editorial-oxblood: rgb(165 45 37);
+  /* Mirrored into GSAP as the "editorialEase" CustomEase (src/lib/gsap.ts) —
+     same one-source-of-truth pattern as --motion-ease/--motion-ease-in-out. */
+  --editorial-ease: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 /* Dark sections: the lighter copper keeps the focus ring clearly visible against near-black. */
@@ -140,139 +174,27 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@keyframes reveal-up {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 16px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.reveal {
-  animation: reveal-up 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--delay, 0ms);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* ── Scroll reveal ──────────────────────────────────────────────────────────
-   <Reveal> marks its root `data-inview` the first time it scrolls into view;
-   its children then animate in, each delayed by stagger index × --stagger:
-     .reveal-item   rises 16px and fades in
-     .reveal-line   a masked line of display type slides up from its baseline
-     .reveal-image  an image opens from a slight inset and settles from 108%
-     .draw-x        a hairline draws across from the inline start
-   The hidden starting state only applies on screen, with scripting on and no
-   reduced-motion preference — print, no-JS visitors and crawlers always get
-   the final, fully visible layout. */
+/* Shared by every GSAP-timeline text stagger (Hero.tsx, ProductsIntro.tsx):
+   static starting paint for the eyebrow/title/subtitle/CTA sequence each of
+   their own gsap.timeline()s owns. No keyframe here, no animation-name — just
+   the pre-animation pose, so there's no flash of the fully revealed state
+   before the timeline runs.
+   `scripting: enabled` is load-bearing here, not decorative: this hidden state
+   has no CSS-only animation to resolve it — only the GSAP timeline does.
+   Without the guard, a visitor with JS disabled (or a failed hydration) would
+   see the headline, subtitle and CTA stuck at opacity:0 forever. */
 @media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  .reveal-item {
+  .gsap-reveal {
     opacity: 0;
     transform: translate3d(0, 16px, 0);
   }
-  .reveal-line > * {
-    transform: translate3d(0, 150%, 0);
-  }
-  .reveal-image {
-    clip-path: inset(7% round 12px);
-    transform: scale(1.08);
-  }
-  .draw-x {
-    transform: scaleX(0);
-  }
-
-  [data-inview] .reveal-item,
-  [data-inview] .reveal-line > *,
-  [data-inview] .reveal-image,
-  [data-inview] .draw-x {
-    animation-duration: 800ms;
-    animation-timing-function: var(--motion-ease);
-    animation-fill-mode: both;
-    animation-delay: calc(var(--i, 0) * var(--stagger, 70ms));
-  }
-  [data-inview] .reveal-item {
-    animation-name: rise;
-  }
-  [data-inview] .reveal-line > * {
-    animation-name: line-up;
-    animation-duration: 1000ms;
-  }
-  [data-inview] .reveal-image {
-    animation-name: aperture;
-    animation-duration: 1300ms;
-  }
-  [data-inview] .draw-x {
-    animation-name: draw-x;
-    animation-duration: 1100ms;
-    animation-timing-function: var(--motion-ease-in-out);
-  }
 }
 
-/* The mask is padded so accents (Ö, Ü) and descenders (Ç) aren't clipped at rest. */
-.reveal-line {
-  display: block;
-  overflow: hidden;
-  padding-block: 0.12em;
-  margin-block: -0.12em;
-}
-.reveal-line > * {
-  display: block;
-}
-.draw-x {
-  transform-origin: left center;
-}
-[dir="rtl"] .draw-x {
-  transform-origin: right center;
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 16px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes line-up {
-  from {
-    transform: translate3d(0, 150%, 0);
-  }
-  to {
-    transform: none;
-  }
-}
-
-@keyframes aperture {
-  from {
-    clip-path: inset(7% round 12px);
-    transform: scale(1.08);
-  }
-  to {
-    clip-path: inset(0 round 0);
-    transform: none;
-  }
-}
-
-@keyframes draw-x {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: none;
-  }
-}
+/* The old IntersectionObserver-driven "Scroll reveal" system (<Reveal>,
+   .reveal-item/.reveal-line/.reveal-image/.draw-x, stagger() from lib/motion)
+   lived here and was removed once an exhaustive grep confirmed zero
+   remaining consumers — every section that used it is now on
+   useEditorialReveal (GSAP ScrollTrigger.batch) instead. */
 
 /* Space Grotesk has no Greek/Cyrillic glyphs — without this, headings would
    mix two typefaces letter by letter. Use the body face (Inter) instead. */
@@ -406,18 +328,6 @@ html:lang(ar) .font-mono {
   45% { transform: translateX(260%) skewX(-12deg); opacity: 0; }
   100% { transform: translateX(260%) skewX(-12deg); opacity: 0; }
 }
-@keyframes frame-open {
-  from { clip-path: inset(0 5% 0 5% round 32px); }
-  to { clip-path: inset(0 0 0 0 round 0); }
-}
-@keyframes word-light {
-  from { opacity: 0.16; }
-  to { opacity: 1; }
-}
-@keyframes letterbox-open {
-  to { transform: scaleY(0); }
-}
-
 /* Letterbox bars (2.39:1 inside the 16:9 frame) retract after the film starts. */
 .letterbox {
   position: absolute;
@@ -434,28 +344,40 @@ html:lang(ar) .font-mono {
 @media (prefers-reduced-motion: no-preference) {
   .film-grain::after { animation: grain-jitter 0.9s steps(5) infinite; }
   .light-sweep::before { animation: sweep 11s var(--motion-ease-in-out) 1.5s infinite; }
+}
+
+/* AmbientMotionPause (shared/) toggles this attribute via one shared
+   IntersectionObserver while a `.film-grain`/`.light-sweep` section is
+   off-screen, so these infinite loops aren't compositing on sections the
+   visitor has scrolled well past. No JS, no attribute, no pause — same
+   always-on behavior as before. */
+.film-grain[data-anim-paused]::after,
+.light-sweep[data-anim-paused]::before {
+  animation-play-state: paused;
+}
+
+/* Static starting pose only — the retract-to-0 motion is now in Hero.tsx's GSAP
+   timeline. Gated behind `scripting: enabled` (unlike the block above, which is
+   pure CSS and needs no JS to complete): without it, a visitor with JS disabled
+   or a failed hydration would be stuck looking at permanently closed letterbox
+   bars, since nothing would ever run the retract. */
+@media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   .letterbox {
     transform: scaleY(1);
-    animation: letterbox-open 1.6s var(--motion-ease-in-out) 1.2s both;
   }
 }
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* The section starts as an inset, rounded frame and opens to full bleed as it scrolls in. */
-    .frame-open {
-      animation: frame-open linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 35%;
-    }
-    /* Statement words light up one after another as the heading crosses the viewport. */
-    .scroll-words {
-      view-timeline-name: --words;
-    }
-    .scroll-words > span {
-      animation: word-light linear both;
-      animation-timeline: --words;
-      animation-range: var(--word-range, cover 20% cover 50%);
-    }
+/* Shared static starting pose for every section using useFrameOpenReveal
+   (src/hooks/use-frame-open-reveal.ts) — the GSAP ScrollTrigger replacement
+   for the now-removed CSS `.frame-open`/`animation-timeline: view()` system.
+   Mirrors `.gsap-reveal`'s fix from the Phase 4 audit: without this, a
+   visitor whose browser restores scroll
+   position mid-page before hydration finishes could see a flash as GSAP sets
+   the inset pose after the fact. Scripting-gated: no JS, no inset — the
+   section simply renders full-bleed immediately, the same safe fallback the
+   legacy system already had. */
+@media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .frame-closed {
+    clip-path: inset(0px 5% 0px 5% round 32px);
   }
 }

@@ -38,6 +38,26 @@
     "pause": "Arka plan videosunu duraklat",
     "play": "Arka plan videosunu oynat"
   },
+  "Stats": {
+    "eyebrow": "Rakamlarla",
+    "items": [
+      {
+        "value": 25,
+        "suffix": "+",
+        "label": "Yıl Deneyim"
+      },
+      {
+        "value": 500000,
+        "suffix": "+",
+        "label": "Üretilen Palet"
+      },
+      {
+        "value": 150,
+        "suffix": "+",
+        "label": "Aktif Müşteri"
+      }
+    ]
+  },
   "Transition": {
     "title": "Paletten Fazlasını Üretiyoruz.",
     "body": "EPAL/EUR ölçülerinden ihracata özel ısıl işlemli üretime, özel ölçülerden iç piyasa paletlerine — tek üreticiden uçtan uca çözüm."
