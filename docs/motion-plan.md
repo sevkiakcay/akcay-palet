@@ -89,6 +89,27 @@ Every runtime is gated, and the gates differ because the right answer differs.
   rAF loop stops; orbit and scrub stay available, since those are
   user-initiated.
 
+## Hero assembly tour
+
+The 21-second take-apart/put-back tour in `PalletBuilderTeaser` is Three.js
+territory: the scene poses every board and the camera from one playhead each
+frame (`lib/pallet/cinematic.ts`, pure functions of `t`). Nothing GSAP or
+Motion animates touches the canvas. Motion only swaps the caption text under
+the stage (`PalletTourControls`).
+
+- **Playhead** — `use-cinematic-timeline` keeps it in a ref the scene reads per
+  frame; React sees a throttled copy (~10×/s) for the slider and caption.
+  Dragging the slider pauses the tour.
+- **Off screen** — `useIsVisible` (not `useInView`, which latches `true` and
+  stops watching) follows the stage both ways. Off screen the playhead loop is
+  torn down and `PalletScene` gets `active={false}`, so it stops issuing draw
+  calls. The scene's own rAF keeps ticking, cheaply, without rendering.
+- **Reduced motion** — no autoplay: the tour holds at 0 s, the assembled pallet;
+  play and replay are not rendered and a note says why. The slider stays,
+  because scrubbing is motion the visitor makes.
+- **No WebGL** — the static preview image stays and the tour controls are not
+  rendered at all.
+
 ## Performance
 
 - Server Components stay the default. Motion, GSAP and Three.js live in small
@@ -96,8 +117,8 @@ Every runtime is gated, and the gates differ because the right answer differs.
 - `AmbientMotionPause` (`shared/`) toggles one attribute that pauses the CSS
   cinematic layer; it is the single switch for grain and light sweep.
 - The hero video pauses off screen and resumes on return.
-- Three.js: pixel ratio capped, rAF stopped when the canvas is offscreen or the
-  tab is hidden, geometries and materials disposed on unmount, resize listener
+- Three.js: pixel ratio capped, rendering stopped when the canvas is offscreen
+  (`active`; the rAF itself keeps ticking), geometries and materials disposed on unmount, resize listener
   removed. The scene is `dynamic(..., { ssr: false })` and mounts only once its
   section is near the viewport (`use-in-view`).
 - `ScrollTrigger.refresh()` runs on real document-height changes (debounced
