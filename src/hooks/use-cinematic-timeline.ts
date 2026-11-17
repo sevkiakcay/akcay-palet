@@ -11,7 +11,7 @@ type Options = {
   enabled: boolean;
 };
 
-type Timeline = {
+export type CinematicTimeline = {
   /** Handed to `PalletScene`; written at 60 fps without re-rendering React. */
   ref: CinematicRef;
   playing: boolean;
@@ -26,6 +26,9 @@ type Timeline = {
 
 /** How often the React-visible playhead catches up with the real one. */
 const DISPLAY_INTERVAL_MS = 100;
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+/** Last scrubbable instant; `CINEMATIC_DURATION` itself wraps to 0 s. */
+const SCRUB_END = CINEMATIC_DURATION - 0.01;
 
 /**
  * Drives the hero assembly tour's playhead.
@@ -40,17 +43,14 @@ const DISPLAY_INTERVAL_MS = 100;
  * the visitor can still scrub, because dragging a slider is motion they asked
  * for, frame by frame. The preference is about motion that happens *to* you.
  */
-export function useCinematicTimeline({ inView, enabled }: Options): Timeline {
+export function useCinematicTimeline({ inView, enabled }: Options): CinematicTimeline {
   const ref = useRef<{ time: number; replayNonce: number }>({ time: 0, replayNonce: 0 });
   const [held, setHeld] = useState(false);
   const [playing, setPlaying] = useState(true);
   const [displayTime, setDisplayTime] = useState(0);
-  // Read inside the loop so toggling play doesn't restart the effect.
-  const playingRef = useRef(playing);
-  playingRef.current = playing;
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mq = window.matchMedia(REDUCED_MOTION);
     const apply = () => {
       setHeld(mq.matches);
       if (mq.matches) {
@@ -64,11 +64,20 @@ export function useCinematicTimeline({ inView, enabled }: Options): Timeline {
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  // One loop, started only when the section is actually on screen and the tab
-  // is visible. A 3D scene advancing a timeline behind another tab is pure
-  // battery drain.
+  // One loop, started only while the stage is on screen, the tour is playing
+  // and the visitor hasn't asked for less motion. A 3D scene advancing a
+  // timeline behind another section, or another tab, is pure battery drain.
+  // `playing` is a dependency rather than a ref read inside the loop: pausing
+  // simply tears the loop down, and resuming starts a fresh one whose first
+  // step is measured from that moment, so the playhead never jumps.
   useEffect(() => {
-    if (!enabled || !inView || held) return;
+    if (!enabled || !inView || held || !playing) return;
+    // `held` arrives one commit after mount (it is read in an effect so the
+    // server and client render the same markup). Checking the query here too
+    // keeps the very first frame from advancing under `reduce`.
+    if (window.matchMedia(REDUCED_MOTION).matches) return;
+    // The ref's object is never replaced, only its fields are written.
+    const playhead = ref.current;
     let raf = 0;
     let last = performance.now();
     let lastDisplay = 0;
@@ -78,24 +87,32 @@ export function useCinematicTimeline({ inView, enabled }: Options): Timeline {
       // playhead by however many seconds the tab was away.
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      if (playingRef.current && document.visibilityState === "visible") {
-        ref.current.time = clampTime(ref.current.time + dt);
+      if (document.visibilityState === "visible") {
+        playhead.time = clampTime(playhead.time + dt);
       }
       if (now - lastDisplay > DISPLAY_INTERVAL_MS) {
         lastDisplay = now;
-        setDisplayTime(ref.current.time);
+        setDisplayTime(playhead.time);
       }
     };
     raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [enabled, inView, held]);
+    return () => {
+      cancelAnimationFrame(raf);
+      // Leave the readout exactly where the scene stopped.
+      setDisplayTime(playhead.time);
+    };
+  }, [enabled, inView, held, playing]);
 
   const togglePlay = useCallback(() => setPlaying((v) => !v), []);
 
+  // Dragging the slider pauses the tour: a playhead that keeps running under
+  // the visitor's thumb fights them. The end is clamped, not wrapped, so
+  // dragging to the far right shows the last frame instead of jumping to 0 s.
   const scrubTo = useCallback((seconds: number) => {
-    const t = clampTime(seconds);
+    const t = Number.isFinite(seconds) ? Math.min(Math.max(seconds, 0), SCRUB_END) : 0;
     ref.current.time = t;
     setDisplayTime(t);
+    setPlaying(false);
   }, []);
 
   const replay = useCallback(() => {
@@ -108,5 +125,3 @@ export function useCinematicTimeline({ inView, enabled }: Options): Timeline {
 
   return { ref, playing, displayTime, togglePlay, scrubTo, replay, held };
 }
-
-export { CINEMATIC_DURATION };

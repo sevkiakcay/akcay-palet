@@ -217,8 +217,11 @@ export function clampTime(t: number): number {
   return t % CINEMATIC_DURATION;
 }
 
-/** `mm:ss` for the scrubber readout. */
+/**
+ * `m:ss` for the scrubber readout. Clamped rather than wrapped, so the total
+ * (`CINEMATIC_DURATION` itself) reads 0:21 instead of 0:00.
+ */
 export function formatTimecode(t: number): string {
-  const whole = Math.floor(clampTime(t));
+  const whole = Number.isFinite(t) ? Math.floor(Math.min(Math.max(t, 0), CINEMATIC_DURATION)) : 0;
   return `0:${String(whole).padStart(2, "0")}`;
 }
