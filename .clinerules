@@ -21,7 +21,21 @@ A reusable template for reverse-engineering any website into a clean, modern Nex
 - **UI:** shadcn/ui (Radix primitives, Tailwind CSS v4, `cn()` utility)
 - **Icons:** Lucide React (default — will be replaced/supplemented by extracted SVGs)
 - **Styling:** Tailwind CSS v4 with oklch design tokens
+- **Motion:** GSAP + ScrollTrigger, Motion (`motion/react`), Lenis, Three.js
 - **Deployment:** Vercel
+
+## Design system and motion — read before styling or animating
+Two project docs hold the decisions; don't re-derive them from the components:
+- `docs/design-system.md` — colour tokens (and which set is being retired),
+  the type scale, the Swiss grid container, radius, easing.
+- `docs/motion-plan.md` — which runtime owns which animation.
+
+Two rules that are easy to break by accident:
+- **No ad-hoc font sizes.** `src/` contains zero `text-[Npx]`. Use a scale
+  token (`text-small`, `text-section`, …) or add one to `@theme` with a reason.
+- **GSAP and Motion must never animate the same property on the same node.**
+  GSAP owns anything driven by scroll position; Motion owns React
+  mount/unmount, gestures and layout; Three.js owns the 3D lifecycle.
 
 ## Commands
 - `npm run dev` — Start dev server

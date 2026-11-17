@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { AnimatePresence } from "motion/react";
 import { CONTACT } from "@/lib/contact";
 import {
   BASE,
@@ -510,17 +511,22 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
         </div>
       </div>
 
-      {quoteOpen && (
-        <QuoteDialog
-          design={design}
-          calc={c}
-          snapshot={snapshot}
-          title={`${designTitle(t, design)} × ${Math.round(c.H)} mm`}
-          fmt={fmt}
-          onDownloadDrawing={downloadDrawing}
-          onClose={() => setQuoteOpen(false)}
-        />
-      )}
+      {/* Lets QuoteDialog's own exit animation finish before React unmounts it.
+          Without this wrapper the dialog closes on a frame, which is how it
+          behaved before Motion was added. */}
+      <AnimatePresence>
+        {quoteOpen && (
+          <QuoteDialog
+            design={design}
+            calc={c}
+            snapshot={snapshot}
+            title={`${designTitle(t, design)} × ${Math.round(c.H)} mm`}
+            fmt={fmt}
+            onDownloadDrawing={downloadDrawing}
+            onClose={() => setQuoteOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

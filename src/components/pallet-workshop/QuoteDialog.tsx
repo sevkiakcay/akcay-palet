@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { motion, useReducedMotion } from "motion/react";
 import { CONTACT, whatsappUrl } from "@/lib/contact";
+import { backdrop, modal, withoutMovement } from "@/lib/motion";
 import type { Calc, PalletDesign } from "@/lib/pallet/model";
 import {
   composeSummary,
@@ -48,6 +50,11 @@ function readDraft(): Partial<QuoteCustomer> {
 export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDrawing, onClose }: Props) {
   const t = useTranslations("Workshop");
   const locale = useLocale();
+  // Keeps both fades so the dialog still reads as opening and closing, drops
+  // the rise and the scale.
+  const reduceMotion = useReducedMotion();
+  const back = reduceMotion ? withoutMovement(backdrop) : backdrop;
+  const box = reduceMotion ? withoutMovement(modal) : modal;
   const [phase, setPhase] = useState<Phase>({ k: "form" });
   const [errors, setErrors] = useState<FieldError[]>([]);
   const [sendError, setSendError] = useState(false);
@@ -130,11 +137,28 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
     errors.includes(k) ? <p className="mt-1 text-caption text-destructive">{t(`errors.${k}`)}</p> : null;
 
   return (
-    <div
+    // Motion owns the enter and the leave. This dialog had neither: it appeared
+    // and vanished on a frame. The `AnimatePresence` that lets the exit play is
+    // in PalletWorkshop, around the `{quoteOpen && …}` that mounts this.
+    // Backdrop fades, box rises — see docs/motion-plan.md.
+    <motion.div
+      initial={back.initial}
+      animate={back.animate}
+      exit={back.exit}
+      transition={back.transition}
       className="fixed inset-0 z-[60] flex items-start justify-center overflow-auto bg-black/45 px-4 py-6 md:py-12"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div role="dialog" aria-modal="true" aria-labelledby="pw-quote-title" className="w-full max-w-[640px] rounded-2xl border border-border bg-background shadow-2xl">
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pw-quote-title"
+        initial={box.initial}
+        animate={box.animate}
+        exit={box.exit}
+        transition={box.transition}
+        className="w-full max-w-[640px] rounded-2xl border border-border bg-background shadow-2xl"
+      >
         <div className="flex items-center justify-between border-b border-border px-5 py-3.5">
           <h2 id="pw-quote-title" className="font-heading text-title font-bold">
             {phase.k === "sent" ? t("success.title") : phase.k === "fallback" ? t("fallback.title") : t("form.title")}
@@ -316,7 +340,7 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
             </button>
           </div>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

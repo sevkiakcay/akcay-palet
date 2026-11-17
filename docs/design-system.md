@@ -31,11 +31,15 @@ Three accent colours — `--editorial-sage`, `--editorial-amber`,
 colours and must not be used as one.
 
 On dark sections, prefer `white/<alpha>` over the grey ramp: the ramp is tuned
-for white grounds, and a mid grey on black fails contrast. Measured on black:
+for white grounds, and a mid grey on black fails contrast — the legacy
+`--muted-foreground` measured 2.81:1 on the FinalCta panel, well under the
+4.5:1 AA floor, which is what sent `QuoteForm` to the values below.
+
+Measured against pure black; a panel tinted `white/[0.03]` costs ~0.3:
 
 | Value | Contrast | Verdict |
 | --- | --- | --- |
-| `white/40` | 3.66:1 | decorative / disabled only |
+| `white/40` | 3.66:1 | inactive / decorative only, never body text |
 | `white/50` | 5.28:1 | passes AA for normal text |
 | `white/60` | 7.37:1 | secondary text |
 | `white/70` | 9.96:1 | body text |

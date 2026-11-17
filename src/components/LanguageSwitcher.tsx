@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { LOCALE_LABELS, isRtl, routing, type Locale } from "@/i18n/routing";
+import { dropdown, withoutMovement } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /** Minimal dropdown in the editorial mono palette: white panel, black text, hairline border. */
@@ -15,6 +17,9 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const rootRef = useRef<HTMLDivElement>(null);
+  // Keeps the fade so the panel still reads as leaving, drops the travel.
+  const reduceMotion = useReducedMotion();
+  const panel = reduceMotion ? withoutMovement(dropdown) : dropdown;
 
   useEffect(() => {
     if (!open) return;
@@ -59,33 +64,43 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         </svg>
       </button>
 
-      {open && (
-        <ul
-          role="listbox"
-          aria-label={t("language")}
-          className="absolute end-0 top-full z-50 mt-2 min-w-[172px] origin-top-right animate-in overflow-hidden rounded-none border border-black/10 bg-white py-1 text-black duration-150 ease-editorial fade-in zoom-in-95 slide-in-from-top-1 motion-reduce:animate-none rtl:origin-top-left"
-        >
-          {routing.locales.map((l) => {
-            const active = l === locale;
-            return (
-              <li key={l} role="option" aria-selected={active}>
-                <button
-                  type="button"
-                  lang={l}
-                  dir={isRtl(l) ? "rtl" : "ltr"}
-                  onClick={() => select(l)}
-                  className="flex w-full items-center justify-between gap-4 px-4 py-2 text-start text-small transition-colors hover:bg-black/[0.04]"
-                >
-                  <span className={active ? "font-semibold" : undefined}>{LOCALE_LABELS[l]}</span>
-                  <span className={cn("font-mono text-nano uppercase", active ? "text-black" : "text-black/35")}>
-                    {l}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {/* Motion owns this panel's enter AND leave. Before, the CSS `animate-in`
+          classes played on enter and the panel vanished on a frame when React
+          unmounted it — there is nobody left to run a CSS animation on an
+          element that is going away. See docs/motion-plan.md. */}
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            role="listbox"
+            aria-label={t("language")}
+            initial={panel.initial}
+            animate={panel.animate}
+            exit={panel.exit}
+            transition={panel.transition}
+            className="absolute end-0 top-full z-50 mt-2 min-w-[172px] origin-top-right overflow-hidden rounded-none border border-black/10 bg-white py-1 text-black rtl:origin-top-left"
+          >
+            {routing.locales.map((l) => {
+              const active = l === locale;
+              return (
+                <li key={l} role="option" aria-selected={active}>
+                  <button
+                    type="button"
+                    lang={l}
+                    dir={isRtl(l) ? "rtl" : "ltr"}
+                    onClick={() => select(l)}
+                    className="flex w-full items-center justify-between gap-4 px-4 py-2 text-start text-small transition-colors hover:bg-black/[0.04]"
+                  >
+                    <span className={active ? "font-semibold" : undefined}>{LOCALE_LABELS[l]}</span>
+                    <span className={cn("font-mono text-nano uppercase", active ? "text-black" : "text-black/35")}>
+                      {l}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
