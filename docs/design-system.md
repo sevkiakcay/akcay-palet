@@ -10,9 +10,10 @@ on. There is no `tailwind.config.*` in this project.
 
 ## Colour
 
-Two token sets exist side by side. This is deliberate and temporary.
+One token set: editorial. The legacy copper/shadcn set is gone (see the end of
+this section for what it was and how it was removed).
 
-### Editorial (current direction)
+### Editorial
 
 The monopo.vn-referenced set the public marketing sections use. Pure black and
 white plus a four-step grey ramp.
@@ -23,8 +24,14 @@ white plus a four-step grey ramp.
 | `--editorial-ink` | `#000000` | ground on dark sections, ink on light |
 | `--editorial-gray-1` | `#181818` | near-ink text |
 | `--editorial-gray-2` | `#636363` | secondary text |
-| `--editorial-gray-3` | `#808080` | tertiary text, hairlines |
+| `--editorial-gray-3` | `#808080` | hairlines, large text only — 3.94:1 on white |
 | `--editorial-gray-4` | `#9a9a9a` | disabled, faint rules |
+
+**Small text on white is gray-2 or darker.** gray-3 measures 3.94:1 on white,
+under the 4.5:1 AA floor for text under 24px (18.66px bold); the final QA's axe
+run flagged it on the ProductSpecs column headings and the CustomManufacturing
+step numbers, both moved to gray-2 (6.01:1). gray-3 and gray-4 stay for
+hairlines, decorative marks and large display text.
 
 ### Error
 
@@ -50,7 +57,7 @@ indirection today. Do not "fix" these call sites: the churn is large, the
 visual change is nil, and there is no behaviour to gain.
 
 What the tokens are genuinely for is the **grey ramp** — `text-editorial-gray-2`
-and `-gray-3` carry secondary and tertiary copy on white grounds, and that is
+carries secondary copy on white grounds (gray-3 only for large text), and that is
 where a brand change would actually need one lever. If the ink ever moves off
 pure black (the brief floats graphite `#161616`), that is the point to convert
 the ink and paper call sites in one deliberate pass, not before.
@@ -69,25 +76,38 @@ Measured against pure black; a panel tinted `white/[0.03]` costs ~0.3:
 | `white/60` | 7.37:1 | secondary text |
 | `white/70` | 9.96:1 | body text |
 
-### Legacy copper (being retired)
+### Focus ring
 
-The original warm-industrial oklch set: `--primary` (copper
-`oklch(0.5 0.14 40)`), `--primary-bright`, `--surface-dark`, `--background`,
-`--muted-foreground` and the rest of the shadcn token block.
+| Token | Value | Use |
+| --- | --- | --- |
+| `--editorial-focus` | ink, or paper inside `.bg-black` / `.bg-editorial-ink` | keyboard focus outline, 2px, 3px offset |
 
-No section or component uses them any more: the pallet workshop (`PalletWorkshop`,
-`QuoteDialog`, `TopBoardEditor`) was the last holder and is now on the editorial
-set. What still reads them is site-wide: the `@layer base` block in
-`globals.css` — the default border colour (`* { border-border }`), `body {
-bg-background text-foreground }`, the focus ring (`--ring`) and the copper
-text-selection colour (`--primary`) — and the skip link in
-`[locale]/layout.tsx` (`focus:bg-primary`). Those apply to every page, so retiring them is its own
-site-wide change with its own visual check, not a side effect of a component
-migration. The tokens get deleted after that, once a grep confirms zero
-references — the same way the legacy `.frame-open`/`.reveal` CSS was removed.
+The ring follows its ground: black on light sections, white inside dark ones
+(the nearest ancestor wins, so a white card in a black section is black again).
+That is 21:1 either way; the copper ring it replaced was ~4–5:1.
 
-`ui/button.tsx` reads these tokens but is imported nowhere — it is dead code,
-not a migration target.
+### Legacy copper (removed)
+
+The original warm-industrial oklch set — `--primary` (copper
+`oklch(0.5 0.14 40)`), `--primary-bright`, `--surface-alt`, `--surface-dark`,
+`--background`, `--muted-foreground`, and the rest of the shadcn block (card,
+popover, sidebar, chart, `.dark`) — was deleted in the final QA pass, after the
+pallet workshop (its last component user) moved to the editorial set and a grep
+confirmed zero remaining references. The last site-wide readers were replaced
+with editorial values in the same change:
+
+| Was | Now |
+| --- | --- |
+| `* { border-border }` | `black/10` (every bordered element names its own colour anyway) |
+| `body { bg-background text-foreground }` | `--editorial-bg` / `--editorial-ink` |
+| focus ring `--ring` (copper) | `--editorial-focus` |
+| text selection, copper 28% | `--editorial-gray-3` 35% |
+| `.light-sweep` gradient, copper 9–14% | white 4.5–7% (alpha scaled for equal luminance) |
+| skip link `focus:bg-primary` | black pill |
+
+`ui/button.tsx`, the only consumer of the shadcn button variants, was imported
+nowhere and was deleted with its two dependencies (`@base-ui/react`,
+`class-variance-authority`).
 
 ## Typography
 
