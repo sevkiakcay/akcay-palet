@@ -28,8 +28,8 @@ type Props = {
 type Phase = { k: "form" } | { k: "sending" } | { k: "sent"; no: string } | { k: "fallback"; no: string };
 
 const DRAFT_KEY = "pw_contact";
-const field = "w-full rounded-lg border border-border bg-background px-3 py-2 text-[14px] outline-none focus:border-primary";
-const lbl = "mb-1 block text-[12px] font-medium";
+const field = "w-full rounded-lg border border-border bg-background px-3 py-2 text-ui outline-none focus:border-primary";
+const lbl = "mb-1 block text-caption font-medium";
 
 function newOrderNo() {
   const d = new Date();
@@ -127,7 +127,7 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
   }
 
   const err = (k: FieldError) =>
-    errors.includes(k) ? <p className="mt-1 text-[12px] text-destructive">{t(`errors.${k}`)}</p> : null;
+    errors.includes(k) ? <p className="mt-1 text-caption text-destructive">{t(`errors.${k}`)}</p> : null;
 
   return (
     <div
@@ -136,10 +136,10 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
     >
       <div role="dialog" aria-modal="true" aria-labelledby="pw-quote-title" className="w-full max-w-[640px] rounded-2xl border border-border bg-background shadow-2xl">
         <div className="flex items-center justify-between border-b border-border px-5 py-3.5">
-          <h2 id="pw-quote-title" className="font-heading text-[20px] font-bold">
+          <h2 id="pw-quote-title" className="font-heading text-title font-bold">
             {phase.k === "sent" ? t("success.title") : phase.k === "fallback" ? t("fallback.title") : t("form.title")}
           </h2>
-          <button type="button" onClick={onClose} aria-label={t("form.close")} className="px-2 text-[22px] leading-none text-muted-foreground">
+          <button type="button" onClick={onClose} aria-label={t("form.close")} className="px-2 text-title leading-none text-muted-foreground">
             ×
           </button>
         </div>
@@ -152,7 +152,7 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
                   // eslint-disable-next-line @next/next/no-img-element -- in-memory data URL, nothing for next/image to optimise
                   <img src={snapshot} alt={t("form.snapshotAlt")} className="w-[120px] flex-none rounded" />
                 )}
-                <div className="min-w-0 text-[13px]">
+                <div className="min-w-0 text-small">
                   <b>{title}</b>
                   <br />
                   {t(`options.wood.${design.wood}`)} · {t(`options.treat.${design.treat}`)}
@@ -248,19 +248,19 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
                 <input id="q_website" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
               </div>
               {sendError && (
-                <p role="alert" className="text-[13px] text-destructive">
+                <p role="alert" className="text-small text-destructive">
                   {t("errors.send")}
                 </p>
               )}
             </div>
             <div className="flex flex-wrap justify-end gap-2 border-t border-border px-5 py-3.5">
-              <button type="button" onClick={onClose} className="rounded-full border border-border px-4 py-2 text-[14px] font-medium">
+              <button type="button" onClick={onClose} className="rounded-full border border-border px-4 py-2 text-ui font-medium">
                 {t("form.cancel")}
               </button>
               <button
                 type="submit"
                 disabled={phase.k === "sending"}
-                className="rounded-full bg-primary px-5 py-2 text-[14px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+                className="rounded-full bg-primary px-5 py-2 text-ui font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
               >
                 {phase.k === "sending" ? t("form.sending") : t("form.submit")}
               </button>
@@ -270,19 +270,19 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
 
         {phase.k === "sent" && (
           <div className="grid justify-items-center gap-3 px-5 py-8 text-center">
-            <div className="-rotate-2 rounded border-2 border-primary px-3.5 py-1.5 font-mono text-[18px] text-primary">{phase.no}</div>
-            <p className="max-w-[46ch] text-[14px]">
+            <div className="-rotate-2 rounded border-2 border-primary px-3.5 py-1.5 font-mono text-subtitle text-primary">{phase.no}</div>
+            <p className="max-w-[46ch] text-ui">
               {t("success.body", { contact: customer.pref === "mail" ? customer.email : customer.phone })}
             </p>
             {CONTACT.phone && (
-              <p className="text-[13px] text-muted-foreground">
+              <p className="text-small text-muted-foreground">
                 {t("success.urgent")}{" "}
                 <b className="font-mono" dir="ltr">
                   {CONTACT.phone}
                 </b>
               </p>
             )}
-            <button type="button" onClick={onClose} className="mt-1 rounded-full border border-border px-4 py-2 text-[14px] font-medium">
+            <button type="button" onClick={onClose} className="mt-1 rounded-full border border-border px-4 py-2 text-ui font-medium">
               {t("success.newDesign")}
             </button>
           </div>
@@ -290,14 +290,14 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
 
         {phase.k === "fallback" && (
           <div className="grid gap-3 px-5 py-6">
-            <p className="text-[14px]">{t("fallback.body")}</p>
+            <p className="text-ui">{t("fallback.body")}</p>
             <div className="grid gap-2 sm:grid-cols-2">
               {whatsappUrl() && (
                 <a
                   href={whatsappUrl(fallbackMessage(phase.no)) ?? undefined}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-primary px-4 py-2.5 text-center text-[14px] font-semibold text-primary-foreground"
+                  className="rounded-full bg-primary px-4 py-2.5 text-center text-ui font-semibold text-primary-foreground"
                 >
                   {t("fallback.whatsapp")}
                 </a>
@@ -305,13 +305,13 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
               {CONTACT.email && (
                 <a
                   href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(t("mail.subject", { no: phase.no, title }))}&body=${encodeURIComponent(fallbackMessage(phase.no))}`}
-                  className="rounded-full border border-border px-4 py-2.5 text-center text-[14px] font-semibold"
+                  className="rounded-full border border-border px-4 py-2.5 text-center text-ui font-semibold"
                 >
                   {t("fallback.email")}
                 </a>
               )}
             </div>
-            <button type="button" onClick={onDownloadDrawing} className="justify-self-start text-[13px] font-medium text-primary underline underline-offset-2">
+            <button type="button" onClick={onDownloadDrawing} className="justify-self-start text-small font-medium text-primary underline underline-offset-2">
               {t("fallback.drawing")}
             </button>
           </div>

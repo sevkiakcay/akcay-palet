@@ -30,19 +30,19 @@ export function FinalCta() {
             not the old masked line-slide, since these lines are pre-broken by
             translation (not auto-wrapped), so SplitText's own line-splitting
             doesn't apply cleanly here. */}
-        <h2 className="mx-auto px-6 text-[40px] leading-[0.95] font-normal tracking-[-0.01em] uppercase md:text-[74px]">
+        <h2 className="mx-auto px-6 text-statement leading-[0.95] font-normal tracking-[-0.01em] uppercase">
           {titleLines.map((line, i) => (
             <span key={i} className="gsap-reveal block">
               {line}
             </span>
           ))}
         </h2>
-        <p className="gsap-reveal mx-auto mt-6 max-w-[480px] px-6 text-[15px] text-white/60 md:text-[17px]">
+        <p className="gsap-reveal mx-auto mt-6 max-w-[480px] px-6 text-body text-white/60 md:text-body-lg">
           {t("body")}
         </p>
 
         {quickChannels.length > 0 && (
-          <div className="gsap-reveal mt-8 flex flex-wrap items-center justify-center gap-3 px-6 text-[15px] font-medium">
+          <div className="gsap-reveal mt-8 flex flex-wrap items-center justify-center gap-3 px-6 text-body font-medium">
             {quickChannels.map((channel) => (
               <a
                 key={channel.label}

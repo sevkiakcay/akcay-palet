@@ -9,8 +9,8 @@ import { CtaArrow } from "../shared/CtaArrow";
 const CUSTOM_DIMENSION_INDEX = 3;
 
 const inputClass =
-  "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-[14px] text-foreground transition-colors focus:border-primary focus-visible:outline-offset-2";
-const labelClass = "text-[12px] font-medium text-muted-foreground";
+  "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-ui text-foreground transition-colors focus:border-primary focus-visible:outline-offset-2";
+const labelClass = "text-caption font-medium text-muted-foreground";
 
 /**
  * The actual quote-request experience, as progressive disclosure rather than
@@ -82,7 +82,7 @@ export function QuoteForm() {
         {stepLabels.map((label, i) => (
           <div key={label} className="flex flex-1 items-center gap-2">
             <span
-              className={`text-[11px] font-medium tracking-wide uppercase transition-colors duration-300 ${i === step ? "text-primary-bright" : i < step ? "text-surface-dark-foreground/70" : "text-surface-dark-foreground/50"}`}
+              className={`text-micro font-medium tracking-wide uppercase transition-colors duration-300 ${i === step ? "text-primary-bright" : i < step ? "text-surface-dark-foreground/70" : "text-surface-dark-foreground/50"}`}
             >
               {i + 1}. {label}
             </span>
@@ -100,7 +100,7 @@ export function QuoteForm() {
 
       {step === 0 && (
         <div className="animate-in fade-in slide-in-from-bottom-1 duration-300 ease-precise motion-reduce:animate-none">
-          <p className="text-[16px] font-semibold text-surface-dark-foreground">{t("chooseTitle")}</p>
+          <p className="text-md font-semibold text-surface-dark-foreground">{t("chooseTitle")}</p>
           <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {palletTypes.map((type, i) => (
               <button
@@ -110,7 +110,7 @@ export function QuoteForm() {
                   setPalletTypeIndex(i);
                   setStep(1);
                 }}
-                className="rounded-lg border border-surface-dark-foreground/15 bg-transparent px-4 py-3.5 text-start text-[14px] font-medium text-surface-dark-foreground transition duration-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98]"
+                className="rounded-lg border border-surface-dark-foreground/15 bg-transparent px-4 py-3.5 text-start text-ui font-medium text-surface-dark-foreground transition duration-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98]"
               >
                 {type}
               </button>
@@ -121,7 +121,7 @@ export function QuoteForm() {
 
       {step === 1 && (
         <div className="animate-in fade-in slide-in-from-bottom-1 duration-300 ease-precise motion-reduce:animate-none">
-          <p className="text-[16px] font-semibold text-surface-dark-foreground">{t("detailsTitle", { type: palletType })}</p>
+          <p className="text-md font-semibold text-surface-dark-foreground">{t("detailsTitle", { type: palletType })}</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="flex flex-col gap-1.5">
               <span className={labelClass}>{t("dimension")}</span>
@@ -192,7 +192,7 @@ export function QuoteForm() {
             <button
               type="button"
               onClick={() => setStep(0)}
-              className="text-[13px] font-medium text-surface-dark-foreground/60 hover:text-surface-dark-foreground"
+              className="text-small font-medium text-surface-dark-foreground/60 hover:text-surface-dark-foreground"
             >
               <span aria-hidden className="inline-block rtl:-scale-x-100">
                 ←
@@ -202,7 +202,7 @@ export function QuoteForm() {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="ms-auto rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
+              className="ms-auto rounded-full bg-primary px-6 py-2.5 text-ui font-semibold text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97]"
             >
               {t("continue")}
             </button>
@@ -212,8 +212,8 @@ export function QuoteForm() {
 
       {step === 2 && (
         <div className="animate-in fade-in slide-in-from-bottom-1 duration-300 ease-precise motion-reduce:animate-none">
-          <p className="text-[16px] font-semibold text-surface-dark-foreground">{t("reviewTitle")}</p>
-          <dl className="mt-4 space-y-2 text-[14px]">
+          <p className="text-md font-semibold text-surface-dark-foreground">{t("reviewTitle")}</p>
+          <dl className="mt-4 space-y-2 text-ui">
             {reviewRows.map((row, i) => (
               <div
                 key={row.label}
@@ -229,7 +229,7 @@ export function QuoteForm() {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="text-[13px] font-medium text-surface-dark-foreground/60 hover:text-surface-dark-foreground"
+              className="text-small font-medium text-surface-dark-foreground/60 hover:text-surface-dark-foreground"
             >
               <span aria-hidden className="inline-block rtl:-scale-x-100">
                 ←
@@ -240,14 +240,14 @@ export function QuoteForm() {
               type="button"
               onClick={handleSend}
               disabled={!hasChannel}
-              className="group ms-auto flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-[14px] font-semibold text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
+              className="group ms-auto flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-ui font-semibold text-primary-foreground transition duration-200 hover:bg-primary/90 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
             >
               {t("send")}
               <CtaArrow />
             </button>
           </div>
 
-          {!hasChannel && <p className="mt-3 text-[12px] text-surface-dark-foreground/50">{t("noChannel")}</p>}
+          {!hasChannel && <p className="mt-3 text-caption text-surface-dark-foreground/50">{t("noChannel")}</p>}
         </div>
       )}
     </div>

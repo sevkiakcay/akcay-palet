@@ -53,7 +53,7 @@ export function HeroTransition() {
         {/* Manifesto headline: 78px, weight 300, tight (0.74) line-height. */}
         <h2
           ref={headingRef}
-          className="text-[clamp(2.25rem,7vw,78px)] leading-[0.74] font-light tracking-[-0.015em]"
+          className="text-display leading-[0.74] font-light tracking-[-0.015em]"
         >
           {words.map((word, i) => (
             <span key={i}>
@@ -62,7 +62,7 @@ export function HeroTransition() {
             </span>
           ))}
         </h2>
-        <p className="gsap-reveal mx-auto mt-8 max-w-[620px] text-[15px] font-light text-white/65 md:text-[18px]">
+        <p className="gsap-reveal mx-auto mt-8 max-w-[620px] text-body font-light text-white/65 md:text-subtitle">
           {t("body")}
         </p>
       </div>

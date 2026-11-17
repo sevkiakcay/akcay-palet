@@ -54,7 +54,7 @@ export function ProcessShowcase() {
     >
       <div ref={bodyRef}>
         <div className="px-6 text-center">
-          <p className="gsap-reveal text-[12px] font-normal tracking-[0.2em] text-white/55 uppercase">
+          <p className="gsap-reveal text-caption font-normal tracking-[0.2em] text-white/55 uppercase">
             {t("eyebrow")}
           </p>
           <SplitText
@@ -64,11 +64,11 @@ export function ProcessShowcase() {
             delay={40}
             duration={0.9}
             effect="rise"
-            className="mt-3 text-[31px] leading-[1.0] font-normal tracking-[-0.015em] text-white md:text-[46px]"
+            className="mt-3 text-section leading-[1.0] font-normal tracking-[-0.015em] text-white"
           />
         </div>
 
-        <div className="mx-auto mt-16 max-w-[1078px] px-6 md:mt-20">
+        <div className="editorial-shell mt-16 md:mt-20">
           {/* Desktop choreography: a line draws across the track and each step
               arrives as the line reaches it. Stacked on phones, the steps simply
               follow each other in quicker succession. */}
@@ -84,23 +84,23 @@ export function ProcessShowcase() {
                 <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-black ring-1 ring-white/25">
                   <span className="h-1.5 w-1.5 rounded-full bg-white" />
                 </div>
-                <p className="mt-4 font-mono text-[13px] tracking-widest text-white/70">
+                <p className="mt-4 font-mono text-small tracking-widest text-white/70">
                   {String(i + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-1 text-[17px] font-medium">{step.title}</h3>
-                <p className="mx-auto mt-2 max-w-[240px] text-[14px] text-white/60">{step.desc}</p>
+                <h3 className="mt-1 text-body-lg font-medium">{step.title}</h3>
+                <p className="mx-auto mt-2 max-w-[240px] text-ui text-white/60">{step.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
         <div className="mx-auto mt-20 max-w-[1078px] px-6 md:mt-24">
-          <p className="gsap-reveal text-center text-[12px] font-medium tracking-wide text-white/55 uppercase">
+          <p className="gsap-reveal text-center text-caption font-medium tracking-wide text-white/55 uppercase">
             {t("checkpointsTitle")}
           </p>
           <div className="gsap-reveal mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {checkpoints.map((point) => (
-              <span key={point} className="text-[13px] text-white/80">
+              <span key={point} className="text-small text-white/80">
                 {point}
               </span>
             ))}

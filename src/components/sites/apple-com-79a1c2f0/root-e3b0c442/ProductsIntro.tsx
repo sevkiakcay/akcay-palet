@@ -50,7 +50,7 @@ export function ProductsIntro() {
       <div className="relative mx-auto max-w-[760px] text-center">
         <p
           ref={eyebrowRef}
-          className="gsap-reveal text-[11px] font-normal tracking-[0.28em] text-white/55 uppercase"
+          className="gsap-reveal text-micro font-normal tracking-[0.28em] text-white/55 uppercase"
         >
           {t("eyebrow")}
         </p>
@@ -62,18 +62,18 @@ export function ProductsIntro() {
           delay={30}
           duration={1.0}
           effect="rise"
-          className="mt-4 text-[clamp(2.25rem,8vw,96px)] leading-[0.82] font-normal tracking-[-0.02em] text-white"
+          className="mt-4 text-display-lg leading-[0.82] font-normal tracking-[-0.02em] text-white"
         />
         <p
           ref={subtitleRef}
-          className="gsap-reveal mx-auto mt-4 max-w-[560px] text-[15px] leading-relaxed text-white/70 md:text-[18px]"
+          className="gsap-reveal mx-auto mt-4 max-w-[560px] text-body leading-relaxed text-white/70 md:text-subtitle"
         >
           {t("body")}
         </p>
         <a
           ref={ctaRef}
           href="#iletisim"
-          className="gsap-reveal mt-7 inline-flex rounded-pill bg-white px-6 py-2.5 text-[15px] font-medium text-black transition duration-200 hover:bg-white/90 active:scale-[0.97]"
+          className="gsap-reveal mt-7 inline-flex rounded-pill bg-white px-6 py-2.5 text-body font-medium text-black transition duration-200 hover:bg-white/90 active:scale-[0.97]"
         >
           {tc("quote")}
         </a>

@@ -57,7 +57,7 @@ export function StatsSection() {
   return (
     <section ref={sectionRef} className="frame-closed bg-white px-6 py-20 text-black md:py-28">
       <div ref={bodyRef} className="mx-auto max-w-[1078px]">
-        <p className="gsap-reveal text-center text-[12px] font-normal tracking-[0.2em] text-editorial-gray-2 uppercase">
+        <p className="gsap-reveal text-center text-caption font-normal tracking-[0.2em] text-editorial-gray-2 uppercase">
           {t("eyebrow")}
         </p>
         <div className="mt-10 grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-8">
@@ -67,12 +67,12 @@ export function StatsSection() {
                 ref={(el) => {
                   numberRefs.current[i] = el;
                 }}
-                className="text-[clamp(2.5rem,6vw,72px)] leading-none font-normal tracking-[-0.02em] tabular-nums"
+                className="text-display-sm leading-none font-normal tracking-[-0.02em] tabular-nums"
               >
                 {formatter.format(item.value)}
                 {item.suffix}
               </p>
-              <p className="mt-3 text-[13px] font-normal tracking-[0.05em] text-editorial-gray-2 uppercase">
+              <p className="mt-3 text-small font-normal tracking-[0.05em] text-editorial-gray-2 uppercase">
                 {item.label}
               </p>
             </div>

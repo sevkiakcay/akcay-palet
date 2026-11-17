@@ -162,7 +162,7 @@ export function Hero() {
       <div ref={textLayerRef} className="relative z-20 mx-auto max-w-[1078px] text-center">
         <p
           ref={eyebrowRef}
-          className="gsap-reveal text-[11px] font-normal tracking-[0.3em] text-white/70 uppercase"
+          className="gsap-reveal text-micro font-normal tracking-[0.3em] text-white/70 uppercase"
         >
           Akçay Palet
         </p>
@@ -174,17 +174,17 @@ export function Hero() {
           delay={30}
           duration={1.1}
           effect="rise"
-          className="mt-4 text-[clamp(2.5rem,14vw,225px)] leading-[0.74] font-normal tracking-[-0.02em] text-white"
+          className="mt-4 text-mega leading-[0.74] font-normal tracking-[-0.02em] text-white"
         />
         <p
           ref={subtitleRef}
-          className="gsap-reveal mx-auto mt-6 max-w-[560px] text-[16px] font-light text-white/80 lg:text-[19px]"
+          className="gsap-reveal mx-auto mt-6 max-w-[560px] text-md font-light text-white/80 lg:text-lead"
         >
           {t("subtitle")}
         </p>
         <div
           ref={ctaRef}
-          className="gsap-reveal mt-8 flex flex-wrap items-center justify-center gap-3 text-[15px] font-medium"
+          className="gsap-reveal mt-8 flex flex-wrap items-center justify-center gap-3 text-body font-medium"
         >
           <a
             href="#iletisim"

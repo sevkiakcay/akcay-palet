@@ -20,7 +20,7 @@ function routeFor(anchor: string) {
 
 function FooterLink({ href, label }: { href: string; label: string }) {
   const route = routeFor(href);
-  const className = "text-[13px] text-white/70 transition-colors hover:text-white";
+  const className = "text-small text-white/70 transition-colors hover:text-white";
   return route ? (
     <Link href={route} className={className}>
       {label}
@@ -41,7 +41,7 @@ export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black text-white">
       <div className="mx-auto box-content max-w-[1078px] px-6 py-14">
-        <div className="flex items-center gap-3 text-[13px] font-semibold tracking-tight">
+        <div className="flex items-center gap-3 text-small font-semibold tracking-tight">
           {/* Same 1280×440 badge as the header; its black plate melts into the footer surface. */}
           <Image src="/brand/akcay-pallets-logo.png" alt="" width={93} height={32} className="h-8 w-auto" />
           Akçay Palet
@@ -49,7 +49,7 @@ export function Footer() {
         <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
           {columns.map((col) => (
             <div key={col.heading}>
-              <h4 className="text-[11px] font-normal tracking-[0.1em] text-white/50 uppercase">{col.heading}</h4>
+              <h4 className="text-micro font-normal tracking-[0.1em] text-white/50 uppercase">{col.heading}</h4>
               <ul className="mt-3 space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
@@ -63,8 +63,8 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/10 px-6 py-6">
-        <p className="mx-auto max-w-[1078px] text-[11px] leading-relaxed text-white/50">{t("disclaimer")}</p>
-        <div className="mx-auto mt-4 flex max-w-[1078px] flex-col items-start justify-between gap-3 text-[11px] text-white/50 sm:flex-row sm:items-center">
+        <p className="mx-auto max-w-[1078px] text-micro leading-relaxed text-white/50">{t("disclaimer")}</p>
+        <div className="mx-auto mt-4 flex max-w-[1078px] flex-col items-start justify-between gap-3 text-micro text-white/50 sm:flex-row sm:items-center">
           <span>{t("copyright", { year: new Date().getFullYear() })}</span>
           <div className="flex gap-5">
             {legalLabels.map((label) => (

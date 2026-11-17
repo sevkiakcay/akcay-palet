@@ -49,7 +49,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         aria-label={t("language")}
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex items-center gap-1 rounded-pill px-2.5 py-1.5 font-mono text-[11px] tracking-[0.08em] text-black/70 uppercase transition-colors hover:bg-black/5 hover:text-black",
+          "inline-flex items-center gap-1 rounded-pill px-2.5 py-1.5 font-mono text-micro tracking-[0.08em] text-black/70 uppercase transition-colors hover:bg-black/5 hover:text-black",
           isPending && "opacity-50",
         )}
       >
@@ -74,10 +74,10 @@ export function LanguageSwitcher({ className }: { className?: string }) {
                   lang={l}
                   dir={isRtl(l) ? "rtl" : "ltr"}
                   onClick={() => select(l)}
-                  className="flex w-full items-center justify-between gap-4 px-4 py-2 text-start text-[13px] transition-colors hover:bg-black/[0.04]"
+                  className="flex w-full items-center justify-between gap-4 px-4 py-2 text-start text-small transition-colors hover:bg-black/[0.04]"
                 >
                   <span className={active ? "font-semibold" : undefined}>{LOCALE_LABELS[l]}</span>
-                  <span className={cn("font-mono text-[10px] uppercase", active ? "text-black" : "text-black/35")}>
+                  <span className={cn("font-mono text-nano uppercase", active ? "text-black" : "text-black/35")}>
                     {l}
                   </span>
                 </button>

@@ -65,7 +65,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
 
   return (
     <div className="mt-1 rounded-lg border border-border bg-surface-alt/60 p-2.5">
-      <label className="flex cursor-pointer items-center gap-2 text-[13px] font-medium">
+      <label className="flex cursor-pointer items-center gap-2 text-small font-medium">
         <input
           type="checkbox"
           checked={design.topCustom}
@@ -76,7 +76,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
       </label>
 
       {!design.topCustom ? (
-        <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">{t("topBoard.hint")}</p>
+        <p className="mt-1.5 text-micro leading-relaxed text-muted-foreground">{t("topBoard.hint")}</p>
       ) : (
         <div className="mt-2.5">
           {/* Live cross-section strip: board widths and thicknesses to scale across the deck. */}
@@ -106,7 +106,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
               );
             })}
           </svg>
-          <div className="mt-1 flex justify-between font-mono text-[10px] text-muted-foreground" dir="ltr">
+          <div className="mt-1 flex justify-between font-mono text-nano text-muted-foreground" dir="ltr">
             <span>0</span>
             <span>
               {design.type === "blok" ? t("topBoard.widthAxis") : t("topBoard.lengthAxis")} {span} mm
@@ -114,7 +114,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
             <span>{span}</span>
           </div>
 
-          <div className="mt-2.5 grid grid-cols-[22px_1fr_1fr_1fr] items-center gap-1.5 text-[10px] tracking-wide text-muted-foreground uppercase">
+          <div className="mt-2.5 grid grid-cols-[22px_1fr_1fr_1fr] items-center gap-1.5 text-nano tracking-wide text-muted-foreground uppercase">
             <span>#</span>
             <span className="text-center">{t("topBoard.pos")}</span>
             <span className="text-center">{t("topBoard.width")}</span>
@@ -126,7 +126,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
                 key={i}
                 className={`grid grid-cols-[22px_1fr_1fr_1fr] items-center gap-1.5 rounded ${bad.has(i) ? "bg-destructive/10" : ""}`}
               >
-                <span className={`text-center font-mono text-[12px] ${bad.has(i) ? "text-destructive" : "text-muted-foreground"}`}>
+                <span className={`text-center font-mono text-caption ${bad.has(i) ? "text-destructive" : "text-muted-foreground"}`}>
                   {i + 1}
                 </span>
                 {(["p", "w", "t"] as const).map((f) => {
@@ -146,7 +146,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
                       onChange={(e) => commit(i, f, e.target.value, false)}
                       onBlur={(e) => commit(i, f, e.target.value, true)}
                       onFocus={() => setHighlight(i)}
-                      className="min-w-0 rounded border border-border bg-background px-1.5 py-1 text-center font-mono text-[12px] tabular-nums outline-none focus:border-primary"
+                      className="min-w-0 rounded border border-border bg-background px-1.5 py-1 text-center font-mono text-caption tabular-nums outline-none focus:border-primary"
                     />
                   );
                 })}
@@ -154,21 +154,21 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
             ))}
           </div>
 
-          <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-micro leading-relaxed text-muted-foreground">
             {design.type === "blok" ? t("topBoard.noteBlok") : t("topBoard.noteKizak")}
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
             <button
               type="button"
               onClick={onEven}
-              className="rounded-full border border-border bg-background px-2.5 py-1 text-[12px] transition-colors hover:border-primary active:scale-[0.97]"
+              className="rounded-full border border-border bg-background px-2.5 py-1 text-caption transition-colors hover:border-primary active:scale-[0.97]"
             >
               {t("topBoard.even")}
             </button>
             <button
               type="button"
               onClick={onSame}
-              className="rounded-full border border-border bg-background px-2.5 py-1 text-[12px] transition-colors hover:border-primary active:scale-[0.97]"
+              className="rounded-full border border-border bg-background px-2.5 py-1 text-caption transition-colors hover:border-primary active:scale-[0.97]"
             >
               {t("topBoard.same")}
             </button>

@@ -66,7 +66,7 @@ export function Header() {
         )}
       >
         <div className="overflow-hidden">
-          <p className="px-4 py-[10px] text-center text-[12px] leading-[18px] text-white">
+          <p className="px-4 py-[10px] text-center text-caption leading-[18px] text-white">
             {t("announcement")}{" "}
             <a href="#iletisim" className="underline underline-offset-2 hover:no-underline">
               {t("announcementLink")}
@@ -80,7 +80,7 @@ export function Header() {
           compact && "shadow-[0_10px_30px_-18px_rgba(0,0,0,0.25)]",
         )}
       >
-        <nav className="mx-auto box-content flex h-11 max-w-[1078px] items-center justify-between px-4 text-[12px] font-medium">
+        <nav className="mx-auto box-content flex h-11 max-w-[1078px] items-center justify-between px-4 text-caption font-medium">
           <Link href="/" className="flex items-center gap-2.5 text-black" aria-label={t("homeLabel")}>
             {/* Brand badge (1280×440 source); alt is empty because the link label and name text already say it. */}
             <Image
@@ -91,7 +91,7 @@ export function Header() {
               priority
               className="h-7 w-auto"
             />
-            <span className="text-[13px] font-semibold tracking-tight">Akçay Palet</span>
+            <span className="text-small font-semibold tracking-tight">Akçay Palet</span>
           </Link>
           <ul className="hidden items-center gap-7 md:flex">
             {NAV_LINKS.map((link) => {
@@ -113,7 +113,7 @@ export function Header() {
             <LanguageSwitcher />
             <a
               href="#iletisim"
-              className="hidden rounded-pill bg-black px-4 py-1.5 text-[12px] font-semibold text-white transition duration-200 hover:bg-black/85 active:scale-[0.97] md:inline-block"
+              className="hidden rounded-pill bg-black px-4 py-1.5 text-caption font-semibold text-white transition duration-200 hover:bg-black/85 active:scale-[0.97] md:inline-block"
             >
               {tc("quote")}
             </a>
@@ -151,7 +151,7 @@ export function Header() {
                     <Link
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className="block py-3 text-[14px] font-medium text-black transition-colors active:text-black/60"
+                      className="block py-3 text-ui font-medium text-black transition-colors active:text-black/60"
                     >
                       {t(`nav.${link.key}`)}
                     </Link>
@@ -161,7 +161,7 @@ export function Header() {
               <a
                 href="#iletisim"
                 onClick={() => setMenuOpen(false)}
-                className="mt-3 flex items-center justify-center rounded-pill bg-black px-5 py-2.5 text-[14px] font-semibold text-white transition duration-200 active:scale-[0.98]"
+                className="mt-3 flex items-center justify-center rounded-pill bg-black px-5 py-2.5 text-ui font-semibold text-white transition duration-200 active:scale-[0.98]"
               >
                 {tc("quote")}
               </a>

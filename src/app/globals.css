@@ -64,6 +64,78 @@
   --color-editorial-gray-4: var(--editorial-gray-4);
   --radius-pill: 75px;
   --ease-editorial: var(--editorial-ease);
+
+  /* ── Type scale ───────────────────────────────────────────────────────────
+     Derived from what the sections already render, not from a generic modular
+     scale: every token below reproduces the exact endpoints of a role that
+     existed as an ad-hoc `text-[Npx]` (or a `text-[Npx] md:text-[Mpx]` pair)
+     before this scale, so adopting it changes no size. The one deliberate
+     change: the heading tier is fluid, so a headline grows continuously
+     instead of jumping at the `md` breakpoint.
+
+     No paired `--text-*--line-height` on purpose. Sections set leading
+     explicitly (`leading-[0.95]`, `leading-[1.1]`…); pairing a default here
+     would silently restyle every call site that doesn't. */
+
+  /* Body / UI tier — exact px values already in use. */
+  --text-nano: 10px;      /* axis ticks, board badges */
+  --text-micro: 11px;     /* uppercase labels, step indicators */
+  --text-caption: 12px;   /* form labels, small meta */
+  --text-small: 13px;     /* secondary body — the most used size on the site */
+  --text-ui: 14px;        /* controls, table and spec rows */
+  --text-body: 15px;      /* body copy */
+  --text-md: 16px;        /* step titles */
+  --text-body-lg: 17px;   /* lead paragraphs */
+  --text-subtitle: 18px;  /* dialog and panel sub-headings */
+  --text-lead: 19px;      /* hero sub-copy at lg */
+  --text-title: 22px;     /* dialog titles */
+
+  /* Heading tier — fluid. `--text-section` is one role, not six: six sections
+     opened with six near-identical ad-hoc pairs (28/40, 29/38, 29/42, 31/46,
+     33/46, 33/46) that had drifted apart rather than been designed apart.
+     They are unified here; the endpoints keep the widest of the set so no
+     headline shrinks on desktop. The rest reproduce their role's exact
+     endpoints and only trade the `md` step for a continuous curve. */
+  --text-section: clamp(29px, 4.2vw, 46px);    /* section openers */
+  --text-statement: clamp(40px, 9vw, 74px);    /* closing statement (FinalCta) */
+  --text-display-sm: clamp(2.5rem, 6vw, 72px); /* StatsSection */
+  --text-display: clamp(2.25rem, 7vw, 78px);   /* HeroTransition */
+  --text-display-lg: clamp(2.25rem, 8vw, 96px);/* ProductsIntro */
+  --text-mega: clamp(2.5rem, 14vw, 225px);     /* hero only */
+
+  /* ── Swiss grid ───────────────────────────────────────────────────────────
+     1078px is the width 12 call sites had already converged on; it is the
+     container, not a suggestion. The 12-column track and its gutter back the
+     `editorial-grid` utility below. */
+  --container-editorial: 1078px;
+  --grid-gutter: 1.5rem;
+  --grid-gutter-md: 2rem;
+
+  /* Section rhythm — the two vertical paddings the sections actually use. */
+  --spacing-section: 6rem;    /* light sections (was py-24) */
+  --spacing-section-lg: 9rem; /* dark sections (was py-36) */
+}
+
+/* The editorial shell: centred, capped at the container width, with the page's
+   horizontal gutter. Replaces the `mx-auto max-w-[1078px] px-6` triplet that
+   was repeated per section, so the container width lives in one place. */
+@utility editorial-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-editorial);
+  padding-inline: var(--grid-gutter);
+}
+
+/* 12-column Swiss grid. Columns are addressed with Tailwind's own
+   `col-span-*`/`col-start-*`, so no bespoke column utilities are needed. */
+@utility editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+
+  @media (min-width: 768px) {
+    column-gap: var(--grid-gutter-md);
+  }
 }
 
 :root {

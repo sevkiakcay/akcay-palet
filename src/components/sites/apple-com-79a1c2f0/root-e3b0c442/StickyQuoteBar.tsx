@@ -55,7 +55,7 @@ export function StickyQuoteBar() {
     >
       <a
         href="#iletisim"
-        className="flex w-full items-center justify-center rounded-pill bg-white py-3 text-[15px] font-semibold text-black transition duration-200 active:scale-[0.98] active:bg-white/90"
+        className="flex w-full items-center justify-center rounded-pill bg-white py-3 text-body font-semibold text-black transition duration-200 active:scale-[0.98] active:bg-white/90"
       >
         {t("quote")}
       </a>

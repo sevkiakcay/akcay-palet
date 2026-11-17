@@ -34,7 +34,7 @@ const CAMERAS: CameraKind[] = ["iso", "top", "front", "side", "under"];
 const inputBox =
   "flex items-center overflow-hidden rounded-md border border-border bg-background focus-within:border-primary";
 const segBtn =
-  "px-2.5 py-1.5 text-[12px] font-medium text-muted-foreground transition-colors aria-pressed:bg-foreground aria-pressed:text-background";
+  "px-2.5 py-1.5 text-caption font-medium text-muted-foreground transition-colors aria-pressed:bg-foreground aria-pressed:text-background";
 
 /** Screen colours for the technical drawing; the downloadable/e-mailed copy uses the print palette instead. */
 const SCREEN_DRAWING = {
@@ -237,11 +237,11 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
     <section className="bg-surface-alt px-4 pt-[140px] pb-16 md:pt-[116px]">
       <div className="mx-auto max-w-[1440px]">
         <div className="mb-5 flex flex-col gap-1 md:mb-6">
-          <p className="text-[11px] font-semibold tracking-[0.28em] text-muted-foreground uppercase">{t("eyebrow")}</p>
-          <h1 className="font-heading text-[28px] leading-[1.1] font-bold tracking-[-0.02em] text-foreground md:text-[40px]">
+          <p className="text-micro font-semibold tracking-[0.28em] text-muted-foreground uppercase">{t("eyebrow")}</p>
+          <h1 className="font-heading text-section leading-[1.1] font-bold tracking-[-0.02em] text-foreground">
             {t("title")}
           </h1>
-          <p className="max-w-[680px] text-[14px] leading-relaxed text-muted-foreground md:text-[16px]">{t("body")}</p>
+          <p className="max-w-[680px] text-ui leading-relaxed text-muted-foreground md:text-md">{t("body")}</p>
         </div>
 
         <div className="grid gap-3.5 xl:h-[calc(100vh-150px)] xl:min-h-[600px] lg:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-[290px_minmax(0,1fr)_330px]">
@@ -289,19 +289,19 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
             </div>
             {!showDrawing && (
               <>
-                <div className="absolute start-3 bottom-3 rounded-md border border-border bg-background px-2.5 py-1.5 font-mono text-[13px]" dir="ltr">
-                  <b className="me-1.5 font-heading text-[18px] font-bold">
+                <div className="absolute start-3 bottom-3 rounded-md border border-border bg-background px-2.5 py-1.5 font-mono text-small" dir="ltr">
+                  <b className="me-1.5 font-heading text-subtitle font-bold">
                     {design.L} × {design.W} × {Math.round(c.H)}
                   </b>
                   mm
                 </div>
-                <div className="absolute end-3 bottom-3 hidden rounded-md border border-border bg-background px-2 py-1 text-[11px] text-muted-foreground sm:block">
+                <div className="absolute end-3 bottom-3 hidden rounded-md border border-border bg-background px-2 py-1 text-micro text-muted-foreground sm:block">
                   {t("hint")}
                 </div>
               </>
             )}
             {no3d && (
-              <p className="absolute inset-x-3 bottom-3 rounded-md bg-background/90 p-2 text-[12px] text-muted-foreground">{t("no3d")}</p>
+              <p className="absolute inset-x-3 bottom-3 rounded-md bg-background/90 p-2 text-caption text-muted-foreground">{t("no3d")}</p>
             )}
           </div>
 
@@ -310,7 +310,7 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
             aria-label={t("specsTitle")}
             className="min-h-0 overflow-auto rounded-xl border border-border bg-background lg:col-start-1 lg:row-start-1 lg:row-span-2 xl:row-span-1"
           >
-            <h2 className="sticky top-0 z-10 border-b border-border bg-background px-3.5 py-3 font-heading text-[15px] font-bold tracking-wide uppercase">
+            <h2 className="sticky top-0 z-10 border-b border-border bg-background px-3.5 py-3 font-heading text-body font-bold tracking-wide uppercase">
               {t("specsTitle")}
             </h2>
             <div className="flex flex-wrap gap-1.5 border-b border-border px-3.5 py-3">
@@ -320,7 +320,7 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
                   type="button"
                   aria-pressed={preset === id}
                   onClick={() => applyPreset(id)}
-                  className="rounded-full border border-border bg-surface-alt px-2.5 py-1 text-[12px] transition-colors hover:border-muted-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+                  className="rounded-full border border-border bg-surface-alt px-2.5 py-1 text-caption transition-colors hover:border-muted-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
                 >
                   {t(`presets.${id}`)}
                 </button>
@@ -329,7 +329,7 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
             <form onSubmit={(e) => e.preventDefault()}>
               {SCHEMA.filter((g) => !g.show || g.show(design)).map((g) => (
                 <fieldset key={g.g} className="grid gap-2 border-b border-border px-3.5 pt-3 pb-3.5">
-                  <legend className="float-left w-full pb-1 text-[11px] font-semibold tracking-[0.08em] text-muted-foreground uppercase">
+                  <legend className="float-left w-full pb-1 text-micro font-semibold tracking-[0.08em] text-muted-foreground uppercase">
                     {t(`groups.${g.g}`)}
                   </legend>
                   {g.items.map((f) => {
@@ -351,9 +351,9 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
                             onChange={(e) => onNumberInput(f.k, e.target.value, false)}
                             onBlur={(e) => onNumberInput(f.k, e.target.value, true)}
                             onKeyDown={(e) => e.key === "Enter" && onNumberInput(f.k, e.currentTarget.value, true)}
-                            className="w-full min-w-0 bg-transparent px-2 py-1.5 text-end font-mono text-[13px] tabular-nums outline-none"
+                            className="w-full min-w-0 bg-transparent px-2 py-1.5 text-end font-mono text-small tabular-nums outline-none"
                           />
-                          <span className="pe-2 font-mono text-[11px] text-muted-foreground">{t(`units.${f.u}`)}</span>
+                          <span className="pe-2 font-mono text-micro text-muted-foreground">{t(`units.${f.u}`)}</span>
                         </div>
                       );
                     } else if (isSelectField(f)) {
@@ -363,7 +363,7 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
                             id={id}
                             value={design[f.k]}
                             onChange={(e) => update(f.k, e.target.value as PalletDesign[typeof f.k])}
-                            className="w-full min-w-0 bg-transparent px-2 py-1.5 text-[13px] outline-none"
+                            className="w-full min-w-0 bg-transparent px-2 py-1.5 text-small outline-none"
                           >
                             {f.options.map((o) => (
                               <option key={o} value={o}>
@@ -382,14 +382,14 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
                             maxLength={f.max}
                             value={design.stamp}
                             onChange={(e) => update("stamp", e.target.value)}
-                            className="w-full min-w-0 bg-transparent px-2 py-1.5 text-[13px] outline-none"
+                            className="w-full min-w-0 bg-transparent px-2 py-1.5 text-small outline-none"
                           />
                         </div>
                       );
                     }
                     return (
                       <div key={f.k} className={wide ? "grid gap-1.5" : "grid grid-cols-[1fr_112px] items-center gap-2"}>
-                        <label htmlFor={id} className="text-[13px]">
+                        <label htmlFor={id} className="text-small">
                           {t(`fields.${f.k}`)}
                         </label>
                         {control}
@@ -409,7 +409,7 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
                   )}
                 </fieldset>
               ))}
-              {design.type === "blok" && <p className="px-3.5 py-2.5 text-[11px] text-muted-foreground">{t("blockNote")}</p>}
+              {design.type === "blok" && <p className="px-3.5 py-2.5 text-micro text-muted-foreground">{t("blockNote")}</p>}
             </form>
           </aside>
 
@@ -418,36 +418,36 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
             aria-label={t("sheetTitle")}
             className="flex min-h-0 flex-col overflow-auto rounded-xl border border-border bg-background lg:col-start-2 lg:row-start-2 xl:col-start-3 xl:row-start-1"
           >
-            <h2 className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-background px-3.5 py-3 font-heading text-[15px] font-bold tracking-wide uppercase">
+            <h2 className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-background px-3.5 py-3 font-heading text-body font-bold tracking-wide uppercase">
               {t("sheetTitle")}
-              <span className="font-mono text-[11px] font-normal tracking-normal text-muted-foreground normal-case">{t("estimate")}</span>
+              <span className="font-mono text-micro font-normal tracking-normal text-muted-foreground normal-case">{t("estimate")}</span>
             </h2>
             <dl className="grid grid-cols-2 border-b border-border">
               {metrics.map(([k, v, u], i) => (
                 <div key={k} className={`border-b border-border px-3.5 py-2.5 ${i % 2 === 0 ? "border-e" : ""}`}>
-                  <dt className="text-[11px] tracking-[0.06em] text-muted-foreground uppercase">{k}</dt>
-                  <dd className="font-heading text-[22px] leading-tight font-semibold tabular-nums">
+                  <dt className="text-micro tracking-[0.06em] text-muted-foreground uppercase">{k}</dt>
+                  <dd className="font-heading text-title leading-tight font-semibold tabular-nums">
                     {v}
-                    <small className="ms-1 font-mono text-[11px] font-normal text-muted-foreground">{u}</small>
+                    <small className="ms-1 font-mono text-micro font-normal text-muted-foreground">{u}</small>
                   </dd>
                 </div>
               ))}
             </dl>
-            <p className="px-3.5 pt-2 pb-3 text-[11px] text-muted-foreground">{t("loadNote")}</p>
+            <p className="px-3.5 pt-2 pb-3 text-micro text-muted-foreground">{t("loadNote")}</p>
             {c.warns.length > 0 && (
               <ul className="grid gap-1.5 px-3.5 pb-3" aria-live="polite">
                 {c.warns.map((w) => (
-                  <li key={w.code} className="rounded-md bg-amber-100 px-2.5 py-1.5 text-[12px] text-amber-900">
+                  <li key={w.code} className="rounded-md bg-amber-100 px-2.5 py-1.5 text-caption text-amber-900">
                     {warningText(w)}
                   </li>
                 ))}
               </ul>
             )}
             <div className="border-t border-border px-3.5 py-3">
-              <h3 className="mb-2 text-[11px] font-semibold tracking-[0.08em] text-muted-foreground uppercase">{t("bomTitle")}</h3>
-              <table className="w-full border-collapse text-[12px]">
+              <h3 className="mb-2 text-micro font-semibold tracking-[0.08em] text-muted-foreground uppercase">{t("bomTitle")}</h3>
+              <table className="w-full border-collapse text-caption">
                 <thead>
-                  <tr className="text-[11px] text-muted-foreground">
+                  <tr className="text-micro text-muted-foreground">
                     <th className="py-1 text-start font-medium">{t("bomPart")}</th>
                     <th className="py-1 text-end font-medium">{t("bomQty")}</th>
                     <th className="py-1 text-end font-medium">{t("bomSize")}</th>
@@ -470,28 +470,28 @@ function Workshop({ startPreset }: { startPreset: StartPreset | null }) {
               </table>
             </div>
             <div className="mt-auto grid gap-2 border-t border-border bg-background p-3.5 xl:sticky xl:bottom-0">
-              <p className="text-[12px] text-muted-foreground">{t("quoteNote")}</p>
+              <p className="text-caption text-muted-foreground">{t("quoteNote")}</p>
               <button
                 type="button"
                 onClick={openQuote}
-                className="rounded-full bg-primary px-5 py-3 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                className="rounded-full bg-primary px-5 py-3 text-body font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 {t("quoteButton")}
               </button>
               {blockedMsg && (
-                <p role="alert" className="text-[12px] font-medium text-destructive">
+                <p role="alert" className="text-caption font-medium text-destructive">
                   {t("errors.fixDesign")}
                 </p>
               )}
               <button
                 type="button"
                 onClick={downloadDrawing}
-                className="rounded-full border border-border px-4 py-2 text-[13px] font-medium transition-colors hover:border-muted-foreground"
+                className="rounded-full border border-border px-4 py-2 text-small font-medium transition-colors hover:border-muted-foreground"
               >
                 {t("downloadDrawing")}
               </button>
               {(CONTACT.phone || CONTACT.email) && (
-                <p className="flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-muted-foreground">
+                <p className="flex flex-wrap gap-x-3 gap-y-1 text-caption text-muted-foreground">
                   <span>{t("contactLine")}</span>
                   {CONTACT.phone && (
                     <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} className="font-mono text-foreground" dir="ltr">

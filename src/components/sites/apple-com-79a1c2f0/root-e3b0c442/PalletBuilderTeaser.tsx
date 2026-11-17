@@ -55,7 +55,7 @@ export function PalletBuilderTeaser() {
     >
       <div ref={bodyRef} className="mx-auto grid max-w-[1078px] items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:gap-14">
         <div>
-          <p className="gsap-reveal text-[12px] font-normal tracking-[0.2em] text-white/55 uppercase">
+          <p className="gsap-reveal text-caption font-normal tracking-[0.2em] text-white/55 uppercase">
             {tw("eyebrow")}
           </p>
           <SplitText
@@ -65,11 +65,11 @@ export function PalletBuilderTeaser() {
             delay={40}
             duration={0.9}
             effect="rise"
-            className="mt-3 text-[33px] leading-[1.0] font-normal tracking-[-0.015em] md:text-[46px]"
+            className="mt-3 text-section leading-[1.0] font-normal tracking-[-0.015em]"
           />
-          <p className="gsap-reveal mt-4 max-w-[440px] text-[15px] leading-relaxed text-white/65">{t("body")}</p>
+          <p className="gsap-reveal mt-4 max-w-[440px] text-body leading-relaxed text-white/65">{t("body")}</p>
 
-          <p className="gsap-reveal mt-8 text-[11px] font-medium tracking-[0.12em] text-white/55 uppercase">
+          <p className="gsap-reveal mt-8 text-micro font-medium tracking-[0.12em] text-white/55 uppercase">
             {t("startFrom")}
           </p>
           <ul className="gsap-reveal mt-3 flex flex-wrap gap-2">
@@ -80,7 +80,7 @@ export function PalletBuilderTeaser() {
                   onMouseEnter={() => setPreview(id)}
                   onFocus={() => setPreview(id)}
                   aria-current={preview === id ? "true" : undefined}
-                  className="inline-flex rounded-pill border border-white/15 px-3.5 py-1.5 text-[13px] text-white/85 transition duration-200 hover:border-white hover:text-white active:scale-[0.96] aria-[current=true]:border-white aria-[current=true]:text-white"
+                  className="inline-flex rounded-pill border border-white/15 px-3.5 py-1.5 text-small text-white/85 transition duration-200 hover:border-white hover:text-white active:scale-[0.96] aria-[current=true]:border-white aria-[current=true]:text-white"
                 >
                   {tw(`presets.${id}`)}
                 </Link>
@@ -90,7 +90,7 @@ export function PalletBuilderTeaser() {
 
           <Link
             href="/pallet-workshop"
-            className="gsap-reveal group mt-8 inline-flex items-center gap-2 rounded-pill bg-white px-6 py-2.5 text-[15px] font-semibold text-black transition duration-200 hover:bg-white/90 active:scale-[0.97]"
+            className="gsap-reveal group mt-8 inline-flex items-center gap-2 rounded-pill bg-white px-6 py-2.5 text-body font-semibold text-black transition duration-200 hover:bg-white/90 active:scale-[0.97]"
           >
             {t("cta")}
             <CtaArrow />
@@ -123,7 +123,7 @@ export function PalletBuilderTeaser() {
           )}
 
           {/* Digital HUD: corner brackets, live outer dimensions, model label. */}
-          <div aria-hidden className="pointer-events-none absolute inset-3 font-mono text-[10px] tracking-[0.12em] text-white/90 uppercase">
+          <div aria-hidden className="pointer-events-none absolute inset-3 font-mono text-nano tracking-[0.12em] text-white/90 uppercase">
             <span className="absolute start-0 top-0 h-4 w-4 border-s border-t border-white/60" />
             <span className="absolute end-0 top-0 h-4 w-4 border-e border-t border-white/60" />
             <span className="absolute start-0 bottom-0 h-4 w-4 border-s border-b border-white/60" />
@@ -141,7 +141,7 @@ export function PalletBuilderTeaser() {
             {features.map((feature) => (
               <li
                 key={feature}
-                className="rounded-pill border border-white/15 bg-black/80 px-2.5 py-1 text-[11px] font-medium text-white/90 backdrop-blur-sm"
+                className="rounded-pill border border-white/15 bg-black/80 px-2.5 py-1 text-micro font-medium text-white/90 backdrop-blur-sm"
               >
                 {feature}
               </li>
