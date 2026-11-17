@@ -86,17 +86,56 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
   const firstRef = useRef<HTMLInputElement>(null);
   const [minDate] = useState(() => new Date(Date.now() + 3 * 864e5).toISOString().slice(0, 10));
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // Held in a ref so the mount effect below runs once: the parent passes an
+  // inline arrow, and re-running on every parent render pulled focus back to
+  // the first field.
+  const onCloseRef = useRef(onClose);
   useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  useEffect(() => {
+    // Modal focus contract (aria-modal="true"): focus moves in, Tab and
+    // Shift+Tab cycle inside, Escape closes, and focus returns to whatever
+    // opened the dialog — usually the "Request a quote" button. Without the
+    // trap, Tab walked out into the page behind the backdrop.
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     firstRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const focusables = () =>
+      Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => el.getClientRects().length > 0);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onCloseRef.current();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const inside = dialogRef.current?.contains(document.activeElement) ?? false;
+      if (e.shiftKey && (document.activeElement === first || !inside)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !inside)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
+      opener?.focus({ preventScroll: true });
     };
-  }, [onClose]);
+  }, []);
 
   function set<K extends keyof QuoteCustomer>(k: K, v: QuoteCustomer[K]) {
     setCustomer((c) => ({ ...c, [k]: v }));
@@ -166,6 +205,7 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="pw-quote-title"
