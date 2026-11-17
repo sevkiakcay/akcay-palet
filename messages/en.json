@@ -586,5 +586,11 @@
       },
       "held": "Reduced motion is on. Use the slider to step through the tour yourself."
     }
+  },
+  "NotFound": {
+    "title": "Page not found.",
+    "body": "The page you're looking for may have moved, or never existed.",
+    "home": "Back to home",
+    "products": "View products"
   }
 }

@@ -586,5 +586,11 @@
       },
       "held": "Hareket azaltma açık. Turu sürgüyle kendiniz gezebilirsiniz."
     }
+  },
+  "NotFound": {
+    "title": "Sayfa bulunamadı.",
+    "body": "Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.",
+    "home": "Ana sayfaya dön",
+    "products": "Ürünleri görün"
   }
 }

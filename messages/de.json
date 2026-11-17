@@ -586,5 +586,11 @@
       },
       "held": "Reduzierte Bewegung ist aktiv. Nutzen Sie den Schieberegler, um die Tour selbst zu durchlaufen."
     }
+  },
+  "NotFound": {
+    "title": "Seite nicht gefunden.",
+    "body": "Die gesuchte Seite wurde verschoben oder existiert nicht.",
+    "home": "Zur Startseite",
+    "products": "Produkte ansehen"
   }
 }

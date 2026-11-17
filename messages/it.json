@@ -586,5 +586,11 @@
       },
       "held": "Il movimento ridotto è attivo. Usa il cursore per percorrere il tour manualmente."
     }
+  },
+  "NotFound": {
+    "title": "Pagina non trovata.",
+    "body": "La pagina che cerchi potrebbe essere stata spostata, o non è mai esistita.",
+    "home": "Torna alla home",
+    "products": "Vedi i prodotti"
   }
 }
