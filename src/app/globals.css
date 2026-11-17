@@ -67,6 +67,13 @@
 }
 
 :root {
+  /* Self-hosted font families, loaded in [locale]/layout.tsx. These four names
+     were previously injected by next/font/google; they are set here now so the
+     project builds and runs with no network access. */
+  --font-geist-sans: "Inter Variable";
+  --font-geist-mono: "Geist Mono Variable";
+  --font-space-grotesk: "Space Grotesk";
+  --font-arabic: "Noto Sans Arabic";
   /* Typography Variant B: distinctive display face for headings (`.font-heading`).
      Comment out this line to fall back to Variant A (Inter for headings too). */
   --font-display: var(--font-space-grotesk), var(--font-sans);

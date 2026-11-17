@@ -1,41 +1,35 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Inter, Geist_Mono, Space_Grotesk, Noto_Sans_Arabic } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { isRtl, routing, type Locale } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo";
+// Self-hosted fonts, bundled out of node_modules, so `dev` and `build` need no
+// network. Replaces next/font/google, which fetched from fonts.googleapis.com
+// at build time and failed wherever that host was unreachable.
+//
+// Every @font-face below carries a unicode-range, so a browser still downloads
+// only the subsets a page actually renders — the Arabic face never loads for
+// the seven Latin/Greek/Cyrillic locales. Family names are mapped onto the
+// --font-* custom properties in globals.css.
+import "@fontsource-variable/inter"; // body — latin, latin-ext, greek, cyrillic
+import "@fontsource-variable/geist-mono"; // mono
+// Typography Variant B: restrained, technical display face for headings only;
+// body stays on Inter. Weights kept to 500/600/700 — only what headings use.
+// Has no Greek/Cyrillic/Arabic glyphs — globals.css swaps headings back to the
+// body face for el, ru and ar.
+import "@fontsource/space-grotesk/latin-500.css";
+import "@fontsource/space-grotesk/latin-600.css";
+import "@fontsource/space-grotesk/latin-700.css";
+import "@fontsource/space-grotesk/latin-ext-500.css";
+import "@fontsource/space-grotesk/latin-ext-600.css";
+import "@fontsource/space-grotesk/latin-ext-700.css";
+// Arabic subset only.
+import "@fontsource/noto-sans-arabic/arabic-400.css";
+import "@fontsource/noto-sans-arabic/arabic-500.css";
+import "@fontsource/noto-sans-arabic/arabic-600.css";
+import "@fontsource/noto-sans-arabic/arabic-700.css";
 import "../globals.css";
-
-const inter = Inter({
-  variable: "--font-geist-sans",
-  // greek + cyrillic cover el and ru; latin-ext covers tr, de, fr, it.
-  subsets: ["latin", "latin-ext", "greek", "cyrillic"],
-});
-
-// Typography Variant B candidate — restrained, technical display face for
-// headings only; body stays on Inter. Weights kept minimal (500/600/700 —
-// only what headings actually use) to avoid a heavy performance penalty.
-// Has no Greek/Cyrillic/Arabic glyphs — globals.css swaps headings back to
-// the body face for el, ru and ar.
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  weight: ["500", "600", "700"],
-  subsets: ["latin", "latin-ext"],
-});
-
-// Arabic only; not preloaded so the other seven languages never download it.
-const notoArabic = Noto_Sans_Arabic({
-  variable: "--font-arabic",
-  weight: ["400", "500", "600", "700"],
-  subsets: ["arabic"],
-  preload: false,
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin", "latin-ext"],
-});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -67,7 +61,7 @@ export default async function LocaleLayout({
       dir={isRtl(locale as Locale) ? "rtl" : "ltr"}
       // In-page anchors scroll smoothly (globals.css); this keeps route changes instant.
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${notoArabic.variable} ${geistMono.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col">
         <a
