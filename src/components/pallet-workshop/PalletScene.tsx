@@ -62,8 +62,10 @@ type SceneState = {
   parts: PartRecord[];
 };
 
-// Warm light grey matching the site's `--surface-alt` (three.js can't parse oklch()).
-const STAGE_BG = 0xf0ede8;
+// Neutral light grey: `black/4` over the editorial white, the same value as the
+// workshop stage's `bg-[#f5f5f5]` so the canvas edge never shows a seam. The old
+// warm `--surface-alt` belonged to the retired copper palette.
+const STAGE_BG = 0xf5f5f5;
 
 function woodTexture(hex: number, seed: number) {
   const c = document.createElement("canvas");

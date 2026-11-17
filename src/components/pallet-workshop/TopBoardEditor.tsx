@@ -64,19 +64,19 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
   }
 
   return (
-    <div className="mt-1 rounded-lg border border-border bg-surface-alt/60 p-2.5">
-      <label className="flex cursor-pointer items-center gap-2 text-small font-medium">
+    <div className="mt-1 border border-black/10 bg-black/[0.02] p-3">
+      <label className="flex cursor-pointer items-center gap-2 text-small font-medium text-black">
         <input
           type="checkbox"
           checked={design.topCustom}
           onChange={(e) => onToggle(e.target.checked)}
-          className="size-4 accent-primary"
+          className="size-4 accent-black"
         />
         {t("topBoard.toggle")}
       </label>
 
       {!design.topCustom ? (
-        <p className="mt-1.5 text-micro leading-relaxed text-muted-foreground">{t("topBoard.hint")}</p>
+        <p className="mt-1.5 text-micro leading-relaxed text-editorial-gray-2">{t("topBoard.hint")}</p>
       ) : (
         <div className="mt-2.5">
           {/* Live cross-section strip: board widths and thicknesses to scale across the deck. */}
@@ -85,11 +85,13 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
             preserveAspectRatio="none"
             role="img"
             aria-label={t("topBoard.stripLabel")}
-            className="h-9 w-full rounded border border-border bg-background"
+            className="h-9 w-full border border-black/15 bg-white"
           >
             {boards.map((b, i) => {
               const h = Math.min(34, b.t * 0.85);
-              const fill = bad.has(i) ? "var(--destructive)" : i === highlight ? "var(--primary)" : "#c9a46d";
+              // Wood for a normal board (it is the material), ink for the one being
+              // edited, the error token for one that is out of the deck or overlapping.
+              const fill = bad.has(i) ? "var(--editorial-error)" : i === highlight ? "var(--editorial-ink)" : "#c9a46d";
               return (
                 <rect
                   key={i}
@@ -106,7 +108,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
               );
             })}
           </svg>
-          <div className="mt-1 flex justify-between font-mono text-nano text-muted-foreground" dir="ltr">
+          <div className="mt-1 flex justify-between font-mono text-nano text-editorial-gray-2" dir="ltr">
             <span>0</span>
             <span>
               {design.type === "blok" ? t("topBoard.widthAxis") : t("topBoard.lengthAxis")} {span} mm
@@ -114,7 +116,7 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
             <span>{span}</span>
           </div>
 
-          <div className="mt-2.5 grid grid-cols-[22px_1fr_1fr_1fr] items-center gap-1.5 text-nano tracking-wide text-muted-foreground uppercase">
+          <div className="mt-2.5 grid grid-cols-[22px_1fr_1fr_1fr] items-center gap-1.5 text-nano tracking-[0.08em] text-editorial-gray-2 uppercase">
             <span>#</span>
             <span className="text-center">{t("topBoard.pos")}</span>
             <span className="text-center">{t("topBoard.width")}</span>
@@ -124,9 +126,9 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
             {design.tops.map((b, i) => (
               <div
                 key={i}
-                className={`grid grid-cols-[22px_1fr_1fr_1fr] items-center gap-1.5 rounded ${bad.has(i) ? "bg-destructive/10" : ""}`}
+                className={`grid grid-cols-[22px_1fr_1fr_1fr] items-center gap-1.5 ${bad.has(i) ? "bg-editorial-error/[0.08]" : ""}`}
               >
-                <span className={`text-center font-mono text-caption ${bad.has(i) ? "text-destructive" : "text-muted-foreground"}`}>
+                <span className={`text-center font-mono text-caption ${bad.has(i) ? "text-editorial-error" : "text-editorial-gray-2"}`}>
                   {i + 1}
                 </span>
                 {(["p", "w", "t"] as const).map((f) => {
@@ -146,7 +148,8 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
                       onChange={(e) => commit(i, f, e.target.value, false)}
                       onBlur={(e) => commit(i, f, e.target.value, true)}
                       onFocus={() => setHighlight(i)}
-                      className="min-w-0 rounded border border-border bg-background px-1.5 py-1 text-center font-mono text-caption tabular-nums outline-none focus:border-primary"
+                      aria-invalid={bad.has(i) || undefined}
+                      className="min-w-0 border border-black/15 bg-white px-1.5 py-1 text-center font-mono text-caption text-black tabular-nums outline-none transition-colors hover:border-black/40 focus:border-black aria-invalid:border-editorial-error"
                     />
                   );
                 })}
@@ -154,21 +157,21 @@ export function TopBoardEditor({ design, onToggle, onBoard, onEven, onSame, high
             ))}
           </div>
 
-          <p className="mt-2 text-micro leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-micro leading-relaxed text-editorial-gray-2">
             {design.type === "blok" ? t("topBoard.noteBlok") : t("topBoard.noteKizak")}
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
             <button
               type="button"
               onClick={onEven}
-              className="rounded-full border border-border bg-background px-2.5 py-1 text-caption transition-colors hover:border-primary active:scale-[0.97]"
+              className="rounded-pill border border-black/15 bg-white px-3 py-1 text-caption text-black transition duration-200 hover:border-black active:scale-[0.97]"
             >
               {t("topBoard.even")}
             </button>
             <button
               type="button"
               onClick={onSame}
-              className="rounded-full border border-border bg-background px-2.5 py-1 text-caption transition-colors hover:border-primary active:scale-[0.97]"
+              className="rounded-pill border border-black/15 bg-white px-3 py-1 text-caption text-black transition duration-200 hover:border-black active:scale-[0.97]"
             >
               {t("topBoard.same")}
             </button>

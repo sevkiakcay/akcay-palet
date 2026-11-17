@@ -37,7 +37,7 @@ export default function PalletWorkshopPage({ params }: Props) {
         page={{ href: "/pallet-workshop", navKey: "workshop", image: WORKSHOP_IMAGE.url }}
       />
       <Header />
-      <main id="top" className="flex min-h-screen flex-col">
+      <main id="top" className="flex min-h-screen flex-col bg-white">
         <PalletWorkshop />
         <FinalCta />
       </main>
