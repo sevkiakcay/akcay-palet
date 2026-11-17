@@ -563,6 +563,28 @@
       "Fiche de calcul",
       "Nomenclature"
     ],
-    "imageAlt": "Palette en bois 1200×800 mm conçue dans l'Atelier palette"
+    "imageAlt": "Palette en bois 1200×800 mm conçue dans l'Atelier palette",
+    "tour": {
+      "label": "Visite de montage",
+      "play": "Lecture",
+      "pause": "Pause",
+      "replay": "Rejouer",
+      "timeline": "Chronologie de la visite de montage",
+      "phases": {
+        "assembled": "Palette terminée",
+        "separating": "Séparation des couches",
+        "apart": "Vue éclatée",
+        "assembling": "Remontage dans l’ordre",
+        "finished": "Palette terminée"
+      },
+      "parts": {
+        "top": "Planche supérieure",
+        "cross": "Traverse",
+        "block": "Dé",
+        "stringer": "Longeron",
+        "bottom": "Planche inférieure"
+      },
+      "held": "Le mouvement réduit est activé. Utilisez le curseur pour parcourir la visite vous-même."
+    }
   }
 }

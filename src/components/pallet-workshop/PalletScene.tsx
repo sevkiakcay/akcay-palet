@@ -3,13 +3,30 @@
 import { useEffect, useImperativeHandle, useRef, type RefObject } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { calc, geometry, PAINT, WOOD, type PalletDesign } from "@/lib/pallet/model";
+import { calc, geometry, PAINT, WOOD, type PalletDesign, type PartKind } from "@/lib/pallet/model";
+import { partOffset, poseAt } from "@/lib/pallet/cinematic";
 
 export type CameraKind = "iso" | "top" | "front" | "side" | "under";
 
 export type PalletSceneHandle = {
   /** JPEG data URL of the pallet seen from the default angle — attached to the quote request. */
   snapshot: () => string | null;
+};
+
+/**
+ * Written by the timeline hook and read inside the render loop, so the playhead
+ * can advance at 60 fps without re-rendering React once per frame. A plain
+ * number prop here would mean a re-render of the whole section every frame.
+ */
+export type CinematicRef = RefObject<{ time: number; replayNonce: number } | null>;
+
+/** Per-mesh bookkeeping the cinematic pose needs: which layer, where home is. */
+type PartRecord = {
+  mesh: THREE.Object3D;
+  kind: PartKind;
+  index: number;
+  countInLayer: number;
+  home: THREE.Vector3;
 };
 
 type Props = {
@@ -26,6 +43,12 @@ type Props = {
   showcase?: boolean;
   /** Index of the top-deck board to highlight (from the editor), or -1 for none. */
   highlightTop?: number;
+  /**
+   * Drives the hero assembly tour. When given, the scene poses every board from
+   * `cinematic.time` each frame and takes over the camera until the visitor
+   * drags it. Absent (the workshop) — nothing changes.
+   */
+  cinematic?: CinematicRef;
 };
 
 type SceneState = {
@@ -35,6 +58,8 @@ type SceneState = {
   controls: OrbitControls;
   group: THREE.Group;
   highlight: THREE.Mesh | null;
+  /** Populated only when `cinematic` is in use. */
+  parts: PartRecord[];
 };
 
 // Warm light grey matching the site's `--surface-alt` (three.js can't parse oklch()).
@@ -131,9 +156,16 @@ function disposeGroup(group: THREE.Group) {
   });
 }
 
-function buildPallet(group: THREE.Group, d: PalletDesign, digital = false) {
+function buildPallet(group: THREE.Group, d: PalletDesign, digital = false, parts?: PartRecord[]) {
   disposeGroup(group);
+  if (parts) parts.length = 0;
   const { boxes } = calc(d);
+  // How many parts each layer has, so the cinematic fan can centre itself.
+  const layerCounts = boxes.reduce<Partial<Record<PartKind, number>>>((acc, b) => {
+    acc[b.k] = (acc[b.k] ?? 0) + 1;
+    return acc;
+  }, {});
+  const layerSeen: Partial<Record<PartKind, number>> = {};
   const baseCol = WOOD[d.wood].color;
   const mats: Record<string, THREE.MeshStandardMaterial> = {};
   const edgeMat = digital
@@ -178,6 +210,17 @@ function buildPallet(group: THREE.Group, d: PalletDesign, digital = false) {
     mesh.receiveShadow = true;
     mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat));
     group.add(mesh);
+    if (parts) {
+      const index = layerSeen[b.k] ?? 0;
+      layerSeen[b.k] = index + 1;
+      parts.push({
+        mesh,
+        kind: b.k,
+        index,
+        countInLayer: layerCounts[b.k] ?? 1,
+        home: mesh.position.clone(),
+      });
+    }
   });
   const ht = d.treat === "ht" || d.treat === "htkd";
   if ((d.stamp || "").trim() || ht) {
@@ -225,7 +268,7 @@ function placeCamera(s: SceneState, d: PalletDesign, kind: CameraKind) {
 }
 
 /** WebGL view of the pallet. Lives only on the client; reports back if WebGL is missing so the UI can fall back to the drawing. */
-export function PalletScene({ design, camera, cameraNonce, active, label, onUnavailable, handleRef, showcase = false, highlightTop = -1 }: Props) {
+export function PalletScene({ design, camera, cameraNonce, active, label, onUnavailable, handleRef, showcase = false, highlightTop = -1, cinematic }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<SceneState | null>(null);
@@ -233,6 +276,9 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
   const designRef = useRef(design);
   const onUnavailableRef = useRef(onUnavailable);
   const showcaseRef = useRef(showcase);
+  // Captured once: whether this instance runs the tour is fixed at mount, like
+  // `showcase`. Swapping it mid-life would mean rebuilding the part records.
+  const cinematicRef = useRef(cinematic);
 
   useEffect(() => {
     activeRef.current = active;
@@ -301,7 +347,7 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     const group = new THREE.Group();
     scene.add(group);
 
-    const state: SceneState = { renderer, scene, camera: cam, controls, group, highlight: null };
+    const state: SceneState = { renderer, scene, camera: cam, controls, group, highlight: null, parts: [] };
     stateRef.current = state;
 
     const resize = () => {
@@ -315,12 +361,64 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
     const ro = new ResizeObserver(resize);
     ro.observe(wrap);
     resize();
-    buildPallet(group, designRef.current, digital);
+    const cine = cinematicRef.current;
+    buildPallet(group, designRef.current, digital, cine ? state.parts : undefined);
     placeCamera(state, designRef.current, "iso");
+
+    // The tour drives the camera until the visitor drags it, then it is theirs
+    // for good — nothing is more irritating than a camera that argues back.
+    // Replay hands it to the tour again (see the replayNonce check below).
+    let cameraIsUsers = false;
+    let lastReplayNonce = cine?.current?.replayNonce ?? 0;
+    if (cine) {
+      controls.autoRotate = false;
+      controls.addEventListener("start", () => {
+        cameraIsUsers = true;
+      });
+    }
+    // Reused each frame; allocating a Vector3 per frame would churn the GC.
+    const framing = new THREE.Vector3();
+    const target = new THREE.Vector3();
 
     let raf = 0;
     const loop = () => {
       raf = requestAnimationFrame(loop);
+      const tl = cine?.current;
+      if (tl && state.parts.length > 0) {
+        const t = tl.time;
+        if (tl.replayNonce !== lastReplayNonce) {
+          lastReplayNonce = tl.replayNonce;
+          cameraIsUsers = false;
+        }
+        // Absolute pose, never a delta: home + offset(t). Scrubbing backwards
+        // is therefore exactly as correct as playing forwards, and a dropped
+        // frame can't leave a board drifted. See lib/pallet/cinematic.ts.
+        for (const p of state.parts) {
+          const o = partOffset(p.kind, p.index, p.countInLayer, t);
+          p.mesh.position.set(p.home.x + o.x, p.home.y + o.y, p.home.z + o.z);
+        }
+        const pose = poseAt(t);
+        if (!cameraIsUsers) {
+          const d = designRef.current;
+          const size = Math.max(d.L, d.W) / 1000;
+          const h = calc(d).H / 1000;
+          target.set(0, h / 2, 0);
+          // Base iso direction, swung by the tour's azimuth and elevation and
+          // pushed out by its distance multiplier.
+          const base = size * 1.9 * pose.camera.distance;
+          const fit = cam.aspect < 1.25 ? 1.25 / cam.aspect : 1;
+          const az = Math.atan2(1.55, 1.35) + pose.camera.azimuth;
+          const el = 0.47 + pose.camera.elevation;
+          const r = base * fit;
+          framing.set(
+            Math.sin(az) * Math.cos(el) * r,
+            Math.sin(el) * r,
+            Math.cos(az) * Math.cos(el) * r,
+          );
+          cam.position.copy(target).add(framing);
+          controls.target.copy(target);
+        }
+      }
       controls.update();
       if (activeRef.current) renderer.render(scene, cam);
     };
@@ -331,6 +429,7 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
       ro.disconnect();
       controls.dispose();
       disposeGroup(group);
+      state.parts.length = 0;
       renderer.dispose();
       stateRef.current = null;
     };
@@ -338,7 +437,9 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
 
   useEffect(() => {
     const s = stateRef.current;
-    if (s) buildPallet(s.group, design, showcaseRef.current);
+    // Rebuilding drops every mesh, so the cinematic part records — which hold
+    // mesh references and their home positions — have to be rebuilt with it.
+    if (s) buildPallet(s.group, design, showcaseRef.current, cinematicRef.current ? s.parts : undefined);
   }, [design]);
 
   useEffect(() => {

@@ -563,6 +563,28 @@
       "Berechnung",
       "Stückliste"
     ],
-    "imageAlt": "Im Paletten-Konfigurator gestaltete Holzpalette 1200×800 mm"
+    "imageAlt": "Im Paletten-Konfigurator gestaltete Holzpalette 1200×800 mm",
+    "tour": {
+      "label": "Montage-Tour",
+      "play": "Abspielen",
+      "pause": "Pausieren",
+      "replay": "Neu starten",
+      "timeline": "Zeitleiste der Montage-Tour",
+      "phases": {
+        "assembled": "Fertige Palette",
+        "separating": "Lagen lösen sich",
+        "apart": "Explosionsansicht",
+        "assembling": "Montage in Reihenfolge",
+        "finished": "Fertige Palette"
+      },
+      "parts": {
+        "top": "Deckbrett",
+        "cross": "Querbrett",
+        "block": "Klotz",
+        "stringer": "Kufe",
+        "bottom": "Bodenbrett"
+      },
+      "held": "Reduzierte Bewegung ist aktiv. Nutzen Sie den Schieberegler, um die Tour selbst zu durchlaufen."
+    }
   }
 }

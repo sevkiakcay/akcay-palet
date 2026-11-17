@@ -30,6 +30,20 @@ Three accent colours — `--editorial-sage`, `--editorial-amber`,
 `--editorial-oxblood` — exist for the hero media gradient only. They are not UI
 colours and must not be used as one.
 
+**The ink and the paper are written as `black` and `white`, not as tokens.**
+Across the thirteen editorial sections, Tailwind's own `black`/`white` (and
+their alpha variants) appear ~126 times; `bg-editorial-ink` appears once. This
+is the convention, not drift — every section agrees, and `--editorial-ink` /
+`--editorial-bg` are exactly `#000000` / `#ffffff`, so the token buys only
+indirection today. Do not "fix" these call sites: the churn is large, the
+visual change is nil, and there is no behaviour to gain.
+
+What the tokens are genuinely for is the **grey ramp** — `text-editorial-gray-2`
+and `-gray-3` carry secondary and tertiary copy on white grounds, and that is
+where a brand change would actually need one lever. If the ink ever moves off
+pure black (the brief floats graphite `#161616`), that is the point to convert
+the ink and paper call sites in one deliberate pass, not before.
+
 On dark sections, prefer `white/<alpha>` over the grey ramp: the ramp is tuned
 for white grounds, and a mid grey on black fails contrast — the legacy
 `--muted-foreground` measured 2.81:1 on the FinalCta panel, well under the

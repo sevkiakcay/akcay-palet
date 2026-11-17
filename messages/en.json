@@ -563,6 +563,28 @@
       "Calculation sheet",
       "Bill of materials"
     ],
-    "imageAlt": "1200×800 mm wooden pallet designed in the Pallet Workshop"
+    "imageAlt": "1200×800 mm wooden pallet designed in the Pallet Workshop",
+    "tour": {
+      "label": "Assembly tour",
+      "play": "Play",
+      "pause": "Pause",
+      "replay": "Replay",
+      "timeline": "Assembly tour timeline",
+      "phases": {
+        "assembled": "Finished pallet",
+        "separating": "Layers separating",
+        "apart": "Exploded view",
+        "assembling": "Reassembling in build order",
+        "finished": "Finished pallet"
+      },
+      "parts": {
+        "top": "Top deck",
+        "cross": "Cross board",
+        "block": "Block",
+        "stringer": "Stringer",
+        "bottom": "Bottom deck"
+      },
+      "held": "Reduced motion is on. Use the slider to step through the tour yourself."
+    }
   }
 }

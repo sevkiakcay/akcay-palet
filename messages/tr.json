@@ -563,6 +563,28 @@
       "Hesap föyü",
       "Malzeme listesi"
     ],
-    "imageAlt": "Palet Atölyesi'nde tasarlanmış 1200×800 mm ahşap palet"
+    "imageAlt": "Palet Atölyesi'nde tasarlanmış 1200×800 mm ahşap palet",
+    "tour": {
+      "label": "Montaj turu",
+      "play": "Oynat",
+      "pause": "Duraklat",
+      "replay": "Baştan oynat",
+      "timeline": "Montaj turu zaman çizelgesi",
+      "phases": {
+        "assembled": "Tamamlanmış palet",
+        "separating": "Katmanlar ayrılıyor",
+        "apart": "Patlatılmış görünüm",
+        "assembling": "Montaj sırasıyla birleşiyor",
+        "finished": "Tamamlanmış palet"
+      },
+      "parts": {
+        "top": "Üst tabla",
+        "cross": "Bağlantı tahtası",
+        "block": "Takoz",
+        "stringer": "Kızak",
+        "bottom": "Alt tabla"
+      },
+      "held": "Hareket azaltma açık. Turu sürgüyle kendiniz gezebilirsiniz."
+    }
   }
 }

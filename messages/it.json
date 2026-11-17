@@ -563,6 +563,28 @@
       "Scheda di calcolo",
       "Distinta materiali"
     ],
-    "imageAlt": "Pallet in legno 1200×800 mm progettato nel Configuratore pallet"
+    "imageAlt": "Pallet in legno 1200×800 mm progettato nel Configuratore pallet",
+    "tour": {
+      "label": "Tour di montaggio",
+      "play": "Riproduci",
+      "pause": "Pausa",
+      "replay": "Riavvia",
+      "timeline": "Cronologia del tour di montaggio",
+      "phases": {
+        "assembled": "Pallet finito",
+        "separating": "Separazione degli strati",
+        "apart": "Vista esplosa",
+        "assembling": "Rimontaggio in sequenza",
+        "finished": "Pallet finito"
+      },
+      "parts": {
+        "top": "Tavola superiore",
+        "cross": "Traversa",
+        "block": "Blocchetto",
+        "stringer": "Longherone",
+        "bottom": "Tavola inferiore"
+      },
+      "held": "Il movimento ridotto è attivo. Usa il cursore per percorrere il tour manualmente."
+    }
   }
 }

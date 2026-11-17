@@ -6,9 +6,11 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import SplitText from "@/components/SplitText";
+import { useCinematicTimeline } from "@/hooks/use-cinematic-timeline";
 import { useEditorialReveal } from "@/hooks/use-editorial-reveal";
 import { useFrameOpenReveal } from "@/hooks/use-frame-open-reveal";
 import { useInView } from "@/hooks/use-in-view";
+import { CINEMATIC_DURATION, formatTimecode, poseAt } from "@/lib/pallet/cinematic";
 import { BASE, calc, PRESETS, type PalletDesign, type PresetId } from "@/lib/pallet/model";
 import { CtaArrow } from "../shared/CtaArrow";
 
@@ -46,6 +48,13 @@ export function PalletBuilderTeaser() {
   const height = Math.round(calc(design).H);
   const sectionRef = useFrameOpenReveal();
   const bodyRef = useEditorialReveal();
+
+  // The assembly tour. Runs only while the scene is mounted and near the
+  // viewport, so a pallet does not animate behind a section nobody is looking
+  // at. See docs/motion-plan.md for why Three.js owns this and not GSAP.
+  const tour = useCinematicTimeline({ inView: nearViewport, enabled: nearViewport && !no3d });
+  const pose = poseAt(tour.displayTime);
+  const layerName = pose.captionLayer ? t(`tour.parts.${pose.captionLayer}`) : null;
 
   return (
     <section
