@@ -44,6 +44,15 @@ export function PalletBuilderTeaser() {
   const t = useTranslations("Builder");
   const tw = useTranslations("Workshop");
   const features = t.raw("features") as string[];
+  // Rendered in one of two places depending on the stage width (see below).
+  const featureItems = features.map((feature) => (
+    <li
+      key={feature}
+      className="rounded-pill border border-white/15 bg-black/80 px-2.5 py-1 text-micro font-medium text-white/90 backdrop-blur-sm"
+    >
+      {feature}
+    </li>
+  ));
   const [preview, setPreview] = useState<StartPreset>("eu");
   const [no3d, setNo3d] = useState(false);
   const { ref: stageRef, inView: nearViewport } = useInView<HTMLDivElement>(NEAR_VIEWPORT);
@@ -113,7 +122,10 @@ export function PalletBuilderTeaser() {
             </Link>
           </div>
 
-          <div>
+          {/* Container: whether the feature pills fit over the stage depends on the
+              stage's own width, not the viewport's. 34rem = the widest language's
+              single row (ru, 540px). */}
+          <div className="@container">
           <div
             ref={stageRef}
             className="gsap-reveal relative aspect-[1480/1100] overflow-hidden rounded-none border border-white/15 bg-black"
@@ -155,19 +167,17 @@ export function PalletBuilderTeaser() {
               </span>
             </div>
 
-            <ul className="absolute inset-x-3 bottom-3 flex flex-wrap gap-1.5 ps-5">
-              {features.map((feature) => (
-                <li
-                  key={feature}
-                  className="rounded-pill border border-white/15 bg-black/80 px-2.5 py-1 text-micro font-medium text-white/90 backdrop-blur-sm"
-                >
-                  {feature}
-                </li>
-              ))}
+            {/* Overlaid only where the pills fit on one row (see the container
+                query on the column). */}
+            <ul className="absolute inset-x-3 bottom-3 hidden flex-wrap gap-1.5 ps-5 @min-[34rem]:flex">
+              {featureItems}
             </ul>
           </div>
           {/* Only with a live scene: over the static image there is nothing to drive. */}
           {sceneOn && <PalletTourControls tour={tour} />}
+          {/* Narrow stage: the same pills in normal flow. Overlaid, they wrapped to
+              two rows and hid 9–11% of the pallet (measured at 768/390/375px). */}
+          <ul className="mt-3 flex flex-wrap gap-1.5 @min-[34rem]:hidden">{featureItems}</ul>
         </div>
       </div>
     </section>
