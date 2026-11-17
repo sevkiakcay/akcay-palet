@@ -96,6 +96,9 @@ const CAMERA_DISTANCE: readonly Keyframe[] = [
   [3, 1.0],
   [6.5, 1.42],
   [12, 1.46],
+  // Hold wide until the top deck starts landing (14.9 s): zooming in while it
+  // is still lifted pushed the landed layers against the bottom of the frame.
+  [14.9, 1.42],
   [16.5, 1.04],
   [CINEMATIC_DURATION, 1.0],
 ];
@@ -154,6 +157,14 @@ export type CinematicCamera = {
   distance: number;
   azimuth: number;
   elevation: number;
+  /**
+   * How far to raise the aim point above the assembled pallet's centre, in
+   * model millimetres. The exploded stack grows upward only (the bottom deck
+   * holds the ground line), so its centre climbs with it; aiming at the
+   * assembled centre left the lifted top deck touching, then leaving, the top
+   * of the frame. Half the top deck's lift keeps the stack centred.
+   */
+  targetLift: number;
 };
 
 export type CinematicPose = {
@@ -172,6 +183,7 @@ export function poseAt(time: number): CinematicPose {
       distance: sample(CAMERA_DISTANCE, t),
       azimuth: sample(CAMERA_AZIMUTH, t),
       elevation: sample(CAMERA_ELEVATION, t),
+      targetLift: (LIFT.top * sample(SEPARATION.top, t)) / 2,
     },
     phase: phaseAt(t),
     captionLayer: captionLayer(t),

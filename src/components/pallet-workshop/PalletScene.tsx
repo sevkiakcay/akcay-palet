@@ -402,7 +402,8 @@ export function PalletScene({ design, camera, cameraNonce, active, label, onUnav
           const d = designRef.current;
           const size = Math.max(d.L, d.W) / 1000;
           const h = calc(d).H / 1000;
-          target.set(0, h / 2, 0);
+          // Follows the exploded stack's centre upward (see CinematicCamera).
+          target.set(0, h / 2 + pose.camera.targetLift / 1000, 0);
           // Base iso direction, swung by the tour's azimuth and elevation and
           // pushed out by its distance multiplier.
           const base = size * 1.9 * pose.camera.distance;
