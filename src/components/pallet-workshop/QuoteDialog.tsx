@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 import { CONTACT, whatsappUrl } from "@/lib/contact";
 import { backdrop, modal, withoutMovement } from "@/lib/motion";
+import { CtaArrow } from "@/components/sites/apple-com-79a1c2f0/shared/CtaArrow";
 import type { Calc, PalletDesign } from "@/lib/pallet/model";
 import {
   composeSummary,
@@ -30,8 +31,16 @@ type Props = {
 type Phase = { k: "form" } | { k: "sending" } | { k: "sent"; no: string } | { k: "fallback"; no: string };
 
 const DRAFT_KEY = "pw_contact";
-const field = "w-full rounded-lg border border-border bg-background px-3 py-2 text-ui outline-none focus:border-primary";
-const lbl = "mb-1 block text-caption font-medium";
+// Same field, label and button vocabulary as QuoteForm (FinalCta), so the two
+// ways of asking for a quote look like one product. Dark panel, white/<alpha>
+// text: labels white/60 (7.37:1), body white/70+, errors on the dark error token.
+const field =
+  "w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-ui text-white transition-colors [color-scheme:dark] placeholder:text-white/35 focus:border-white/50 focus-visible:outline-offset-2 aria-invalid:border-editorial-error-on-dark";
+const lbl = "mb-1.5 block text-caption font-medium text-white/60";
+const primaryPill =
+  "group inline-flex items-center justify-center gap-2 rounded-pill bg-white px-6 py-2.5 text-ui font-semibold text-black transition duration-200 hover:bg-white/90 active:scale-[0.97] disabled:opacity-60";
+const secondaryPill =
+  "inline-flex items-center justify-center rounded-pill border border-white/20 px-5 py-2.5 text-ui font-medium text-white transition duration-200 hover:border-white active:scale-[0.97]";
 
 function newOrderNo() {
   const d = new Date();
@@ -134,7 +143,14 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
   }
 
   const err = (k: FieldError) =>
-    errors.includes(k) ? <p className="mt-1 text-caption text-destructive">{t(`errors.${k}`)}</p> : null;
+    errors.includes(k) ? (
+      <p id={`q_${k}_error`} className="mt-1.5 text-caption text-editorial-error-on-dark">
+        {t(`errors.${k}`)}
+      </p>
+    ) : null;
+  // Wires a field to its error message for assistive tech.
+  const invalid = (k: FieldError) =>
+    errors.includes(k) ? { "aria-invalid": true, "aria-describedby": `q_${k}_error` } : {};
 
   return (
     // Motion owns the enter and the leave. This dialog had neither: it appeared
@@ -146,7 +162,7 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
       animate={back.animate}
       exit={back.exit}
       transition={back.transition}
-      className="fixed inset-0 z-[60] flex items-start justify-center overflow-auto bg-black/45 px-4 py-6 md:py-12"
+      className="fixed inset-0 z-[60] flex items-start justify-center overflow-auto bg-black/60 px-4 py-6 md:py-12"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
@@ -157,27 +173,27 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
         animate={box.animate}
         exit={box.exit}
         transition={box.transition}
-        className="w-full max-w-[640px] rounded-2xl border border-border bg-background shadow-2xl"
+        className="w-full max-w-[640px] rounded-2xl border border-white/10 bg-black text-white shadow-2xl"
       >
-        <div className="flex items-center justify-between border-b border-border px-5 py-3.5">
-          <h2 id="pw-quote-title" className="font-heading text-title font-bold">
+        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+          <h2 id="pw-quote-title" className="text-title leading-tight font-normal tracking-[-0.01em]">
             {phase.k === "sent" ? t("success.title") : phase.k === "fallback" ? t("fallback.title") : t("form.title")}
           </h2>
-          <button type="button" onClick={onClose} aria-label={t("form.close")} className="px-2 text-title leading-none text-muted-foreground">
+          <button type="button" onClick={onClose} aria-label={t("form.close")} className="-me-2 px-2 text-title leading-none text-white/60 transition-colors hover:text-white">
             ×
           </button>
         </div>
 
         {(phase.k === "form" || phase.k === "sending") && (
           <form onSubmit={submit} noValidate>
-            <div className="grid gap-3.5 px-5 py-4">
-              <div className="flex items-center gap-3 rounded-lg border border-border bg-surface-alt p-2.5">
+            <div className="grid gap-4 px-6 py-5">
+              <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
                 {snapshot && (
                   // eslint-disable-next-line @next/next/no-img-element -- in-memory data URL, nothing for next/image to optimise
                   <img src={snapshot} alt={t("form.snapshotAlt")} className="w-[120px] flex-none rounded" />
                 )}
-                <div className="min-w-0 text-small">
-                  <b>{title}</b>
+                <div className="min-w-0 text-small text-white/70">
+                  <b className="font-semibold text-white">{title}</b>
                   <br />
                   {t(`options.wood.${design.wood}`)} · {t(`options.treat.${design.treat}`)}
                   <br />
@@ -187,40 +203,40 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
                 </div>
               </div>
 
-              <div className="grid gap-3.5 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="q_company" className={lbl}>
-                    {t("form.company")} <span className="text-destructive">*</span>
+                    {t("form.company")} <span className="text-editorial-error-on-dark">*</span>
                   </label>
-                  <input ref={firstRef} id="q_company" autoComplete="organization" className={field} value={customer.company} onChange={(e) => set("company", e.target.value)} />
+                  <input ref={firstRef} id="q_company" {...invalid("company")} autoComplete="organization" className={field} value={customer.company} onChange={(e) => set("company", e.target.value)} />
                   {err("company")}
                 </div>
                 <div>
                   <label htmlFor="q_name" className={lbl}>
-                    {t("form.name")} <span className="text-destructive">*</span>
+                    {t("form.name")} <span className="text-editorial-error-on-dark">*</span>
                   </label>
-                  <input id="q_name" autoComplete="name" className={field} value={customer.name} onChange={(e) => set("name", e.target.value)} />
+                  <input id="q_name" {...invalid("name")} autoComplete="name" className={field} value={customer.name} onChange={(e) => set("name", e.target.value)} />
                   {err("name")}
                 </div>
                 <div>
                   <label htmlFor="q_phone" className={lbl}>
-                    {t("form.phone")} <span className="text-destructive">*</span>
+                    {t("form.phone")} <span className="text-editorial-error-on-dark">*</span>
                   </label>
-                  <input id="q_phone" type="tel" dir="ltr" autoComplete="tel" placeholder="+90 5xx xxx xx xx" className={field} value={customer.phone} onChange={(e) => set("phone", e.target.value)} />
+                  <input id="q_phone" {...invalid("phone")} type="tel" dir="ltr" autoComplete="tel" placeholder="+90 5xx xxx xx xx" className={field} value={customer.phone} onChange={(e) => set("phone", e.target.value)} />
                   {err("phone")}
                 </div>
                 <div>
                   <label htmlFor="q_email" className={lbl}>
-                    {t("form.email")} <span className="text-destructive">*</span>
+                    {t("form.email")} <span className="text-editorial-error-on-dark">*</span>
                   </label>
-                  <input id="q_email" type="email" dir="ltr" autoComplete="email" className={field} value={customer.email} onChange={(e) => set("email", e.target.value)} />
+                  <input id="q_email" {...invalid("email")} type="email" dir="ltr" autoComplete="email" className={field} value={customer.email} onChange={(e) => set("email", e.target.value)} />
                   {err("email")}
                 </div>
                 <div>
                   <label htmlFor="q_qty" className={lbl}>
-                    {t("form.qty")} <span className="text-destructive">*</span>
+                    {t("form.qty")} <span className="text-editorial-error-on-dark">*</span>
                   </label>
-                  <input id="q_qty" type="number" min={1} step={1} className={`${field} font-mono`} value={customer.qty || ""} onChange={(e) => set("qty", Math.floor(Number(e.target.value)) || 0)} />
+                  <input id="q_qty" {...invalid("qty")} type="number" min={1} step={1} className={`${field} font-mono`} value={customer.qty || ""} onChange={(e) => set("qty", Math.floor(Number(e.target.value)) || 0)} />
                   {err("qty")}
                 </div>
                 <div>
@@ -272,56 +288,57 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
                 <input id="q_website" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
               </div>
               {sendError && (
-                <p role="alert" className="text-small text-destructive">
+                <p role="alert" className="text-small text-editorial-error-on-dark">
                   {t("errors.send")}
                 </p>
               )}
             </div>
-            <div className="flex flex-wrap justify-end gap-2 border-t border-border px-5 py-3.5">
-              <button type="button" onClick={onClose} className="rounded-full border border-border px-4 py-2 text-ui font-medium">
+            <div className="flex flex-wrap justify-end gap-2 border-t border-white/10 px-6 py-4">
+              <button type="button" onClick={onClose} className={secondaryPill}>
                 {t("form.cancel")}
               </button>
               <button
                 type="submit"
                 disabled={phase.k === "sending"}
-                className="rounded-full bg-primary px-5 py-2 text-ui font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+                className={primaryPill}
               >
                 {phase.k === "sending" ? t("form.sending") : t("form.submit")}
+                {phase.k !== "sending" && <CtaArrow />}
               </button>
             </div>
           </form>
         )}
 
         {phase.k === "sent" && (
-          <div className="grid justify-items-center gap-3 px-5 py-8 text-center">
-            <div className="-rotate-2 rounded border-2 border-primary px-3.5 py-1.5 font-mono text-subtitle text-primary">{phase.no}</div>
-            <p className="max-w-[46ch] text-ui">
+          <div className="grid justify-items-center gap-3 px-6 py-9 text-center">
+            <div className="border border-white/40 px-4 py-1.5 font-mono text-subtitle tracking-[0.08em] text-white">{phase.no}</div>
+            <p className="max-w-[46ch] text-ui leading-relaxed text-white/80">
               {t("success.body", { contact: customer.pref === "mail" ? customer.email : customer.phone })}
             </p>
             {CONTACT.phone && (
-              <p className="text-small text-muted-foreground">
+              <p className="text-small text-white/60">
                 {t("success.urgent")}{" "}
-                <b className="font-mono" dir="ltr">
+                <b className="font-mono font-medium text-white" dir="ltr">
                   {CONTACT.phone}
                 </b>
               </p>
             )}
-            <button type="button" onClick={onClose} className="mt-1 rounded-full border border-border px-4 py-2 text-ui font-medium">
+            <button type="button" onClick={onClose} className={`mt-2 ${secondaryPill}`}>
               {t("success.newDesign")}
             </button>
           </div>
         )}
 
         {phase.k === "fallback" && (
-          <div className="grid gap-3 px-5 py-6">
-            <p className="text-ui">{t("fallback.body")}</p>
+          <div className="grid gap-4 px-6 py-6">
+            <p className="text-ui leading-relaxed text-white/80">{t("fallback.body")}</p>
             <div className="grid gap-2 sm:grid-cols-2">
               {whatsappUrl() && (
                 <a
                   href={whatsappUrl(fallbackMessage(phase.no)) ?? undefined}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-primary px-4 py-2.5 text-center text-ui font-semibold text-primary-foreground"
+                  className={primaryPill}
                 >
                   {t("fallback.whatsapp")}
                 </a>
@@ -329,13 +346,13 @@ export function QuoteDialog({ design, calc, snapshot, title, fmt, onDownloadDraw
               {CONTACT.email && (
                 <a
                   href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(t("mail.subject", { no: phase.no, title }))}&body=${encodeURIComponent(fallbackMessage(phase.no))}`}
-                  className="rounded-full border border-border px-4 py-2.5 text-center text-ui font-semibold"
+                  className={secondaryPill}
                 >
                   {t("fallback.email")}
                 </a>
               )}
             </div>
-            <button type="button" onClick={onDownloadDrawing} className="justify-self-start text-small font-medium text-primary underline underline-offset-2">
+            <button type="button" onClick={onDownloadDrawing} className="justify-self-start text-small font-medium text-white underline underline-offset-4 hover:text-white/80">
               {t("fallback.drawing")}
             </button>
           </div>
