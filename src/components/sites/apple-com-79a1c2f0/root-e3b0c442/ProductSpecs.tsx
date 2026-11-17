@@ -52,7 +52,7 @@ export function ProductSpecs() {
               table with no scroll affordance is a poor fit for a phone screen. */}
           <table className="hidden w-full border-collapse text-start text-ui md:table">
             <thead>
-              <tr className="border-b border-black/10 text-micro tracking-[0.08em] text-editorial-gray-3 uppercase">
+              <tr className="border-b border-black/10 text-micro tracking-[0.08em] text-editorial-gray-2 uppercase">
                 <th className="py-3 ps-2 pe-4 text-start font-medium">{t("cols.product")}</th>
                 <th className="py-3 pe-4 text-start font-medium">{t("cols.size")}</th>
                 <th className="py-3 pe-4 text-start font-medium">{t("cols.heat")}</th>

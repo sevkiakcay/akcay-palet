@@ -56,7 +56,7 @@ export function CustomManufacturing() {
         <ol className="flex flex-col divide-y divide-black/10">
           {requirements.map((req, i) => (
             <li key={i} className="gsap-reveal flex gap-4 py-4 first:pt-0 last:pb-0">
-              <span className="font-mono text-small text-editorial-gray-3 tabular-nums">
+              <span className="font-mono text-small text-editorial-gray-2 tabular-nums">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div>
