@@ -327,6 +327,14 @@ html:lang(ar) .font-mono {
   ::selection {
     background-color: color-mix(in oklch, var(--primary) 28%, transparent);
   }
+  /* Smooth image loading */
+  img {
+    transition: opacity 0.4s ease;
+  }
+  /* Links get a subtle transition by default */
+  a {
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

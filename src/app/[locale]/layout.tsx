@@ -5,6 +5,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { isRtl, routing, type Locale } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo";
+import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import "../globals.css";
 
 const inter = Inter({
@@ -76,7 +77,9 @@ export default async function LocaleLayout({
         >
           {t("skipToContent")}
         </a>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
