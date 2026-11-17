@@ -31,6 +31,7 @@ export function CustomManufacturing() {
             {t("eyebrow")}
           </p>
           <SplitText
+            textAlign="start"
             text={t("title")}
             tag="h2"
             splitType="words"

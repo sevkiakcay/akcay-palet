@@ -22,6 +22,7 @@ export function WhyUs() {
     <section ref={sectionRef} id="neden-akcay" className="frame-closed bg-white px-6 py-20 text-black md:py-28">
       <div ref={bodyRef} className="mx-auto max-w-editorial">
         <SplitText
+          textAlign="start"
           text={t("title")}
           tag="h2"
           splitType="words"

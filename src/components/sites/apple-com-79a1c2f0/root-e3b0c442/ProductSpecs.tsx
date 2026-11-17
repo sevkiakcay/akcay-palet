@@ -29,6 +29,7 @@ export function ProductSpecs() {
               {t("eyebrow")}
             </p>
             <SplitText
+              textAlign="start"
               text={t("title")}
               tag="h2"
               splitType="words"

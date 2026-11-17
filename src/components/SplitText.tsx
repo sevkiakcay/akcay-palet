@@ -434,12 +434,18 @@ const SplitText = ({
   const Tag = tag || 'p';
   const clip =
     hoverEffect === 'none' && (from !== undefined || to !== undefined || effect === 'rise' || effect === 'fade');
+  // The clip box is the line box, and the editorial headings set leading well
+  // under 1 (0.74–0.82), so the last line's descenders (g, p, y, ç) hang below
+  // it and were cut off. Extend the box downward by the deepest descender and
+  // pull the margin back by the same amount: the glyphs are no longer clipped
+  // and the heading's footprint in the layout doesn't change.
+  const clipRoom = clip ? 'pb-[0.25em] -mb-[0.25em]' : '';
 
   return (
     <Tag
       key={text}
       ref={ref}
-      className={`split-parent inline-block whitespace-normal ${clip ? 'overflow-hidden' : 'overflow-visible'} ${trigger === 'click' ? 'cursor-pointer' : ''} ${className}`}
+      className={`split-parent inline-block whitespace-normal ${clip ? 'overflow-hidden' : 'overflow-visible'} ${clipRoom} ${trigger === 'click' ? 'cursor-pointer' : ''} ${className}`}
       style={{
         textAlign,
         wordWrap: 'break-word',
