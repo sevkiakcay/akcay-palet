@@ -32,14 +32,19 @@ which is visible on a scrub. There is also no Motion equivalent of GSAP's
 
 Before Motion, **nothing on this site animated on exit.** `tw-animate-css` is
 CSS-only, so when React unmounts a node there is nobody left to run an
-animation — four pieces of UI appeared softly and then vanished on a frame:
+animation — three pieces of UI appeared softly and then vanished on a frame:
 
 | Surface | Before | After |
 | --- | --- | --- |
-| Header mobile menu | no animation either way | `dropdown` preset, both ways |
 | `LanguageSwitcher` dropdown | `animate-in` on enter, instant exit | `dropdown` preset, both ways |
 | `QuoteForm` steps (3) | `animate-in` on enter, instant swap | `panelSwap`, with the outgoing step leaving |
 | `QuoteDialog` | no animation either way | `backdrop` + `modal` |
+
+The header's mobile menu is deliberately not on this list. It is never
+unmounted: it stays in the DOM, `inert` while closed, and folds with a CSS
+`grid-template-rows` 1fr → 0fr transition in both directions, which keeps its
+natural height without measuring it in JS. Moving it to Motion would trade a
+working, accessible solution for nothing.
 
 Doing that in GSAP means hand-writing a "delay the unmount until the tween
 finishes" state machine per surface. `AnimatePresence` is exactly that
@@ -79,12 +84,15 @@ Every runtime is gated, and the gates differ because the right answer differs.
 - **Lenis** — torn down entirely under `reduce`, including a live OS-level
   toggle mid-session. Forced inertial scrolling is the archetypal thing that
   preference exists to opt out of.
-- **Motion** — `useReducedMotion()` plus `withoutMovement()`, which strips the
-  translate/scale out of a preset and keeps the opacity fade. The element must
+- **Motion** — `useReducedMotion()` plus `withoutMovement()`, which pins a
+  preset's translate/scale to its resting value and keeps the opacity fade. The element must
   still appear and disappear: removing the animation outright would make
   `AnimatePresence` unmount instantly and lose the exit, which is the whole
   reason Motion is here. A cross-fade is not the motion the preference is
-  about.
+  about. The movement keys are pinned rather than deleted because
+  `useReducedMotion()` is `null` during SSR: an SSR-rendered node (QuoteForm's
+  first step) hydrates with the reduced preset, and differing keys would
+  differ in resting style and trip a hydration mismatch.
 - **Three.js** — the hero timeline holds at its final assembled pose and the
   rAF loop stops; orbit and scrub stay available, since those are
   user-initiated.
