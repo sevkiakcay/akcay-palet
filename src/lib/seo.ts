@@ -7,7 +7,12 @@ import { OG_LOCALES, routing, type Locale } from "@/i18n/routing";
 // URLs are all built from this value.
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.akcaypalet.com").replace(/\/$/, "");
 
-type Href = Parameters<typeof getPathname>[0]["href"];
+export type Href = Parameters<typeof getPathname>[0]["href"];
+
+type OgImage = { url: string; width: number; height: number };
+
+// Last frame of the intro film: the assembled pallet with the TR · HT · AKÇAY block stamp (1280×720).
+const DEFAULT_OG_IMAGE: OgImage = { url: "/cinematic/hero/hero-og.jpg", width: 1280, height: 720 };
 
 export function absoluteUrl(locale: Locale, href: Href = "/") {
   return SITE_URL + getPathname({ locale, href });
@@ -26,17 +31,28 @@ export function buildMetadata(opts: {
   href?: Href;
   title: string;
   description: string;
+  /** Social preview image for this page; defaults to the hero film's last frame. */
+  image?: OgImage;
 }): Metadata {
-  const { locale, href = "/", title, description } = opts;
+  const { locale, href = "/", title, description, image: ogImage = DEFAULT_OG_IMAGE } = opts;
   const url = absoluteUrl(locale, href);
-  // Final, fully-assembled frame of the hero sequence (1280×720).
-  // Last frame of the intro film: the assembled pallet with the TR · HT · AKÇAY block stamp.
-  const image = { url: "/cinematic/hero/hero-og.jpg", width: 1280, height: 720, alt: title };
+  const image = { ...ogImage, alt: title };
 
   return {
     metadataBase: new URL(SITE_URL),
     title,
     description,
+    applicationName: "Akçay Palet",
+    authors: [{ name: "Akçay Palet", url: SITE_URL }],
+    creator: "Akçay Palet",
+    publisher: "Akçay Palet",
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+    },
+    // Keep iOS from turning pallet dimensions like "1200 × 800" into phone links.
+    formatDetection: { telephone: false, address: false, email: false },
     alternates: {
       canonical: url,
       languages: localizedAlternates(href),

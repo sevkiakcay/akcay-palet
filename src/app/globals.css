@@ -257,6 +257,27 @@ html:lang(ar) .font-mono {
   }
 }
 
+/* While Lenis drives the page (SmoothScroll.tsx adds `.lenis` to <html>), native
+   smooth scrolling must be off — otherwise any browser-initiated jump (hash on
+   load, back/forward) animates twice, once natively and once through Lenis.
+   Mirrors the relevant rules of lenis/dist/lenis.css. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis {
+  scroll-behavior: auto;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Anchor targets receive programmatic focus after a jump (SmoothScroll.tsx);
+   a ring around a whole section after a mouse click would just be noise. */
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Phones: the sticky quote bar covers the bottom of the viewport. */
 @media (max-width: 767px) {
   html {

@@ -27,7 +27,7 @@ export default function ProductsPage({ params }: Props) {
 
   return (
     <>
-      <BusinessJsonLd locale={locale} />
+      <BusinessJsonLd locale={locale} page={{ href: "/products", navKey: "products" }} />
       <Header />
       <main id="top" className="flex min-h-screen flex-col bg-black">
         <ProductsIntro />

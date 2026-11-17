@@ -41,8 +41,41 @@ export function SmoothScroll() {
     gsap.ticker.add(onTick);
     gsap.ticker.lagSmoothing(0);
 
+    // Same-page anchor links (#urunler, #uretim-sureci, #neden-akcay, #iletisim…)
+    // go through Lenis instead of the browser's native hash jump, so the glide
+    // uses the same easing as wheel scrolling and every scrubbed ScrollTrigger
+    // tracks it frame by frame. Lenis's own `anchors` option isn't used: it
+    // doesn't preventDefault, so the native jump would still race it, and it
+    // never moves focus. Capture phase on document runs before React's root
+    // listener, so preventDefault() here makes next/link skip its own hash
+    // navigation (it checks `defaultPrevented`) while component onClick
+    // handlers — e.g. the mobile menu closing — still run. Lenis already
+    // subtracts `scroll-padding-top`, so targets land below the fixed nav.
+    const onAnchorClick = (event: MouseEvent) => {
+      if (!lenis || event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+      if (!(link instanceof HTMLAnchorElement) || (link.target && link.target !== "_self")) return;
+      const url = new URL(link.href);
+      if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+      const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (!target) return;
+
+      event.preventDefault();
+      if (location.hash !== url.hash) history.pushState(history.state, "", url.hash);
+      lenis.scrollTo(target, {
+        // Move focus with the view so keyboard and screen-reader users continue from the section.
+        onComplete: () => {
+          if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+          target.focus({ preventScroll: true });
+        },
+      });
+    };
+    document.addEventListener("click", onAnchorClick, true);
+
     const teardown = () => {
       if (!lenis) return;
+      document.removeEventListener("click", onAnchorClick, true);
       gsap.ticker.remove(onTick);
       gsap.ticker.lagSmoothing(...GSAP_DEFAULT_LAG_SMOOTHING);
       lenis.destroy();
@@ -58,6 +91,37 @@ export function SmoothScroll() {
     return () => {
       mq.removeEventListener("change", onChange);
       teardown();
+    };
+  }, []);
+
+  // ScrollTrigger measures start/end positions once and only re-measures on
+  // window resize. Content that settles later — web fonts reflowing headings,
+  // the lazily-mounted 3D teaser, the quote form expanding — moves every
+  // section below it, leaving their reveals firing early or late. Re-measure
+  // whenever the document's height actually changes (debounced), and once
+  // the fonts are in.
+  useEffect(() => {
+    let lastHeight = document.documentElement.scrollHeight;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const height = document.documentElement.scrollHeight;
+        if (height === lastHeight) return;
+        lastHeight = height;
+        ScrollTrigger.refresh();
+      }, 150);
+    };
+    const observer = new ResizeObserver(schedule);
+    observer.observe(document.body);
+    let active = true;
+    document.fonts?.ready.then(() => {
+      if (active) ScrollTrigger.refresh();
+    });
+    return () => {
+      active = false;
+      clearTimeout(timer);
+      observer.disconnect();
     };
   }, []);
 

@@ -53,18 +53,30 @@ export function Hero() {
     () => false,
   );
   const [paused, setPaused] = useState(false);
+  // Off-screen the film keeps decoding 1080p frames nobody sees — stop it once
+  // the hero has scrolled away and resume on the way back (unless the visitor
+  // paused it). Not shown in the button state: that reflects the visitor's choice.
+  const [onScreen, setOnScreen] = useState(true);
   const stopped = paused || reducedMotion;
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting));
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     // Query the media directly: on the hydration pass `reducedMotion` is still the server value.
-    if (paused || window.matchMedia(REDUCED_MOTION).matches) {
+    if (paused || !onScreen || window.matchMedia(REDUCED_MOTION).matches) {
       video.pause();
       return;
     }
     video.play().catch(() => setPaused(true));
-  }, [paused, reducedMotion]);
+  }, [paused, reducedMotion, onScreen]);
 
   useGSAP(
     () => {
@@ -81,25 +93,21 @@ export function Hero() {
             1.2,
           );
 
-        // Parallax, scrubbed across the hero's own scroll-past range: the film
-        // drifts down slightly slower than scroll, the text block exits faster —
-        // the depth cue, not a pin (the hero never stops scrolling naturally).
-        const parallaxTrigger = {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        };
-        gsap.to(videoLayerRef.current, { yPercent: 14, ease: "none", scrollTrigger: parallaxTrigger });
-        gsap.to(textLayerRef.current, { yPercent: -30, ease: "none", scrollTrigger: parallaxTrigger });
-
-        // Cinematic hand-off: fades to black over the second half of the hero's
-        // exit, ahead of HeroTransition picking up on the same dark surface.
-        gsap.to(exitFadeRef.current, {
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: { trigger: sectionRef.current, start: "center top", end: "bottom top", scrub: true },
-        });
+        // Scroll-out, one scrubbed timeline over the hero's own scroll-past range
+        // (one ScrollTrigger instead of three, so the layers can never drift out
+        // of step): the film drifts down slower than scroll and the text exits
+        // faster — a depth cue, not a pin. Over the second half the copy thins
+        // out and the frame fades to black, handing off to HeroTransition on the
+        // same dark surface. Timeline units: 0 → 1 = top of hero → bottom of hero.
+        gsap
+          .timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "bottom top", scrub: true },
+          })
+          .to(videoLayerRef.current, { yPercent: 14, duration: 1 }, 0)
+          .to(textLayerRef.current, { yPercent: -30, duration: 1 }, 0)
+          .to(textLayerRef.current, { opacity: 0.2, duration: 0.4 }, 0.35)
+          .to(exitFadeRef.current, { opacity: 1, duration: 0.5 }, 0.5);
       });
       return () => mm.revert();
     },
