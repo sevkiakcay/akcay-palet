@@ -14,16 +14,6 @@ import { buildMetadata } from "@/lib/seo";
 // --font-* custom properties in globals.css.
 import "@fontsource-variable/inter"; // body — latin, latin-ext, greek, cyrillic
 import "@fontsource-variable/geist-mono"; // mono
-// Typography Variant B: restrained, technical display face for headings only;
-// body stays on Inter. Weights kept to 500/600/700 — only what headings use.
-// Has no Greek/Cyrillic/Arabic glyphs — globals.css swaps headings back to the
-// body face for el, ru and ar.
-import "@fontsource/space-grotesk/latin-500.css";
-import "@fontsource/space-grotesk/latin-600.css";
-import "@fontsource/space-grotesk/latin-700.css";
-import "@fontsource/space-grotesk/latin-ext-500.css";
-import "@fontsource/space-grotesk/latin-ext-600.css";
-import "@fontsource/space-grotesk/latin-ext-700.css";
 // Arabic subset only.
 import "@fontsource/noto-sans-arabic/arabic-400.css";
 import "@fontsource/noto-sans-arabic/arabic-500.css";

@@ -9,7 +9,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-heading: var(--font-display, var(--font-sans));
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -158,16 +157,12 @@
 }
 
 :root {
-  /* Self-hosted font families, loaded in [locale]/layout.tsx. These four names
+  /* Self-hosted font families, loaded in [locale]/layout.tsx. These names
      were previously injected by next/font/google; they are set here now so the
      project builds and runs with no network access. */
   --font-geist-sans: "Inter Variable";
   --font-geist-mono: "Geist Mono Variable";
-  --font-space-grotesk: "Space Grotesk";
   --font-arabic: "Noto Sans Arabic";
-  /* Typography Variant B: distinctive display face for headings (`.font-heading`).
-     Comment out this line to fall back to Variant A (Inter for headings too). */
-  --font-display: var(--font-space-grotesk), var(--font-sans);
   --background: oklch(0.985 0.004 75);
   --foreground: oklch(0.19 0.007 60);
   --card: oklch(0.985 0.004 75);
@@ -300,18 +295,10 @@
    remaining consumers — every section that used it is now on
    useEditorialReveal (GSAP ScrollTrigger.batch) instead. */
 
-/* Space Grotesk has no Greek/Cyrillic glyphs — without this, headings would
-   mix two typefaces letter by letter. Use the body face (Inter) instead. */
-html:lang(el),
-html:lang(ru) {
-  --font-display: var(--font-geist-sans), system-ui, sans-serif;
-}
-
 /* Arabic: Noto Sans Arabic for body and headings. Letter-spacing breaks the
    joined Arabic script, so tracking utilities are neutralised. */
 html:lang(ar) {
   --font-geist-sans: var(--font-arabic), system-ui, sans-serif;
-  --font-display: var(--font-arabic), system-ui, sans-serif;
 }
 html:lang(ar) * {
   letter-spacing: 0 !important;
