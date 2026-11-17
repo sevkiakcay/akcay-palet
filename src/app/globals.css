@@ -62,6 +62,8 @@
   --color-editorial-gray-2: var(--editorial-gray-2);
   --color-editorial-gray-3: var(--editorial-gray-3);
   --color-editorial-gray-4: var(--editorial-gray-4);
+  --color-editorial-error: var(--editorial-error);
+  --color-editorial-error-on-dark: var(--editorial-error-on-dark);
   --radius-pill: 75px;
   --ease-editorial: var(--editorial-ease);
 
@@ -108,6 +110,10 @@
      container, not a suggestion. The 12-column track and its gutter back the
      `editorial-grid` utility below. */
   --container-editorial: 1078px;
+  /* The pallet workshop is a three-column tool (controls · 3D stage · sheet);
+     at 1078px the stage would be narrower than the controls beside it. Same
+     gutters as the editorial shell, wider cap. Tools only, not sections. */
+  --container-wide: 1440px;
   --grid-gutter: 1.5rem;
   --grid-gutter-md: 2rem;
 
@@ -124,6 +130,19 @@
   width: 100%;
   max-width: var(--container-editorial);
   padding-inline: var(--grid-gutter);
+}
+
+/* The editorial shell at the tool width (`--container-wide`), with the same
+   responsive gutter as `editorial-grid`. */
+@utility editorial-shell-wide {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-wide);
+  padding-inline: var(--grid-gutter);
+
+  @media (min-width: 768px) {
+    padding-inline: var(--grid-gutter-md);
+  }
 }
 
 /* 12-column Swiss grid. Columns are addressed with Tailwind's own
@@ -205,6 +224,12 @@
   --editorial-gray-2: #636363;
   --editorial-gray-3: #808080;
   --editorial-gray-4: #9a9a9a;
+  /* Errors and invalid input. The editorial set had none, and the three
+     accents below are reserved for the hero gradient, so these are semantic
+     tokens, not brand colours. Measured: #b42318 is 6.57:1 on white (5.65:1 on
+     its own 8% tint), #ff8a7a is 9.17:1 on black. */
+  --editorial-error: #b42318;
+  --editorial-error-on-dark: #ff8a7a;
   /* Hero media gradient only — never used as a UI color elsewhere. */
   --editorial-sage: rgb(160 224 171);
   --editorial-amber: rgb(255 172 46);
