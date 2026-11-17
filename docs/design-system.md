@@ -26,6 +26,17 @@ white plus a four-step grey ramp.
 | `--editorial-gray-3` | `#808080` | tertiary text, hairlines |
 | `--editorial-gray-4` | `#9a9a9a` | disabled, faint rules |
 
+### Error
+
+| Token | Value | Contrast | Use |
+| --- | --- | --- | --- |
+| `--editorial-error` | `#b42318` | 6.57:1 on white | invalid input and blocking messages on light grounds |
+| `--editorial-error-on-dark` | `#ff8a7a` | 9.17:1 on black | the same on dark grounds (QuoteDialog) |
+
+Semantic, not brand: the editorial set had no error colour and the accents
+below are reserved for the hero. Warnings that don't block (the workshop's load
+notes) are not red — they are a black start rule on a `black/[0.04]` tint.
+
 Three accent colours — `--editorial-sage`, `--editorial-amber`,
 `--editorial-oxblood` — exist for the hero media gradient only. They are not UI
 colours and must not be used as one.
@@ -64,30 +75,38 @@ The original warm-industrial oklch set: `--primary` (copper
 `oklch(0.5 0.14 40)`), `--primary-bright`, `--surface-dark`, `--background`,
 `--muted-foreground` and the rest of the shadcn token block.
 
-Still consumed by the pallet workshop (`PalletWorkshop`, `QuoteDialog`,
-`TopBoardEditor`). Those are the last holders; the tokens get deleted only after
-a grep confirms zero remaining references, the same way the legacy
-`.frame-open`/`.reveal` CSS was removed earlier in this project.
+No section or component uses them any more: the pallet workshop (`PalletWorkshop`,
+`QuoteDialog`, `TopBoardEditor`) was the last holder and is now on the editorial
+set. What still reads them is site-wide: the `@layer base` block in
+`globals.css` — the default border colour (`* { border-border }`), `body {
+bg-background text-foreground }`, the focus ring (`--ring`) and the copper
+text-selection colour (`--primary`) — and the skip link in
+`[locale]/layout.tsx` (`focus:bg-primary`). Those apply to every page, so retiring them is its own
+site-wide change with its own visual check, not a side effect of a component
+migration. The tokens get deleted after that, once a grep confirms zero
+references — the same way the legacy `.frame-open`/`.reveal` CSS was removed.
 
 `ui/button.tsx` reads these tokens but is imported nowhere — it is dead code,
 not a migration target.
 
 ## Typography
 
-Two self-hosted families, loaded in `src/app/[locale]/layout.tsx` from
+Self-hosted families, loaded in `src/app/[locale]/layout.tsx` from
 `@fontsource` packages so builds need no network.
 
 | Role | Family | Token |
 | --- | --- | --- |
-| Body | Inter Variable | `--font-geist-sans` → `font-sans` |
-| Headings | Space Grotesk 500/600/700 | `--font-display` → `font-heading` |
+| Body and headings | Inter Variable | `--font-geist-sans` → `font-sans` |
 | Mono | Geist Mono Variable | `--font-geist-mono` → `font-mono` |
 | Arabic | Noto Sans Arabic | `--font-arabic` |
 
-Per-language swaps are in `globals.css`: `html:lang(el)` and `html:lang(ru)`
-drop headings to Inter (Space Grotesk has no Greek or Cyrillic glyphs);
-`html:lang(ar)` moves everything to Noto Sans Arabic and zeroes letter-spacing,
-which breaks the joined script.
+Headings are Inter at weight 400 with negative tracking — the editorial
+sections never used a display face. Space Grotesk (`font-heading`) survived only
+in the pallet workshop; it was removed with the workshop's migration, along with
+its package, its six CSS imports and the el/ru override that existed only
+because it had no Greek or Cyrillic glyphs. `html:lang(ar)` still moves
+everything to Noto Sans Arabic and zeroes letter-spacing, which breaks the
+joined script.
 
 ### Scale
 
@@ -146,6 +165,11 @@ Two utilities compose these:
   addressed with Tailwind's own `col-span-*` / `col-start-*`; there are no
   bespoke column utilities.
 
+`--container-wide` (1440px, `editorial-shell-wide`) is for tools, not sections:
+the pallet workshop's three columns (controls · 3D stage · sheet) need it, and
+it keeps the same responsive gutter. A section that wants it is a section that
+should be redesigned, not widened.
+
 1078px was not chosen here — twelve call sites had already converged on it. It
 is now the container rather than a repeated magic number.
 
@@ -153,6 +177,16 @@ Sections that still use `grid-cols-2` / `grid-cols-3` with their own gaps were
 left alone: converting them to the 12-column track would change their gutters,
 and that is a visual change that needs a browser to confirm. New sections should
 use `editorial-grid`.
+
+### Control panels (the pallet workshop)
+
+The Swiss panel pattern: a hairline grid (`gap-px` over `bg-black/10`, so the
+1px gaps are the rules), square corners, a fixed title row, a scrolling body and
+— on the sheet — a fixed footer holding only the actions. At `xl` the row has a
+fixed height and the side panels scroll inside; below `xl` every panel grows to
+its content. A panel that scrolls must say so: `useScrollEdges` reports whether
+there is more below, and a white fade over the bottom edge says it. Without it
+the last visible group heading is cut by the panel edge and reads as broken.
 
 ### Vertical rhythm
 
