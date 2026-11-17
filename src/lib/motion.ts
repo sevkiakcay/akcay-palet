@@ -71,18 +71,27 @@ export const modal = {
  * disappear — removing the animation entirely would make `AnimatePresence`
  * unmount instantly and lose the exit, which is the thing these presets were
  * added for. Fading is not the motion that preference is about.
+ *
+ * Movement keys are pinned to their resting value (the one in `animate`)
+ * rather than deleted. `useReducedMotion()` is `null` on the server and only
+ * becomes `true` on the client, so an SSR-rendered node is rendered once with
+ * the full preset and hydrated with this one; if the keys differed, the
+ * resting style would differ too (`transform: none` vs. nothing) and React
+ * would report a hydration mismatch. Same keys, same resting style — and
+ * `y: 0 → 0` moves nothing.
  */
 export function withoutMovement<T extends { initial: object; animate: object; exit: object }>(
   preset: T,
 ): T {
-  const flatten = (v: object) => {
-    const { opacity } = v as { opacity?: number };
-    return opacity === undefined ? {} : { opacity };
-  };
+  const rest = preset.animate as Record<string, unknown>;
+  const pin = (v: object) =>
+    Object.fromEntries(
+      Object.entries(v).map(([key, value]) => [key, key === "opacity" ? value : (rest[key] ?? value)]),
+    );
   return {
     ...preset,
-    initial: flatten(preset.initial),
-    animate: flatten(preset.animate),
-    exit: flatten(preset.exit),
+    initial: pin(preset.initial),
+    animate: pin(preset.animate),
+    exit: pin(preset.exit),
   };
 }
