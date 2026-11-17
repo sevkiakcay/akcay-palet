@@ -481,3 +481,28 @@ html.lenis {
     clip-path: inset(0px 5% 0px 5% round 32px);
   }
 }
+
+/* ── SplitText: long words must still fit the line ──────────────────────────
+   GSAP SplitText (smartWrap) makes every word unbreakable: in "words" mode each
+   word is an inline-block, in "chars" mode it is wrapped in a `nowrap` span. A
+   word wider than the line — long German, Greek and Russian words — then runs
+   out of its column, or off a phone screen. Hyphenated compounds are handled
+   first in SplitText.tsx (a <wbr> after the hyphen makes them two words).
+   These rules are the last resort: they change nothing while a word fits and
+   only let a word that cannot fit break inside itself.
+
+   - words mode: the inline-block's min-content shrinks, so it is sized to the
+     line and its text wraps — at a hyphen or a hyphenation point first
+     (`hyphens: auto` reads `<html lang>`), anywhere as a last resort.
+   - chars mode: the nowrap wrapper becomes an inline-block that may wrap. Kept
+     whole when it fits (an atomic inline moves to the next line as one
+     piece); when it is wider than the line, its chars wrap. */
+.split-parent .split-word {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.split-parent span:has(> .split-char) {
+  display: inline-block;
+  /* GSAP writes `white-space: nowrap` inline on this span. */
+  white-space: normal !important;
+}

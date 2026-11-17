@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { gsap, ScrollTrigger, SplitText as GSAPSplitText, useGSAP } from '@/lib/gsap';
 
 export type SplitTextEffect = 'rise' | 'fade' | 'blur' | 'flip' | 'pop' | 'skew' | 'wave';
@@ -33,6 +33,9 @@ export interface SplitTextProps {
 type Look = { from: gsap.TweenVars; to: gsap.TweenVars; ease: string | ((t: number) => number) };
 type Spring = { y: number; v: number };
 type Kick = { index: number; velocity: number; at: number };
+
+/** A hyphen with a letter on both sides — the break point of a compound word. */
+const HYPHEN_BREAK = /(?<=\p{L}-)(?=\p{L})/u;
 
 const DEFAULT_FROM = { opacity: 0, y: 40 };
 const DEFAULT_TO = { opacity: 1, y: 0 };
@@ -432,6 +435,19 @@ const SplitText = ({
   );
 
   const Tag = tag || 'p';
+  // A hyphen between letters is where a long compound should break
+  // ("Holzpaletten-" / "Sortiment."). SplitText treats only spaces as word
+  // boundaries, so without help the compound is one unbreakable word and, in
+  // a narrow column, either overflows or (with the globals.css fallback) breaks
+  // at whatever letter hits the edge. A <wbr> after the hyphen makes GSAP split
+  // it into two words with a break opportunity between them; it renders
+  // nothing, and the aria-label GSAP writes keeps the original text.
+  const content = useMemo(() => {
+    const parts = text.split(HYPHEN_BREAK);
+    return parts.length === 1
+      ? text
+      : parts.flatMap((part, i) => (i === 0 ? [part] : [<wbr key={i} />, part]));
+  }, [text]);
   const clip =
     hoverEffect === 'none' && (from !== undefined || to !== undefined || effect === 'rise' || effect === 'fade');
   // The clip box is the line box, and the editorial headings set leading well
@@ -453,7 +469,7 @@ const SplitText = ({
         visibility: ready ? undefined : 'hidden'
       }}
     >
-      {text}
+      {content}
     </Tag>
   );
 };
