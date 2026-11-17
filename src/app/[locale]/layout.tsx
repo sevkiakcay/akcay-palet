@@ -56,7 +56,7 @@ export default async function LocaleLayout({
       <body className="min-h-full flex flex-col">
         <a
           href="#top"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[100] focus:rounded-pill focus:bg-black focus:px-5 focus:py-2.5 focus:text-ui focus:font-semibold focus:text-white"
         >
           {t("skipToContent")}
         </a>
